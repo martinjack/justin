@@ -305,7 +305,7 @@ print_r(
 ```
 ### order() ###
 
-#### Пример 1
+#### Example 1
 
 ```php
 include_once 'vendor/autoload.php';
@@ -370,7 +370,7 @@ print_r(
 
 ```
 
-#### Пример 2
+#### Example 2
 
 ```php
 include_once 'vendor/autoload.php';
