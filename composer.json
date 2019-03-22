@@ -1,13 +1,13 @@
 {
-    "name": "jackmartin/justinapi",
+    "name": "jackmartin/justin",
     "type": "library",
-    "description": "API Justin",
+    "description": "Library Justin API",
     "keywords": [
         "rest",
         "api",
         "library"
     ],
-    "homepage": "https://github.com/martinjack/justinapi",
+    "homepage": "https://github.com/martinjack/justin",
     "license": "MIT",
     "authors": [
         {
