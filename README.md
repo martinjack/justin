@@ -478,7 +478,7 @@ print_r(
 
 );
 ```
-### Стикер имеет название или ФИО отправителя та получателя
-![Sticker1](https://github.com/martinjack/justin/blob/master/doc/sticker1.png?raw=true "Пример стикера заказа. Стикер имеет название или ФИО отправителя та получателя")
-### Стикер имеет имена отправителя та получателя
-![Sticker2](https://github.com/martinjack/justin/blob/master/doc/sticker2.png?raw=true "Пример стикера заказа. Стикер имеет имена отправителя та получателя")
+### Стикер имеет название или ФИО отправителя и получателя
+![Sticker1](https://github.com/martinjack/justin/blob/master/doc/sticker1.png?raw=true "Пример стикера заказа. Стикер имеет название или ФИО отправителя и получателя")
+### Стикер имеет имена отправителя и получателя
+![Sticker2](https://github.com/martinjack/justin/blob/master/doc/sticker2.png?raw=true "Пример стикера заказа. Стикер имеет имена отправителя и получателя")
