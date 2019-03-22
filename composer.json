@@ -1,0 +1,28 @@
+{
+    "name": "jackmartin/justinapi",
+    "type": "library",
+    "description": "API Justin",
+    "keywords": [
+        "rest",
+        "api",
+        "library"
+    ],
+    "homepage": "https://github.com/martinjack/justinapi",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Evgen Kytonin",
+            "email": "killfess@gmail.com",
+            "homepage": "https://github.com/martinjack"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Justin\\": "src/"
+        }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "^6.3",
+        "php": ">=7.0"
+    }
+}
