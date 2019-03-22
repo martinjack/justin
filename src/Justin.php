@@ -750,21 +750,6 @@ class Justin extends Filter implements iJustin
     }
     /**
      *
-     * CREATE ORDER
-     *
-     * @param
-     *
-     * @return ARRAY
-     *
-     */
-    public function createOrder()
-    {
-
-        //
-
-    }
-    /**
-     *
      * LIST STATUSES
      * СПИСОК СТАСУСОВ ЗАКАЗА
      * СПИСОК СТАТУСІВ ЗАМОВЛЕНЬ
@@ -899,7 +884,7 @@ class Justin extends Filter implements iJustin
 
                         ],
 
-                        $orders,
+                        $filter,
 
                     ],
                 ]

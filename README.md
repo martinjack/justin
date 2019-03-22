@@ -5,6 +5,8 @@ PHP класс для работы с API [Justin](https://justin.ua)
 
 > Read this in other language: [English](README.en.md), [Русский](README.md), [Український](README.ua.md)
 
+> [Wiki - Описание работы библиотеки](https://github.com/martinjack/justin/wiki)
+
 # Документация
 
 [API documentation v6.0.1](https://github.com/martinjack/justin/blob/master/doc/API_JustIn_v6.0.1_UKR.pdf "PDF")
@@ -27,13 +29,13 @@ composer require jackmartin/justin
 
 1. Получить список областей
     * [listRegions](https://github.com/martinjack/justin#listregions)
-2. Получить список областых районов
+2. Получить список областных районов
     * [listAreasRegions](https://github.com/martinjack/justin#listareasregions)
 3. Получить список населенных пунктов
     * [listCities](https://github.com/martinjack/justin#listcities)
 4. Получить список районов населенных пунктов
     * [listCityRegion](https://github.com/martinjack/justin#listcityregion)
-5. Полуить список улиц города
+5. Получить список улиц города
     * [listStreetsCity](https://github.com/martinjack/justin#liststreetscity)
 6. Получить список отделений. Старый метод
     * [listDepartments](https://github.com/martinjack/justin#listdepartments)
@@ -301,7 +303,7 @@ print_r(
 
 );
 ```
-### Order() ###
+### order() ###
 
 #### Пример 1
 
@@ -311,6 +313,8 @@ include_once 'vendor/autoload.php';
 use Justin\Order;
 
 $order = new Order('RU', true);
+
+$order->setKey('e315ffa3-94bd-11e8-80c1-525400fb7782');
 
 $newOrder = $order
     ->setNumber('52525')

@@ -23,6 +23,6 @@
     },
     "require": {
         "guzzlehttp/guzzle": "^6.3",
-        "php": ">=7.0"
+        "php": ">=5.6"
     }
 }

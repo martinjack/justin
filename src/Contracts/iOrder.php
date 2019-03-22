@@ -2,6 +2,13 @@
 
 namespace Justin\Contracts;
 
+/**
+ *
+ * Interface iOrder
+ *
+ * @package Justin
+ *
+ */
 interface iOrder
 {
 
