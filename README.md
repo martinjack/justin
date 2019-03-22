@@ -6,7 +6,7 @@ PHP класс для работы с API [Justin](https://justin.ua)
 
 # Документация
 
-[API documentation v6.0.1]()
+[API documentation v6.0.1](https://github.com/martinjack/justin/blob/master/doc/API_JustIn_v6.0.1_UKR.pdf "PDF")
 
 # Требования
 
@@ -25,31 +25,31 @@ composer require jackmartin/justin
 # Основные методы API
 
 1. Получить список областей
-    * [listRegions]()
+    * [listRegions](https://github.com/martinjack/justin#listregions)
 2. Получить список областых районов
-    * [listAreasRegions]()
+    * [listAreasRegions](https://github.com/martinjack/justin#listareasregions)
 3. Получить список населенных пунктов
-    * [listCities]()
+    * [listCities](https://github.com/martinjack/justin#listcities)
 4. Получить список районов населенных пунктов
-    * [listCityRegion]()
+    * [listCityRegion](https://github.com/martinjack/justin#listcityregion)
 5. Полуить список улиц города
-    * [listStreetsCity]()
+    * [listStreetsCity](https://github.com/martinjack/justin#liststreetscity)
 6. Получить список отделений. Старый метод
-    * [listDepartments]()
+    * [listDepartments](https://github.com/martinjack/justin#listdepartments)
 7. Получить список отделений.
-    * [listDepartmentsLang]()
+    * [listDepartmentsLang](https://github.com/martinjack/justin#listdepartmentslang)
 8. Получить список статусов заказа
-    * [listStatuses]()
+    * [listStatuses](https://github.com/martinjack/justin#liststatuses)
 9. Получить ключ торговца(senderID)
-    * [keySeller]()
+    * [keySeller](https://github.com/martinjack/justin#keyseller)
 10. Получить историю статусов заказа. Старый метод
-    * [getStatusHistory]()
+    * [getStatusHistory](https://github.com/martinjack/justin#getstatushistory)
 11. Получить историю статусов заказа.
-    * [getStatusHistoryF]()
+    * [getStatusHistoryF](https://github.com/martinjack/justin#getstatushistoryf)
 12. Создать новый заказ(Отправление)
-    * [Order]()
+    * [Order](https://github.com/martinjack/justin#order)
 13. Создать стикер заказа
-    * [createSticker]()
+    * [createSticker](https://github.com/martinjack/justin#createsticker)
 
 # Примеры
 
@@ -478,5 +478,5 @@ print_r(
 
 );
 ```
-![Sticker1]( "Пример стикера заказа. Стикер имеет название или ФИО отправителя та получателя")
-![Sticker2]( "Пример стикера заказа. Стикер имеет имена отправителя та получателя")
+![Sticker1](https://github.com/martinjack/justin/blob/master/doc/sticker1.png?raw=true "Пример стикера заказа. Стикер имеет название или ФИО отправителя та получателя")
+![Sticker2](https://github.com/martinjack/justin/blob/master/doc/sticker2.png?raw=true "Пример стикера заказа. Стикер имеет имена отправителя та получателя")
