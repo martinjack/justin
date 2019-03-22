@@ -1,4 +1,4 @@
 vendor/
 composer.lock
 *.xcf
-wiki.md
+wiki/
