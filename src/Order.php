@@ -12,6 +12,8 @@ use Justin\Exceptions\JustinApiException;
  *
  * Class Order
  *
+ * @package Justin
+ *
  */
 class Order extends Justin implements iOrder
 {
@@ -334,9 +336,43 @@ class Order extends Justin implements iOrder
     }
     /**
      *
+     * SET SENDER PHONE
+     * УКАЗЫВАЕМ ТЕЛЕФОН ОТПРАВИТЕЛЯ
+     * ВКАЗУЄМО ТЕЛЕФОН ВІДРАВНИКА
+     *
+     * @return OBJECT
+     *
+     */
+    public function senderPhone($phone)
+    {
+
+        $this->data['sender_phone'] = $phone;
+
+        return $this;
+
+    }
+    /**
+     *
+     * SET SENDER BRANCH ID
+     * УКАЗЫВАЕМ НОМЕР ОТДЕЛЕНИЯ ОТПРАВИТЕЛЯ
+     * ВКАЗУЄМО НОМЕР ВІДДІЛЕННЯ ВІДПРАВНИКА
+     *
+     * @return OBJECT
+     *
+     */
+    public function senderBranchID($id)
+    {
+
+        $this->data['sender_branch'] = $id;
+
+        return $this;
+
+    }
+    /**
+     *
      * SET RECEIVER
-     * УКАЗЫВАЕМ ФИО ПОЛУЧАТЕЛЯ
-     * ВКАЗУЄМО ПІП ОТРИМУВАЧА
+     * УКАЗЫВАЕМ НАЗВАНИЕ ИЛИ ФИО ПОЛУЧАТЕЛЯ
+     * ВКАЗУЄМО НАЗВУ АБО ПІП ОТРИМУВАЧА
      *
      * @param STRING $val
      *
@@ -372,17 +408,38 @@ class Order extends Justin implements iOrder
     }
     /**
      *
-     * SET SENDER PHONE
-     * УКАЗЫВАЕМ ТЕЛЕФОН ОТПРАВИТЕЛЯ
-     * ВКАЗУЄМО ТЕЛЕФОН ВІДРАВНИКА
+     * SET RECEIVER PHONE
+     * УКАЗЫВАЕМ ТЕЛЕФОН ПОЛУЧАТЕЛЯ
+     * ВКАЗУЄМО ТЕЛЕФОН ОТРИМУВАЧА
+     *
+     * @param STRING $phone
      *
      * @return OBJECT
      *
      */
-    public function senderPhone($phone)
+    public function receiverPhone($phone)
     {
 
-        $this->data['sender_phone'] = $phone;
+        $this->data['receiver_phone'] = $phone;
+
+        return $this;
+
+    }
+    /**
+     *
+     * SET RECEIVER BRANCH ID
+     * УКАЗЫВАЕМ НОМЕР ОТДЕЛЕНИЯ ПОЛУЧАТЕЛЯ
+     * ВКАЗУЄМО НОМЕР ВІДДІЖЕННЯ ОТРИМУВАЧА
+     *
+     * @param STRING
+     *
+     * @return OBJECT
+     *
+     */
+    public function receiverBranchID($id)
+    {
+
+        $this->data['branch'] = $id;
 
         return $this;
 
@@ -427,42 +484,6 @@ class Order extends Justin implements iOrder
     }
     /**
      *
-     * SET SENDER BRANCH ID
-     * УКАЗЫВАЕМ НОМЕР ОТДЕЛЕНИЯ ОТПРАВИТЕЛЯ
-     * ВКАЗУЄМО НОМЕР ВІДДІЛЕННЯ ВІДПРАВНИКА
-     *
-     * @return OBJECT
-     *
-     */
-    public function senderBranchID($id)
-    {
-
-        $this->data['sender_branch'] = $id;
-
-        return $this;
-
-    }
-    /**
-     *
-     * SET RECEIVER PHONE
-     * УКАЗЫВАЕМ ТЕЛЕФОН ПОЛУЧАТЕЛЯ
-     * ВКАЗУЄМО ТЕЛЕФОН ОТРИМУВАЧА
-     *
-     * @param STRING $phone
-     *
-     * @return OBJECT
-     *
-     */
-    public function receiverPhone($phone)
-    {
-
-        $this->data['receiver_phone'] = $phone;
-
-        return $this;
-
-    }
-    /**
-     *
      * SET COUNT CARGO PLACE
      * УКАЗЫВАЕМ КОЛИЧЕСТВО ГРУЗОВЫХ МЕСТ
      * ВКАЗУЄМО КІЛЬКІСТЬ ВАНТАЖНИХ МІСЦЬ
@@ -476,25 +497,6 @@ class Order extends Justin implements iOrder
     {
 
         $this->data['count_cargo_places'] = $count;
-
-        return $this;
-
-    }
-    /**
-     *
-     * SET RECEIVER BRANCH ID
-     * УКАЗЫВАЕМ НОМЕР ОТДЕЛЕНИЯ ДОСТАВКИ
-     * ВКАЗУЄМО НОМЕР ВІДДІЖЕННЯ ДОСТАВКИ
-     *
-     * @param STRING
-     *
-     * @return OBJECT
-     *
-     */
-    public function receiverBranchID($id)
-    {
-
-        $this->data['branch'] = $id;
 
         return $this;
 
@@ -559,11 +561,11 @@ class Order extends Justin implements iOrder
     /**
      *
      * SET DELIVERY AMOUNT
-     * УКАЗЫВАЕМ, СУММУ ЗА ДОСТАВКУ ЗАКАЗА (ГРН)
-     * ВКАЗУЄМО, СУМУ ЗА ДОСТАВКУ ЗАМОВЛЕННЯ (ГРН)
+     * УКАЗЫВАЕМ СУММУ ЗА ДОСТАВКУ ЗАКАЗА (ГРН)
+     * ВКАЗУЄМО СУМУ ЗА ДОСТАВКУ ЗАМОВЛЕННЯ (ГРН)
      *
-     * deliveryPayment(true) = РАСЧЕТ БУДЕТ ПРОИЗВОДИТСЯ ПО ТАРИФАМ.
-     * deliveryPayment(true) = РОЗРАХУНОК БУДЕ ПРОВОДИТЬСЯ ПО ТАРИФАМ.
+     * deliveryPay(true) = РАСЧЕТ БУДЕТ ПРОИЗВОДИТСЯ ПО ТАРИФАМ.
+     * deliveryPay(true) = РОЗРАХУНОК БУДЕ ПРОВОДИТЬСЯ ПО ТАРИФАМ.
      *
      * @param INTEGER $amount
      *
@@ -630,7 +632,7 @@ class Order extends Justin implements iOrder
      * @return OBJECT;
      *
      */
-    public function requireDelivery($delivery)
+    public function requireDelivery($delivery = false)
     {
 
         $this->data['delivery_is_required'] = $delivery;
@@ -641,11 +643,11 @@ class Order extends Justin implements iOrder
     /**
      *
      * SET REDELIVERY AMOUNT
-     * УКАЗЫВАЕМ, СУММУ КОМИССИИ ЗА ДОСТАВКУ ЗАКАЗА (ГРН)
-     * ВКАЗУЄМО, СУМУ КОМІСІЇ ЗА ДОСТАВКУ ЗАМОВЛЕННЯ (ГРН)
+     * УКАЗЫВАЕМ СУММУ КОМИССИИ ЗА ДОСТАВКУ ЗАКАЗА (ГРН)
+     * ВКАЗУЄМО СУМУ КОМІСІЇ ЗА ДОСТАВКУ ЗАМОВЛЕННЯ (ГРН)
      *
-     * redeliveryPayment(true) - РАСЧЕТ БУДЕТ ПРОИЗВОДИТСЯ ПО ТАРИФАМ.
-     * redeliveryPayment(true) - РОЗРАХУНОК БУДЕ ПРОВОДИТЬСЯ ПО ТАРИФАМ.
+     * redeliveryPay(true) - РАСЧЕТ БУДЕТ ПРОИЗВОДИТСЯ ПО ТАРИФАМ.
+     * redeliveryPay(true) - РОЗРАХУНОК БУДЕ ПРОВОДИТЬСЯ ПО ТАРИФАМ.
      *
      * @param INTEGER $amount
      *
@@ -686,8 +688,8 @@ class Order extends Justin implements iOrder
      * 0 - sender   | отправитель | відправник
      * 1 - receiver | получатель  | одержувач
      *
-     * УКАЗЫВАЕМ, КТО ПЛАТЕЛЬЩИК ЗА ДОСТАВКУ ЗАКАЗА
-     * ВКАЗУЄМО, ХТО ПЛАТНИК ЗА ДОСТАВКУ ЗАМОВЛЕННЯ
+     * УКАЗЫВАЕМ, КТО ПЛАТЕЛЬЩИК КОМИССИИ
+     * ВКАЗУЄМО, ХТО ПЛАТНИК КОМІСІЇ
      *
      * @param INTEGER $payer
      *
@@ -705,8 +707,8 @@ class Order extends Justin implements iOrder
     /**
      *
      * SET ORDER AMOUNT
-     * УКАЗЫВАЕМ СУММА ПЛАТЕЖА ЗА ЗАКАЗ (ГРН).
-     * ВКАЗУЄМО СУМА ПЛАТЕЖУ ЗА ЗАМОВЛЕННЯ (ГРН)
+     * УКАЗЫВАЕМ СУММУ ПЛАТЕЖА ЗА ЗАКАЗ (ГРН).
+     * ВКАЗУЄМО СУМУ ПЛАТЕЖУ ЗА ЗАМОВЛЕННЯ (ГРН)
      *
      * @param STRING $amount
      *

@@ -17,6 +17,8 @@ use Justin\Exceptions\JustinFileException;
  *
  * Class Justin
  *
+ * @package Justin
+ *
  */
 class Justin extends Filter implements iJustin
 {
