@@ -1,6 +1,8 @@
 ![header](https://github.com/martinjack/justin/blob/master/doc/header.png?raw=true)
 # Опис
 
+[![Latest Stable Version](https://poser.pugx.org/jackmartin/justin/v/stable)](https://packagist.org/packages/jackmartin/justin) [![Total Downloads](https://poser.pugx.org/jackmartin/justin/downloads)](https://packagist.org/packages/jackmartin/justin) [![License](https://poser.pugx.org/jackmartin/justin/license)](https://packagist.org/packages/jackmartin/justin)
+
 PHP клас для роботи з API [Justin](https://justin.ua) 
 
 > Read this in other language: [English](README.en.md), [Русский](README.md), [Український](README.ua.md)
