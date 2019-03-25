@@ -5,15 +5,15 @@
 
 PHP class to work with Justin API
 
-> Read this in other language: [English](README.en.md), [Русский](README.md), [Український](README.ua.md)
+> Read this in other language: [English](README.en.md), [Русский](README.md), [Український](README.EN.md)
 
 > [Wiki - Description library](https://github.com/martinjack/justin/wiki)
 
 # Documentation
 
-[API documentation v6.0.1](https://justin.ua/api/api_justin_documentation.pdf "PDF")
+[API documentation v6.0.1](https://justin.EN/api/api_justin_documentation.pdf "PDF")
 
-[Openapi](http://openapi.justin.ua/ "OPENAPI")
+[Openapi](http://openapi.justin.EN/ "OPENAPI")
 
 # Requirements
 
@@ -77,7 +77,7 @@ use Justin\Justin;
 
 include_once 'vendor/autoload.php';
 
-$justin = new Justin('RU', true, 'v2', 30, 30, 'UTC');
+$justin = new Justin('EN', true, 'v2', 30, 30, 'UTC');
 ```
 
 ### listRegions() ###
@@ -89,9 +89,11 @@ include_once 'vendor/autoload.php';
 
 $justin = new Justin('EN', true);
 
+$justin->setLogin('Your login')->setPassword('Your password');
+
 print_r(
 
-    $justin->listRegions()
+    $justin->listRegions()->getData()
 
 );
 ```
@@ -104,6 +106,8 @@ use Justin\Justin;
 include_once 'vendor/autoload.php';
 
 $justin = new Justin('EN', true);
+
+$justin->setLogin('Your login')->setPassword('Your password');
 
 print_r(
 
@@ -121,6 +125,8 @@ include_once 'vendor/autoload.php';
 
 $justin = new Justin('EN', true);
 
+$justin->setLogin('Your login')->setPassword('Your password');
+
 print_r(
 
     $justin->listCities()
@@ -137,6 +143,8 @@ include_once 'vendor/autoload.php';
 
 $justin = new Justin('EN', true);
 
+$justin->setLogin('Your login')->setPassword('Your password');
+
 print_r(
 
     $justin->listCityRegion()
@@ -152,6 +160,8 @@ use Justin\Justin;
 include_once 'vendor/autoload.php';
 
 $justin = new Justin('EN', true);
+
+$justin->setLogin('Your login')->setPassword('Your password');
 
 print_r(
 
@@ -186,7 +196,7 @@ use Justin\Justin;
 
 include_once 'vendor/autoload.php';
 
-$justin = new Justin('RU', true);
+$justin = new Justin('EN', true);
 
 print_r(
 
@@ -210,6 +220,8 @@ include_once 'vendor/autoload.php';
 
 $justin = new Justin('EN', true);
 
+$justin->setLogin('Your login')->setPassword('Your password');
+
 print_r(
 
     $justin->listDepartments()
@@ -225,6 +237,8 @@ use Justin\Justin;
 include_once 'vendor/autoload.php';
 
 $justin = new Justin('EN', true);
+
+$justin->setLogin('Your login')->setPassword('Your password');
 
 print_r(
 
@@ -263,6 +277,8 @@ include_once 'vendor/autoload.php';
 
 $justin = new Justin('EN', true);
 
+$justin->setLogin('Your login')->setPassword('Your password');
+
 print_r(
 
     $justin->listStatuses()
@@ -278,6 +294,8 @@ use Justin\Justin;
 include_once 'vendor/autoload.php';
 
 $justin = new Justin('EN', true);
+
+$justin->setLogin('Your login')->setPassword('Your password');
 
 print_r(
 
@@ -314,6 +332,8 @@ use Justin\Justin;
 
 $justin = new Justin('EN', true);
 
+$justin->setLogin('Your login')->setPassword('Your password');
+
 print_r(
 
     $justin->currentStatus('201971185')->getData()
@@ -343,40 +363,6 @@ print_r(
     // $justin->trackingHistory('201810165')->fields()->deparAddress()
 
 );
-
-### getStatusHistory() ###
-
-```php
-use Justin\Justin;
-
-include_once 'vendor/autoload.php';
-
-$justin = new Justin('EN', true);
-
-print_r(
-
-    $justin->getStatusHistory(
-
-        [
-
-            [
-
-                'name'       => 'orderNumber',
-
-                'comparison' => 'equal',
-
-                'leftValue'  => '000000004',
-
-            ],
-
-        ]
-
-    )
-
-    // $justin->name('orderNumber')->leftValue('000000004')->equal()->getStatusHistory()
-    // $justin->name('orderNumber')->equal('000000004')->getStatusHistory()
-
-);
 ```
 
 ### getStatusHistory() ###
@@ -387,6 +373,8 @@ use Justin\Justin;
 include_once 'vendor/autoload.php';
 
 $justin = new Justin('EN', true);
+
+$justin->setLogin('Your login')->setPassword('Your password');
 
 print_r(
 
@@ -423,9 +411,13 @@ include_once 'vendor/autoload.php';
 
 $justin = new Justin('EN', true);
 
+$justin->setLogin('Your login')->setPassword('Your password');
+
+$justin->setKey('Ваш ключ API');
+
 print_r(
 
-    $justin->getStatusHistory(
+    $justin->getStatusHistoryF(
 
         [
 
@@ -446,7 +438,7 @@ print_r(
 ```
 ### order() ###
 
-#### Example 1
+#### Пример 1
 
 ```php
 include_once 'vendor/autoload.php';
@@ -455,7 +447,9 @@ use Justin\Order;
 
 $order = new Order('EN', true);
 
-$order->setKey('e315ffa3-94bd-11e8-80c1-525400fb7782');
+$justin->setLogin('Your login')->setPassword('Your password');
+
+$order->setKey('Your key');
 
 $newOrder = $order
     ->setNumber('52525')
@@ -511,7 +505,7 @@ print_r(
 
 ```
 
-#### Example 2
+#### Пример 2
 
 ```php
 include_once 'vendor/autoload.php';
@@ -520,7 +514,9 @@ use Justin\Order;
 
 $order = new Order('EN', true);
 
-$order->setKey('e315ffa3-94bd-11e8-80c1-525400fb7782');
+$order->setLogin('Your login')->setPassword('Your password');
+
+$order->setKey('Your key');
 
 $newOrder = $order->create(
 
@@ -602,7 +598,9 @@ include_once 'vendor/autoload.php';
 
 $justin = new Justin('EN', true);
 
-$justin->setKey('e315ffa3-94bd-11e8-80c1-525400fb7782');
+$justin->setLogin('Your login')->setPassword('Your password');
+
+$justin->setKey('Your key');
 
 print_r(
 

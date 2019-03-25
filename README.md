@@ -89,9 +89,11 @@ include_once 'vendor/autoload.php';
 
 $justin = new Justin('RU', true);
 
+$justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
+
 print_r(
 
-    $justin->listRegions()
+    $justin->listRegions()->getData()
 
 );
 ```
@@ -104,6 +106,8 @@ use Justin\Justin;
 include_once 'vendor/autoload.php';
 
 $justin = new Justin('RU', true);
+
+$justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
 
 print_r(
 
@@ -121,6 +125,8 @@ include_once 'vendor/autoload.php';
 
 $justin = new Justin('RU', true);
 
+$justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
+
 print_r(
 
     $justin->listCities()
@@ -137,6 +143,8 @@ include_once 'vendor/autoload.php';
 
 $justin = new Justin('RU', true);
 
+$justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
+
 print_r(
 
     $justin->listCityRegion()
@@ -152,6 +160,8 @@ use Justin\Justin;
 include_once 'vendor/autoload.php';
 
 $justin = new Justin('RU', true);
+
+$justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
 
 print_r(
 
@@ -210,6 +220,8 @@ include_once 'vendor/autoload.php';
 
 $justin = new Justin('RU', true);
 
+$justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
+
 print_r(
 
     $justin->listDepartments()
@@ -225,6 +237,8 @@ use Justin\Justin;
 include_once 'vendor/autoload.php';
 
 $justin = new Justin('RU', true);
+
+$justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
 
 print_r(
 
@@ -263,6 +277,8 @@ include_once 'vendor/autoload.php';
 
 $justin = new Justin('RU', true);
 
+$justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
+
 print_r(
 
     $justin->listStatuses()
@@ -278,6 +294,8 @@ use Justin\Justin;
 include_once 'vendor/autoload.php';
 
 $justin = new Justin('RU', true);
+
+$justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
 
 print_r(
 
@@ -313,6 +331,8 @@ include_once 'vendor/autoload.php';
 use Justin\Justin;
 
 $justin = new Justin('RU', true);
+
+$justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
 
 print_r(
 
@@ -354,6 +374,8 @@ include_once 'vendor/autoload.php';
 
 $justin = new Justin('RU', true);
 
+$justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
+
 print_r(
 
     $justin->getStatusHistory(
@@ -389,6 +411,8 @@ include_once 'vendor/autoload.php';
 
 $justin = new Justin('RU', true);
 
+$justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
+
 $justin->setKey('Ваш ключ API');
 
 print_r(
@@ -423,7 +447,9 @@ use Justin\Order;
 
 $order = new Order('RU', true);
 
-$order->setKey('e315ffa3-94bd-11e8-80c1-525400fb7782');
+$justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
+
+$order->setKey('Ваш ключ');
 
 $newOrder = $order
     ->setNumber('52525')
@@ -488,7 +514,9 @@ use Justin\Order;
 
 $order = new Order('RU', true);
 
-$order->setKey('e315ffa3-94bd-11e8-80c1-525400fb7782');
+$order->setLogin('Ваш логин')->setPassword('Ваш пароль');
+
+$order->setKey('Ваш ключ');
 
 $newOrder = $order->create(
 
@@ -570,7 +598,9 @@ include_once 'vendor/autoload.php';
 
 $justin = new Justin('RU', true);
 
-$justin->setKey('e315ffa3-94bd-11e8-80c1-525400fb7782');
+$justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
+
+$justin->setKey('Ваш ключ');
 
 print_r(
 
