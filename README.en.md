@@ -32,41 +32,41 @@ composer require jackmartin/justin
 # Basic methods API
 
 1. Setup connection 
-    * [__construct](https://github.com/martinjack/justin#__construct)
+    * [__construct](https://github.com/martinjack/justin/blob/master/README.en.md#__construct)
 2. Get current status order:
-    * [currentStatus](https://github.com/martinjack/justin#currentStatus)
+    * [currentStatus](https://github.com/martinjack/justin/blob/master/README.en.md#currentStatus)
 3. Get list regions.
-    * [listRegions](https://github.com/martinjack/justin#listregions)
+    * [listRegions](https://github.com/martinjack/justin/blob/master/README.en.md#listregions)
 4. Get list regional areas.
-    * [listAreasRegions](https://github.com/martinjack/justin#listareasregions)
+    * [listAreasRegions](https://github.com/martinjack/justin/blob/master/README.en.md#listareasregions)
 5. Get list settlements.
-    * [listCities](https://github.com/martinjack/justin#listcities)
+    * [listCities](https://github.com/martinjack/justin/blob/master/README.en.md#listcities)
 6. Get list areas of settlements
-    * [listCityRegion](https://github.com/martinjack/justin#listcityregion)
+    * [listCityRegion](https://github.com/martinjack/justin/blob/master/README.en.md#listcityregion)
 7. Get list streets city.
-    * [listStreetsCity](https://github.com/martinjack/justin#liststreetscity)
+    * [listStreetsCity](https://github.com/martinjack/justin/blob/master/README.en.md#liststreetscity)
 8. Get information about department
-    * [getBranch](https://github.com/martinjack/justin#getBranch)
+    * [getBranch](https://github.com/martinjack/justin/blob/master/README.en.md#getBranch)
 9. Get list departments. Old method
-    * [listDepartments](https://github.com/martinjack/justin#listdepartments)
+    * [listDepartments](https://github.com/martinjack/justin/blob/master/README.en.md#listdepartments)
 10. Get list departments.
-    * [listDepartmentsLang](https://github.com/martinjack/justin#listdepartmentslang)
+    * [listDepartmentsLang](https://github.com/martinjack/justin/blob/master/README.en.md#listdepartmentslang)
 11. Get nearest department by address
-    * [getNeartDepartment](https://github.com/martinjack/justin#getNeartDepartment)
+    * [getNeartDepartment](https://github.com/martinjack/justin/blob/master/README.en.md#getNeartDepartment)
 12. Get list statuses order.
-    * [listStatuses](https://github.com/martinjack/justin#liststatuses)
+    * [listStatuses](https://github.com/martinjack/justin/blob/master/README.en.md#liststatuses)
 13. Get key seller(senderID)
-    * [keySeller](https://github.com/martinjack/justin#keyseller)
+    * [keySeller](https://github.com/martinjack/justin/blob/master/README.en.md#keyseller)
 14. Get tracking history
-    * [trackingHistory](https://github.com/martinjack/justin#trackingHistory)
+    * [trackingHistory](https://github.com/martinjack/justin/blob/master/README.en.md#trackingHistory)
 15. Get story statuses order. Old method
-    * [getStatusHistory](https://github.com/martinjack/justin#getstatushistory)
+    * [getStatusHistory](https://github.com/martinjack/justin/blob/master/README.en.md#getstatushistory)
 16. Get story statuses order.
-    * [getStatusHistoryF](https://github.com/martinjack/justin#getstatushistoryf)
+    * [getStatusHistoryF](https://github.com/martinjack/justin/blob/master/README.en.md#getstatushistoryf)
 17. Create new order(Departure)
-    * [Order](https://github.com/martinjack/justin#order)
+    * [Order](https://github.com/martinjack/justi/blob/master/README.en.mdn#order)
 18. Create sticker order
-    * [createSticker](https://github.com/martinjack/justin#createsticker)
+    * [createSticker](https://github.com/martinjack/justin/blob/master/README.en.md#createsticker)
 
 # Examples
 

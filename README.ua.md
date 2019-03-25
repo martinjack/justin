@@ -5,7 +5,7 @@
 
 PHP клас для роботи з API [Justin](https://justin.ua) 
 
-> Read this in other language: [English](README.en.md), [Русский](README.md), [Український](README.ua.md)
+> Read this in other language: [English](README.ua.md), [Русский](README.md), [Український](README.ua.md)
 
 > [Wiki - Опис роботи бібліотеки](https://github.com/martinjack/justin/wiki)
 
@@ -32,41 +32,41 @@ composer require jackmartin/justin
 # Основні методи API
 
 1. Налаштування підключення
-    * [__construct](https://github.com/martinjack/justin#__construct)
+    * [__construct](https://github.com/martinjack/justin/blob/master/README.ua.md#__construct)
 2. Отримати поточний статус замовлення:
-    * [currentStatus](https://github.com/martinjack/justin#currentStatus)
+    * [currentStatus](https://github.com/martinjack/justin/blob/master/README.ua.md#currentStatus)
 3. Отримати список областей
-    * [listRegions](https://github.com/martinjack/justin#listregions)
+    * [listRegions](https://github.com/martinjack/justin/blob/master/README.ua.md#listregions)
 4. Отримати список обласних районів
-    * [listAreasRegions](https://github.com/martinjack/justin#listareasregions)
+    * [listAreasRegions](https://github.com/martinjack/justin/blob/master/README.ua.md#listareasregions)
 5. Отримати список населених пунктів
-    * [listCities](https://github.com/martinjack/justin#listcities)
+    * [listCities](https://github.com/martinjack/justin/blob/master/README.ua.md#listcities)
 6. Отримати список районів населених пунктів
-    * [listCityRegion](https://github.com/martinjack/justin#listcityregion)
+    * [listCityRegion](https://github.com/martinjack/justin/blob/master/README.ua.md#listcityregion)
 7. Отримати список вулиць міста
-    * [listStreetsCity](https://github.com/martinjack/justin#liststreetscity)
+    * [listStreetsCity](https://github.com/martinjack/justin/blob/master/README.ua.md#liststreetscity)
 8. Отримати інформацію про відділення
-    * [getBranch](https://github.com/martinjack/justin#getBranch)
+    * [getBranch](https://github.com/martinjack/justin/blob/master/README.ua.md#getBranch)
 9. Отримати список відділень. Старий метод
-    * [listDepartments](https://github.com/martinjack/justin#listdepartments)
+    * [listDepartments](https://github.com/martinjack/justin/blob/master/README.ua.md#listdepartments)
 10. Отримати список відділень.
-    * [listDepartmentsLang](https://github.com/martinjack/justin#listdepartmentslang)
+    * [listDepartmentsLang](https://github.com/martinjack/justin/blob/master/README.ua.md#listdepartmentslang)
 11. Отримати найближче відділення за адресою
-    * [getNeartDepartment](https://github.com/martinjack/justin#getNeartDepartment)
+    * [getNeartDepartment](https://github.com/martinjack/justin/blob/master/README.ua.md#getNeartDepartment)
 12. Отримати список статусів замовлення
-    * [listStatuses](https://github.com/martinjack/justin#liststatuses)
+    * [listStatuses](https://github.com/martinjack/justin/blob/master/README.ua.md#liststatuses)
 13. Отримати ключ торговця(senderID)
-    * [keySeller](https://github.com/martinjack/justin#keyseller)
+    * [keySeller](https://github.com/martinjack/justin/blob/master/README.ua.md#keyseller)
 14. Отримати історію руху відправлення
-    * [trackingHistory](https://github.com/martinjack/justin#trackingHistory)
+    * [trackingHistory](https://github.com/martinjack/justin/blob/master/README.ua.md#trackingHistory)
 15. Отримати історію статусів замовлення. Старий метод
-    * [getStatusHistory](https://github.com/martinjack/justin#getstatushistory)
+    * [getStatusHistory](https://github.com/martinjack/justin/blob/master/README.ua.md#getstatushistory)
 16. Отримати історію статусів замовлення.
-    * [getStatusHistoryF](https://github.com/martinjack/justin#getstatushistoryf)
+    * [getStatusHistoryF](https://github.com/martinjack/justin/blob/master/README.ua.md#getstatushistoryf)
 17. Створити нове замовлення(Відправлення)
-    * [Order](https://github.com/martinjack/justin#order)
+    * [Order](https://github.com/martinjack/justin/blob/master/README.ua.md#order)
 18. Створити стікер замовлення
-    * [createSticker](https://github.com/martinjack/justin#createsticker)
+    * [createSticker](https://github.com/martinjack/justin/blob/master/README.ua.md#createsticker)
 
 # Приклади
 
