@@ -166,6 +166,16 @@ interface iJustin
      */
     public function listStreetsCity($filter = [], $limit = 0);
     /**
+     *
+     * GET BRANCH
+     * ПОЛУЧИТЬ ИНФОРМАЦИЮ ПРО ОТДЕЛЕНИЕ
+     * ОТРИМАТИ ІНФОРМАЦІЮ ПРО ВІДДІЛЕННЯ
+     *
+     * @return OBJECT
+     *
+     */
+    public function getBranch($id);
+    /**
      * OLD METHOD
      *
      * LIST DEPARTMENTS
@@ -196,6 +206,18 @@ interface iJustin
     public function listDepartmentsLang($filter = [], $limit = 0);
     /**
      *
+     * GET NEAREST DEPARTMENT
+     * ПОЛУЧИТЬ БЛИЖАЙШЕЕ ОТДЛЕНИЕ ПО АДРЕСУ
+     * ОТРИМАТИ НАЙБЛИЖЧЕ ВІДДІЛЕННЯ ЗА АДРЕСОЮ
+     *
+     * @param STRING $address
+     *
+     * @return OBJECT
+     *
+     */
+    public function getNeartDepartment($address);
+    /**
+     *
      * LIST STATUSES
      * СПИСОК СТАСУСОВ ЗАКАЗА
      * СПИСОК СТАТУСІВ ЗАМОВЛЕНЬ
@@ -218,6 +240,30 @@ interface iJustin
      *
      */
     public function keySeller($filter = []);
+    /**
+     *
+     * GET CURRENT STATUS
+     * ПОЛУЧИТЬ ТЕКУЩИЙ СТАТУС ЗАКАЗА
+     * ОТРИМАТИ ПОТОЧНИЙ СТАТУС ЗАМОВЛЕННЯ
+     *
+     * @param STRING $number
+     *
+     * @return OBJECT
+     *
+     */
+    public function currentStatus($number);
+    /**
+     *
+     * GET TRACKING HISTORY
+     * ПОЛУЧИТЬ ИСТОРИЮ ДВИЖЕНИЯ ОТПРАВЛЕНИЯ
+     * ОТРИМАТИ ІСТОРІЮ РУХУ ВІДПРАВЛЕННЯ
+     *
+     * @param STRING $number
+     *
+     * @return OBJECT
+     *
+     */
+    public function trackingHistory($number);
     /**
      * OLD METHOD
      *

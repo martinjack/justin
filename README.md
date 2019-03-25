@@ -11,7 +11,8 @@ PHP класс для работы с API [Justin](https://justin.ua)
 
 # Документация
 
-[API documentation v6.0.1](https://github.com/martinjack/justin/blob/master/doc/API_JustIn_v6.0.1_UKR.pdf "PDF")
+[API documentation v6.0.1](https://justin.ua/api/api_justin_documentation.pdf "PDF")
+[Openapi](http://openapi.justin.ua/ "OPENAPI")
 
 # Требования
 
@@ -29,34 +30,54 @@ composer require jackmartin/justin
 
 # Основные методы API
 
-1. Получить список областей
+1. Настройка подключения
+    * [__construct](https://github.com/martinjack/justin#__construct)
+2. Получить текущий статус заказа:
+    * [currentStatus](https://github.com/martinjack/justin#currentStatus)
+3. Получить список областей
     * [listRegions](https://github.com/martinjack/justin#listregions)
-2. Получить список областных районов
+4. Получить список областных районов
     * [listAreasRegions](https://github.com/martinjack/justin#listareasregions)
-3. Получить список населенных пунктов
+5. Получить список населенных пунктов
     * [listCities](https://github.com/martinjack/justin#listcities)
-4. Получить список районов населенных пунктов
+6. Получить список районов населенных пунктов
     * [listCityRegion](https://github.com/martinjack/justin#listcityregion)
-5. Получить список улиц города
+7. Получить список улиц города
     * [listStreetsCity](https://github.com/martinjack/justin#liststreetscity)
-6. Получить список отделений. Старый метод
+8. Получить информацию про отделение
+    * [getBranch](https://github.com/martinjack/justin#getBranch)
+9. Получить список отделений. Старый метод
     * [listDepartments](https://github.com/martinjack/justin#listdepartments)
-7. Получить список отделений.
+10. Получить список отделений.
     * [listDepartmentsLang](https://github.com/martinjack/justin#listdepartmentslang)
-8. Получить список статусов заказа
+11. Получить ближайшее отделение по адресу
+    * [getNeartDepartment](https://github.com/martinjack/justin#getNeartDepartment)
+12. Получить список статусов заказа
     * [listStatuses](https://github.com/martinjack/justin#liststatuses)
-9. Получить ключ торговца(senderID)
+13. Получить ключ торговца(senderID)
     * [keySeller](https://github.com/martinjack/justin#keyseller)
-10. Получить историю статусов заказа. Старый метод
+14. Получить историю движения отправления
+    * [trackingHistory](https://github.com/martinjack/justin#trackingHistory)
+15. Получить историю статусов заказа. Старый метод
     * [getStatusHistory](https://github.com/martinjack/justin#getstatushistory)
-11. Получить историю статусов заказа.
+16. Получить историю статусов заказа.
     * [getStatusHistoryF](https://github.com/martinjack/justin#getstatushistoryf)
-12. Создать новый заказ(Отправление)
+17. Создать новый заказ(Отправление)
     * [Order](https://github.com/martinjack/justin#order)
-13. Создать стикер заказа
+18. Создать стикер заказа
     * [createSticker](https://github.com/martinjack/justin#createsticker)
 
 # Примеры
+
+### __construct() ###
+
+```php
+use Justin\Justin;
+
+include_once 'vendor/autoload.php';
+
+$justin = new Justin('RU', true, 'v2', 30, 30, 'UTC');
+```
 
 ### listRegions() ###
 
@@ -157,6 +178,28 @@ print_r(
 );
 ```
 
+### getBranch() ###
+
+```php
+use Justin\Justin;
+
+include_once 'vendor/autoload.php';
+
+$justin = new Justin('RU', true);
+
+print_r(
+
+    $justin->getBranch('220')->getData()
+    // $justin->getBranch('220')->fields()->number()
+    // $justin->getBranch('220')->fields()->getType()
+    // $justin->getBranch('220')->fields()->address()
+    // $justin->getBranch('220')->fields()->getPosition()
+    // $justin->getBranch('220')->fields()->getDescr()
+    // $justin->getBranch('220')->fields()->scheduDescr()
+
+);
+```
+
 ### listDepartments() ####
 
 ```php
@@ -186,6 +229,27 @@ print_r(
 
     $justin->listDepartmentsLang()
 
+);
+```
+
+### getNeartDepartment() ###
+
+```php
+
+use Justin\Justin;
+
+include_once 'vendor/autoload.php';
+
+$justin = new Justin('RU', true);
+
+print_r(
+
+    $justin->getNeartDepartment('Київ,Шевченка,30')->getData()
+    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->getPosition()
+    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->distance()
+    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->format()
+    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->number()
+    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->address()
 );
 ```
 
@@ -240,6 +304,46 @@ print_r(
 );
 ```
 
+### currentStatus() ###
+
+```php
+include_once 'vendor/autoload.php';
+
+use Justin\Justin;
+
+$justin = new Justin('RU', true);
+
+print_r(
+
+    $justin->currentStatus('201971185')->getData()
+
+);
+```
+
+### trackingHistory() ###
+
+```php
+include_once 'vendor/autoload.php';
+
+use Justin\Justin;
+
+$justin = new Justin('RU', true);
+
+print_r(
+
+    $justin->trackingHistory('201810165')->getData()
+    // $justin->trackingHistory('201810165')->fields()->orderNumber()
+    // $justin->trackingHistory('201810165')->fields()->orderDescr()
+    // $justin->trackingHistory('201810165')->fields()->status()
+    // $justin->trackingHistory('201810165')->fields()->date()
+    // $justin->trackingHistory('201810165')->fields()->time()
+    // $justin->trackingHistory('201810165')->fields()->dateAdded()
+    // $justin->trackingHistory('201810165')->fields()->deparNumber()
+    // $justin->trackingHistory('201810165')->fields()->deparAddress()
+
+);
+```
+
 ### getStatusHistory() ###
 
 ```php
@@ -284,9 +388,11 @@ include_once 'vendor/autoload.php';
 
 $justin = new Justin('RU', true);
 
+$justin->setKey('Ваш ключ API');
+
 print_r(
 
-    $justin->getStatusHistory(
+    $justin->getStatusHistoryF(
 
         [
 

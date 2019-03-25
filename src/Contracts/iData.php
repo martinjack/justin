@@ -117,14 +117,6 @@ interface iData
     public function fields();
     /**
      *
-     * SHOW DATA
-     *
-     * @return ARRAY
-     *
-     */
-    public function show();
-    /**
-     *
      * FIRST ITEM
      * ВЕРНУТЬ ПЕРВЫЙ ЭЛЕМЕНТ МАССИВА
      * ПОВЕРНУТИ ПЕРШИЙ ЕЛЕМЕНТ МАСИВУ
@@ -618,12 +610,119 @@ interface iData
     /**
      *
      * GET NUMBER NEW ORDER
-     * ПОЛУЧИТЬ НОМЕР НОВОГО ЗАКАЗА
-     * ОТРИМАТИ НОМЕР НОВОГО ЗАМОВЛЕННЯ
+     * ПОЛУЧИТЬ НОМЕР
+     * ОТРИМАТИ НОМЕР
      *
      * @return STRING
      *
      */
     public function number();
-
+    /**
+     *
+     * GET DATE
+     * ПОЛУЧИТЬ ДАТУ ДОБАВЛЕНИЯ СТАТУСА
+     * ОТРИМАТИ ДАТУ ДОДАВАННЯ СТАТУСУ
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function date();
+    /**
+     *
+     * GET TIME
+     * ПОЛУЧИТЬ ВРЕМЯ ДОБАВЛЕНИЕ СТАТУСА
+     * ОТРИМАТИ ЧАС ДОДАВАННЯ СТАТУСУ
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function time();
+    /**
+     *
+     * GET DATE TIME ADDED STATUS
+     * ПОЛУЧИТЬ ДАТУ И ВРЕМЯ ДОБАВЛЕНИЯ СТАТУСА
+     * ОТРИМАТИ ДАТУ ТА ЧАС ДОДАВАННЯ СТАТУСУ
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function dateAdded();
+    /**
+     *
+     * GET STATUS
+     * ПОЛУЧИТЬ ТЕКУЩИЙ СТАТУС
+     * ОТРИМАТИ ПОТОЧНИЙ СТАТУС
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function status();
+    /**
+     *
+     * GET DEPARTMENT NUMBER
+     * ПОЛУЧИТЬ НОМЕР ОТДЕЛЕНИЯ (ЕСЛИ ОТПРАВЛЕНИЕ НАХОДИТСЯ НА ОТДЕЛЕНИИ)
+     * ОТПРИМААТИ НОМЕР ВІДДІЛЕННЯ (ЯКЩО ВІДПРАВЛЕННЯ ЗНАХОДИТЬСЯ НА ВІДДІЛЕННІ)
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function deparNumber();
+    /**
+     *
+     * GET DEPARTMENT ADDRESS
+     * ПОЛУЧИТЬ АДРЕС ОТДЕЛЕНИЯ (ЕСЛИ ОТПРАВЛЕНИЕ НАХОДИТСЯ НА ОТДЕЛЕНИИ)
+     * ОТРИМАТИ АДРЕСУ ВІДДІЛЕННЯ (ЯКЩО ВІДПРАВЛЕННЯ ЗНАХОДИТЬСЯ НА ВІДДІЛЕННІ)
+     * @return STRING | NULL
+     *
+     */
+    public function deparAddress();
+    /**
+     *
+     * GET ADDRESS
+     * ПОЛУЧИТЬ АДРЕС
+     * ОТРИМАТИ АДРЕС
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function address();
+    /**
+     *
+     * GET LOCALITY
+     * ПОЛУЧИТЬ НАЗВАНИЕ ГОРОД
+     * ОТРИМАТИ НАЗВУ ГОРОДА
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function getLocality();
+    /**
+     *
+     * GET TYPE DEPARTMENT
+     * ПОЛУЧИТЬ ТИП ОТДЕЛЕНИЯ
+     * ОТРИМАТИ ТИП ВІДДІЛЕННЯ
+     * @return STRING | NULL
+     *
+     */
+    public function format();
+    /**
+     *
+     * GET SCHEDULE DEPARTMENT DESCRIPTION
+     * ПОЛУЧИТЬ ОПИСАНИЕ ГРАФИКА ОТДЕЛЕНИЯ
+     * ОТРИМАТИ ОПИС ГРАФІКУ ВІДДІЛЕННЯ
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function scheduDescr();
+    /**
+     *
+     * GET DISTANCE
+     * РАССТОЯНИЕ ДО ОТДЕЛЕНИЯ НА КАРТЕ (КМ)
+     * ВІДСТАНЬ ДО ВІДДІЛЕННЯ НА КАРТІ (КМ)
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function distance();
 }

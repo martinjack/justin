@@ -41,6 +41,14 @@ class Justin extends Filter implements iJustin
     private $api = 'http://195.201.72.186/';
     /**
      *
+     * OPEN API URL
+     *
+     * @var STRING
+     *
+     */
+    private $open_api = 'http://openapi.justin.ua/';
+    /**
+     *
      * SANDBOX
      *
      * @var BOOLEAN
@@ -78,7 +86,7 @@ class Justin extends Filter implements iJustin
      * @var STRING
      *
      */
-    private $login = '';
+    protected $login = '';
     /**
      *
      * PASSWORD
@@ -86,7 +94,7 @@ class Justin extends Filter implements iJustin
      * @var STRING
      *
      */
-    private $password = '';
+    protected $password = '';
     /**
      *
      * LANGUAGE
@@ -229,7 +237,7 @@ class Justin extends Filter implements iJustin
     public function setAuthPassword($password)
     {
 
-        $this->auth_password = $auth_password;
+        $this->auth_password = $password;
 
         return $this;
 
@@ -291,6 +299,23 @@ class Justin extends Filter implements iJustin
     }
     /**
      *
+     * SET OPEN API URL
+     *
+     * @param STRING $url
+     *
+     * @return OBJECT
+     *
+     */
+    public function setOpenAPI($url)
+    {
+
+        $this->open_api = $url;
+
+        return $this;
+
+    }
+    /**
+     *
      * REQUEST
      *
      * @param STRING $request
@@ -307,15 +332,9 @@ class Justin extends Filter implements iJustin
      * @return ARRAY
      *
      */
-    private function request($request, $type, $method, $data)
+    private function request($request, $type, $method, $data, $query = 'post')
     {
         $response = [];
-        #
-        if (!$this->login || !$this->password) {
-
-            throw new JustinAuthException('Failed auth data. Please enter login or password');
-
-        }
         ##
         # SET DEFAULT FIELDS
         #
@@ -335,29 +354,41 @@ class Justin extends Filter implements iJustin
         #
         try {
 
-            $result = $this->client->post(
+            if ($query == 'post') {
 
-                $this->api,
+                $result = $this->client->post(
 
-                [
+                    $this->api,
 
-                    'auth' => [
+                    [
 
-                        $this->auth_login,
+                        'auth' => [
 
-                        $this->auth_password,
+                            $this->auth_login,
 
-                    ],
+                            $this->auth_password,
 
-                    'body' => json_encode(
+                        ],
 
-                        array_merge($params, $data)
+                        'body' => json_encode(
 
-                    ),
+                            array_merge($params, $data)
 
-                ]
+                        ),
 
-            );
+                    ]
+
+                );
+
+            } else {
+
+                $result = $this->client->get(
+
+                    $this->open_api . "{$method}/{$data}"
+
+                );
+
+            }
             ##
             # DECODE RESPONSE
             $result = json_decode(
@@ -368,9 +399,9 @@ class Justin extends Filter implements iJustin
 
             );
             #
-            if ($result['response']['status']) {
+            if ((isset($result['response']['status']) && $result['response']['status']) || (isset($result['status']) && $result['status'])) {
 
-                if (isset($result['data'])) {
+                if (isset($result['data']) || isset($result['result'])) {
 
                     $response = $result;
 
@@ -660,6 +691,29 @@ class Justin extends Filter implements iJustin
 
     }
     /**
+     *
+     * GET BRANCH
+     * ПОЛУЧИТЬ ИНФОРМАЦИЮ ПРО ОТДЕЛЕНИЕ
+     * ОТРИМАТИ ІНФОРМАЦІЮ ПРО ВІДДІЛЕННЯ
+     *
+     * @return OBJECT
+     *
+     */
+    public function getBranch($id)
+    {
+
+        return new Data(
+
+            $this->request(
+
+                '', '', 'branches', $id, 'get'
+
+            )
+
+        );
+
+    }
+    /**
      * OLD METHOD
      *
      * LIST DEPARTMENTS
@@ -752,6 +806,31 @@ class Justin extends Filter implements iJustin
     }
     /**
      *
+     * GET NEAREST DEPARTMENT
+     * ПОЛУЧИТЬ БЛИЖАЙШЕЕ ОТДЛЕНИЕ ПО АДРЕСУ
+     * ОТРИМАТИ НАЙБЛИЖЧЕ ВІДДІЛЕННЯ ЗА АДРЕСОЮ
+     *
+     * @param STRING $address
+     *
+     * @return OBJECT
+     *
+     */
+    public function getNeartDepartment($address)
+    {
+
+        return new Data(
+
+            $this->request(
+
+                '', '', 'branches_locator', $address, 'get'
+
+            )
+
+        );
+
+    }
+    /**
+     *
      * LIST STATUSES
      * СПИСОК СТАСУСОВ ЗАКАЗА
      * СПИСОК СТАТУСІВ ЗАМОВЛЕНЬ
@@ -810,6 +889,56 @@ class Justin extends Filter implements iJustin
                     ),
 
                 ]
+
+            )
+
+        );
+
+    }
+    /**
+     *
+     * GET CURRENT STATUS
+     * ПОЛУЧИТЬ ТЕКУЩИЙ СТАТУС ЗАКАЗА
+     * ОТРИМАТИ ПОТОЧНИЙ СТАТУС ЗАМОВЛЕННЯ
+     *
+     * @param STRING $number
+     *
+     * @return OBJECT
+     *
+     */
+    public function currentStatus($number)
+    {
+
+        return new Data(
+
+            $this->request(
+
+                '', '', 'tracking', $number, 'get'
+
+            )
+
+        );
+
+    }
+    /**
+     *
+     * GET TRACKING HISTORY
+     * ПОЛУЧИТЬ ИСТОРИЮ ДВИЖЕНИЯ ОТПРАВЛЕНИЯ
+     * ОТРИМАТИ ІСТОРІЮ РУХУ ВІДПРАВЛЕННЯ
+     *
+     * @param STRING $number
+     *
+     * @return OBJECT
+     *
+     */
+    public function trackingHistory($number)
+    {
+
+        return new Data(
+
+            $this->request(
+
+                '', '', 'tracking_history', $number, 'get'
 
             )
 
@@ -886,7 +1015,11 @@ class Justin extends Filter implements iJustin
 
                         ],
 
-                        $filter,
+                        $this->getFilter(
+
+                            $filter
+
+                        )[0],
 
                     ],
                 ]

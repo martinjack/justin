@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\RequestException;
 use Justin\Contracts\iOrder;
 use Justin\Data;
 use Justin\Exceptions\JustinApiException;
+use Justin\Exceptions\JustinAuthException;
 
 /**
  *
@@ -126,6 +127,10 @@ class Order extends Justin implements iOrder
         $this->data = [
 
             'api_key' => $this->key,
+
+            // 'keyAccount' => $this->login,
+
+            // 'sign'       => $this->password,
 
             'data'    => $this->data,
 

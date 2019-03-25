@@ -9,6 +9,8 @@ use Justin\Exceptions\JustinDataException;
  *
  * Class Data
  *
+ * @package Justin
+ *
  */
 class Data implements iData
 {
@@ -71,6 +73,10 @@ class Data implements iData
 
             $this->data = $raw['data'];
 
+        } elseif (isset($this->raw['result']) && is_array($this->raw['result'])) {
+
+            $this->data = $raw['result'];
+
         }
 
         unset($raw);
@@ -80,36 +86,9 @@ class Data implements iData
     }
     /**
      *
-     * GET DATA
-     * ДАННЫЕ ОТВЕТА СЕРВЕРА
-     * ДАННІ ВІДПОВІДІ СЕРВЕРУ
-     *
-     * @throws JustinDataException
-     *
-     * @return ARRAY
-     *
-     */
-    public function getData()
-    {
-
-        if (count($this->data)) {
-
-            return $this->data;
-
-        }
-
-        throw new JustinDataException(
-
-            'No data to display. Empty array data'
-
-        );
-
-    }
-    /**
-     *
      * GET RAW
-     * СЫРЬЕ ДАННЫЕ ОТВЕТА СЕРВЕРА
-     * СИРІ ДАНІ ВІДПОВІДІ СЕРВЕРУ
+     * ПОЛУЧИТЬ СЫРЬЕ ДАННЫЕ ОТВЕТА СЕРВЕРА
+     * ОТРИМАТИ СИРІ ДАНІ ВІДПОВІДІ СЕРВЕРУ
      *
      * @throws JustinDataException
      *
@@ -134,6 +113,33 @@ class Data implements iData
     }
     /**
      *
+     * GET DATA
+     * ПОЛУЧИТЬ ДАННЫЕ ОТВЕТА API
+     * ОТРИМАТИ ДАННІ ВІДПОВІДІ API
+     *
+     * @throws JustinDataException
+     *
+     * @return ARRAY
+     *
+     */
+    public function getData()
+    {
+
+        if (count($this->data)) {
+
+            return $this->data;
+
+        }
+
+        throw new JustinDataException(
+
+            'No data to display. Empty array data'
+
+        );
+
+    }
+    /**
+     *
      * GET STATUS
      * ПОЛУЧИТЬ СТАТУС ОТВЕТА
      * ОТРИМАТИ СТАТУС ВІДПОВІДІ
@@ -144,14 +150,26 @@ class Data implements iData
     public function getStatus()
     {
 
-        return isset($this->raw['response']['status']) ? $this->raw['response']['status'] : null;
+        $status = null;
+
+        if (isset($this->raw['response']['status'])) {
+
+            $status = $this->raw['response']['status'];
+
+        } elseif (isset($this->raw['status'])) {
+
+            $status = $this->raw['status'];
+
+        }
+
+        return $status;
 
     }
     /**
      *
      * GET RESULT
-     * ПОЛУЧИТЬ РЕЗУЛЬТАТ
-     * ОТРИМАТИ РЕЗУЛЬТАТ
+     * ПОЛУЧИТЬ РЕЗУЛЬТАТ ЗАПРОСА
+     * ОТРИМАТИ РЕЗУЛЬТАТ ЗАПИТУ
      *
      * @return STRING | NULL
      *
@@ -165,8 +183,8 @@ class Data implements iData
     /**
      *
      * GET CODE ERROR API
-     * КОД ОШИБКИ API
-     * КОД ПОМИЛКИ API
+     * ПОЛУЧИТЬ КОД ОШИБКИ API
+     * ОТРИМАТИ КОД ПОМИЛКИ API
      *
      * @return INTEGER | NULL
      *
@@ -180,8 +198,8 @@ class Data implements iData
     /**
      *
      * GET ERRORS
-     * СПИСОК ОШИБОК
-     * СПИСОК ПОМИЛОК
+     * ПОЛУЧИТЬ СПИСОК ОШИБОК
+     * ОТРИМАТИ СПИСОК ПОМИЛОК
      *
      * @return ARRAY | NULL
      *
@@ -195,8 +213,8 @@ class Data implements iData
     /**
      *
      * GET MESSAGE API
-     * СООБЩЕНИЕ API
-     * ПОВІДОМЛЕННЯ API
+     * ПОЛУЧИТЬ СООБЩЕНИЕ API
+     * ОТРИМАТИ ПОВІДОМЛЕННЯ API
      *
      * @return STRING | NULL
      *
@@ -204,14 +222,26 @@ class Data implements iData
     public function getMessage()
     {
 
-        return isset($this->raw['response']['message']) ? $this->raw['response']['message'] : null;
+        $msg = null;
+
+        if (isset($this->raw['response']['message'])) {
+
+            $msg = $this->raw['response']['message'];
+
+        } elseif (isset($this->raw['msg'])) {
+
+            $msg = $this->raw['msg'];
+
+        }
+
+        return $msg;
 
     }
     /**
      *
      * TOTAL RECORDS
-     * КОЛИЧЕСТВО ЗАПИСЕЙ
-     * КІЛЬКІСТЬ ЗАПИСІВ
+     * ПОЛУЧИТЬ КОЛИЧЕСТВО ЗАПИСЕЙ
+     * ОТРИМАТИ КІЛЬКІСТЬ ЗАПИСІВ
      *
      * @return INTEGER | NULL
      *
@@ -225,8 +255,8 @@ class Data implements iData
     /**
      *
      * FIELDS
-     * ПОЛЯ С ДАННЫМИ
-     * ПОЛЯ З ДАНИМИ
+     * ПОЛУЧИТЬ ПОЛЯ С ДАННЫМИ
+     * ОТРИМАТИ ПОЛЯ З ДАНИМИ
      *
      * @return ARRAY
      *
@@ -244,7 +274,7 @@ class Data implements iData
 
             }
 
-        } elseif (isset($this->getData()['number'])) {
+        } elseif (isset($this->getData()['number']) | isset($this->getData()[0])) {
 
             foreach ($this->data as $key => $item) {
 
@@ -259,22 +289,9 @@ class Data implements iData
     }
     /**
      *
-     * SHOW DATA
-     *
-     * @return ARRAY
-     *
-     */
-    public function show()
-    {
-
-        return $this->fields;
-
-    }
-    /**
-     *
      * FIRST ITEM
-     * ВЕРНУТЬ ПЕРВЫЙ ЭЛЕМЕНТ МАССИВА
-     * ПОВЕРНУТИ ПЕРШИЙ ЕЛЕМЕНТ МАСИВУ
+     * ВЕРНУТЬ ПЕРВЫЙ ЭЛЕМЕНТ МАССИВА ДАННЫХ
+     * ПОВЕРНУТИ ПЕРШИЙ ЕЛЕМЕНТ МАСИВУ ДАНИХ
      *
      * @return OBJECT
      *
@@ -290,8 +307,8 @@ class Data implements iData
     /**
      *
      * LAST ITEM
-     * ВЕРНУТЬ ПОСЛЕДНИЙ ЭЛЕМЕНТ МАССИВА
-     * ПОВЕРНУТИ ОСТАННІЙ ЕЛЕМЕНТ МАСИВУ
+     * ВЕРНУТЬ ПОСЛЕДНИЙ ЭЛЕМЕНТ МАССИВА ДАННЫХ
+     * ПОВЕРНУТИ ОСТАННІЙ ЕЛЕМЕНТ МАСИВУ ДАНИХ
      *
      * @return OBJECT
      *
@@ -383,8 +400,8 @@ class Data implements iData
     /**
      *
      * SET NODE OWNER
-     * ОПИСАНИЕ КОМПАНИИ-ХОЗАИНА ОТДЕЛЕНИЯ
-     * ОПИС КОМПАНІЇ-ВЛАСНИКА ВІДДІЛЕННЯ
+     * ПОЛУЧИТЬ ОПИСАНИЕ КОМПАНИИ-ХОЗАИНА ОТДЕЛЕНИЯ
+     * ОТРИМАТИ ОПИС КОМПАНІЇ-ВЛАСНИКА ВІДДІЛЕННЯ
      *
      * @return OBJECT | NULL
      *
@@ -402,8 +419,8 @@ class Data implements iData
     /**
      *
      * SET NODE REGION
-     * ОПИСАНИЕ ОБЛАСТИ ОТДЕЛЕНИЯ
-     * ОПИС ОБЛАСТІ ВІДДІЛЕННЯ
+     * ПОЛУЧИТЬ ОПИСАНИЕ ОБЛАСТИ ОТДЕЛЕНИЯ
+     * ОТРИМАТИ ОПИС ОБЛАСТІ ВІДДІЛЕННЯ
      *
      * @return OBJECT | NULL
      *
@@ -421,8 +438,8 @@ class Data implements iData
     /**
      *
      * SET NODE CITY
-     * ОПИСАНИЕ НАСЕЛЕННОГО ПУНКТА ОТДЕЛЕНИЯ
-     * ОПИС НАСЕЛЕНОГО ПУНКТУ ВІДДІЛЕННЯ
+     * ПОЛУЧИТЬ ОПИСАНИЕ НАСЕЛЕННОГО ПУНКТА ОТДЕЛЕНИЯ
+     * ОТРИМАТИ ОПИС НАСЕЛЕНОГО ПУНКТУ ВІДДІЛЕННЯ
      *
      * @return OBJECT | NULL
      *
@@ -440,8 +457,8 @@ class Data implements iData
     /**
      *
      * SET NODE LOCALITY
-     * ОПИСАНИЕ РАЙОНА ОТДЕЛЕНИЯ
-     * ОПИС РАЙОНУ ВІДДІЛЕННЯ
+     * ПОЛУЧИТЬ ПОЛУЧИТЬ ОПИСАНИЕ РАЙОНА ОТДЕЛЕНИЯ
+     * ОТРИМАТИ ОТРИМАТИ ОПИС РАЙОНУ ВІДДІЛЕННЯ
      *
      * @return OBJECT | NULL
      *
@@ -459,8 +476,8 @@ class Data implements iData
     /**
      *
      * SET NODE KNOT
-     * СВЯЗЬ С ОТДЕЛЕНИЕМ
-     * СВЯЗОК З ВІДДІЛЕННЯМ
+     * ПОЛУЧИТЬ СВЯЗЬ С ОТДЕЛЕНИЕМ
+     * ОТРИМАТИ СВЯЗОК З ВІДДІЛЕННЯМ
      *
      * @return OBJECT | NULL
      *
@@ -478,8 +495,8 @@ class Data implements iData
     /**
      *
      * SET NODE DIRECTION
-     * НАПРАВЛЕНИЕ
-     * НАПРЯМОК
+     * ПОЛУЧИТЬ НАПРАВЛЕНИЕ
+     * ОТРИМАТИ НАПРЯМОК
      *
      * @return OBJECT | NULL
      *
@@ -497,8 +514,8 @@ class Data implements iData
     /**
      *
      * SET NODE DEPART
-     * ОСНОВНЫЕ ДАННЫЕ ОТДЕЛЕНИЯ
-     * ОСНОВНІ ДАНІ ВІДДІЛЕННЯ
+     * ПОЛУЧИТЬ ОСНОВНЫЕ ДАННЫЕ ОТДЕЛЕНИЯ
+     * ОТРИМАТИ ОСНОВНІ ДАНІ ВІДДІЛЕННЯ
      *
      * @return OBJECT | NULL
      *
@@ -516,8 +533,8 @@ class Data implements iData
     /**
      *
      * SET NODE TYPE DEPART
-     * ОПИСАНИЕ ТИПА ОТДЕЛЕНИЯ
-     * ОПИС ТИПУ ВІДДІЛЕННЯ
+     * ПОЛУЧИТЬ ОПИСАНИЕ ТИПА ОТДЕЛЕНИЯ
+     * ОТРИМАТИ ОПИС ТИПУ ВІДДІЛЕННЯ
      *
      * @return OBJECT | NULL
      *
@@ -535,8 +552,8 @@ class Data implements iData
     /**
      *
      * SET NODE AREA REGION
-     * ОПИСАНИЕ ОБЛАСТНОГО РЕГИОНА
-     * ОПИС ОБЛАСНОГО РЕГІОНУ
+     * ПОЛУЧИТЬ ОПИСАНИЕ ОБЛАСТНОГО РЕГИОНА
+     * ОТРИМАТИ ОПИС ОБЛАСНОГО РЕГІОНУ
      *
      * @return OBJECT | NULL
      *
@@ -554,8 +571,8 @@ class Data implements iData
     /**
      *
      * SET NODE STREET
-     * ОПИСАНИЕ УЛИЦЫ ОТДЕЛЕНИЯ
-     * ОПИС ВУЛИЦЫ ВІДДІЛЕННЯ
+     * ПОЛУЧИТЬ ОПИСАНИЕ УЛИЦ ОТДЕЛЕНИЯ
+     * ОТРИМАТИ ОПИС ВУЛИЦЬ ВІДДІЛЕННЯ
      *
      * @return OBJECT | NULL
      *
@@ -573,8 +590,8 @@ class Data implements iData
     /**
      *
      * SET NODE COUNTERPART
-     * ИНФОРМАЦИЯ ПРО ПРОДАВЦА
-     * ІНФОРМАЦІЯ ПРО ТОРГОВЦЯ
+     * ПОЛУЧИТЬ ИНФОРМАЦИЯ ПРО ТОРГОВЦА
+     * ОТРИМАТИ ІНФОРМАЦІЯ ПРО ТОРГОВЦЯ
      *
      * @return OBJECT | NULL
      *
@@ -592,8 +609,8 @@ class Data implements iData
     /**
      *
      * SET NODE ORDER
-     * ВНУТРЕННИЙ НОМЕР ЗАКАЗА В СИСТЕМЕ
-     * ВНУТРІШНІЙ НОМЕР ЗАМОВЛЕННЯ В СИСТЕМІ
+     * ПОЛУЧИТЬ ВНУТРЕННИЙ НОМЕР ЗАКАЗА В СИСТЕМЕ
+     * ОТРИМАТИ ВНУТРІШНІЙ НОМЕР ЗАМОВЛЕННЯ В СИСТЕМІ
      *
      * @return OBJECT | NULL
      *
@@ -611,8 +628,8 @@ class Data implements iData
     /**
      *
      * SET NODE STATUS ORDER
-     * ВНУТРЕННИЙ НОМЕР СТАТУСА ЗАКАЗА В СИСТЕМЕ
-     * ВНУТРІШНІЙ НОМЕР ЗАМОВЛЕННЯ В СИСТЕМІ
+     * ПОЛУЧИТЬ ВНУТРЕННИЙ НОМЕР СТАТУСА ЗАКАЗА В СИСТЕМЕ
+     * ОТРИМАТИ ВНУТРІШНІЙ НОМЕР ЗАМОВЛЕННЯ В СИСТЕМІ
      *
      * @return OBJECT | NULL
      *
@@ -630,8 +647,8 @@ class Data implements iData
     /**
      *
      * SET NODE SENDER ID
-     * ИНФОРМАЦИЯ ПРО ОТПРАВИТЕЛЯ
-     * ІНФОРМАЦІЯ ПРО ВІДПРАВНИКА
+     * ПОЛУЧИТЬ ИНФОРМАЦИЮ ПРО ОТПРАВИТЕЛЯ
+     * ОТРИМАТИ ІНФОРМАЦІЮ ПРО ВІДПРАВНИКА
      *
      * @return OBJECT | NULL
      *
@@ -687,20 +704,31 @@ class Data implements iData
     /**
      *
      * GET DESCRIPTION
-     * ОПИСАНИЕ
-     * ОПИС
+     * ПОЛУЧИТЬ ОПИСАНИЕ
+     * ОТРИМАТИ ОПИС
      *
-     * @return STRING | ARRAY
+     * @return STRING | ARRAY | NULL
      *
      */
     public function getDescr()
     {
-
-        return $this->formatData(
+        $descr = $this->formatData(
 
             'descr'
 
         );
+
+        if ($descr == null) {
+
+            $descr = $this->formatData(
+
+                'description'
+
+            );
+
+        }
+
+        return $descr;
 
     }
     /**
@@ -710,7 +738,7 @@ class Data implements iData
      *
      * @param STRING $type
      *
-     * @return INTEGER | ARRAY | NULL
+     * @return STRING | ARRAY | NULL
      *
      */
     public function getSCOATOU($type = 'SCOATOU')
@@ -801,8 +829,8 @@ class Data implements iData
     /**
      *
      * GET LOCALITY SCOATOU
-     * ПОЛУЧИТЬ КОАТУУ ГОРОДА
-     * ОТРИМАТИ КОАТУУ МІСТА
+     * ПОЛУЧИТЬ КОАТУУ РАЙОНА
+     * ОТРИМАТИ КОАТУУ РАЙОНУ
      *
      * @return STRING | ARRAY | NULL
      *
@@ -896,8 +924,8 @@ class Data implements iData
     /**
      *
      * GET POSITION
-     * МЕСТОПОЛОЖЕНИЕ ОТДЕЛЕНИЯ
-     * МІСЦЕ РОЗТАШУВАННЯ ВІДДІЛЕННЯ
+     * ПОЛУЧИТЬ МЕСТОПОЛОЖЕНИЕ ОТДЕЛЕНИЯ
+     * ОТРИМАТИ МІСЦЕ РОЗТАШУВАННЯ ВІДДІЛЕННЯ
      *
      * @return ARRAY | NULL
      *
@@ -947,8 +975,8 @@ class Data implements iData
     /**
      *
      * GET WEIGHT LIMIT
-     * МАКСИМАЛЬНЫЙ ВЕС ОТПРАВЛЕНИЯ ДЛЯ ОТДЕЛЕНИЯ
-     * МАКСИМАЛЬНА ВАГА ВІДПРАВЛЕННЯ ДЛЯ ВІДДІЛЕННЯ
+     * ПОЛУЧИТЬ МАКСИМАЛЬНЫЙ ВЕС ОТПРАВЛЕНИЙ ДЛЯ ОТДЕЛЕНИЯ
+     * ОТРИМАТИ МАКСИМАЛЬНУ ВАГУ ВІДПРАВЛЕННЯ ДЛЯ ВІДДІЛЕННЯ
      *
      * @return INTEGER | NULL
      *
@@ -956,18 +984,30 @@ class Data implements iData
     public function getWeightLimit()
     {
 
-        return $this->formatData(
+        $weight = $this->formatData(
 
             'weight_limit'
 
         );
 
+        if ($weight == null) {
+
+            $weigh = $this->formatData(
+
+                'max_weight'
+
+            );
+
+        }
+
+        return $weight;
+
     }
     /**
      *
      * GET QUERE VISIT
-     * ПОРЯДКОВЫЙ НОМЕР ОБХОДА ОТДЕЛЕНИЙ КУРЬЕРОМ
-     * ПОРЯДКОВИЙ НОМЕР В ОБХОДЕ ВІДДІЛЕНЬ КУР'ЄРОМ
+     * ПОЛУЧИТЬ ПОРЯДКОВЫЙ НОМЕР ОБХОДА ОТДЕЛЕНИЙ КУРЬЕРОМ
+     * ОТРИМАТИ ПОРЯДКОВИЙ НОМЕР В ОБХОДЕ ВІДДІЛЕНЬ КУР'ЄРОМ
      *
      * @return INTEGER | ARRAY | NULL
      *
@@ -1005,8 +1045,8 @@ class Data implements iData
     /**
      *
      * GET PAY CARD
-     * ВОЗМОЖНОСТЬ ОПЛАТЫ КАРТОЙ
-     * МОЖЛИВІСТЬ ОПЛАТИ КАРТОЮ
+     * ПОЛУЧИТЬ ВОЗМОЖНОСТЬ ОПЛАТЫ КАРТОЙ НА ОТДЕЛЕНИИ
+     * ОТРИМАТИ МОЖЛИВІСТЬ ОПЛАТИ КАРТОЮ НА ВІДДІЛЕНІ
      *
      * @return BOOLEAN | ARRAY | NULL
      *
@@ -1024,8 +1064,8 @@ class Data implements iData
     /**
      *
      * GET ACCEPT PAY
-     * ВОЗМОЖНОСТЬ ОПЛАТИ ПРИ ПОЛУЧЕНИИ ОТПРАВЛЕНИЯ
-     * МОЖЛИВІСТЬ ОПЛАТИ ПРИ ОТРИМАННІ ВІДПРАВЛЕННЯ
+     * ПОЛУЧИТЬ ВОЗМОЖНОСТЬ ОПЛАТИ ПРИ ПОЛУЧЕНИИ ОТПРАВЛЕНИЯ
+     * ОТРИМАТИ МОЖЛИВІСТЬ ОПЛАТИ ПРИ ОТРИМАННІ ВІДПРАВЛЕННЯ
      *
      * @return BOOLEAN | ARRAY | NULL
      *
@@ -1043,8 +1083,8 @@ class Data implements iData
     /**
      *
      * GET POSTMAST
-     * НАЯВНОСТЬ ПОЧТАМАТА НА ОТДЕЛЕНИИ
-     * НАЯВНІСТЬ ПОЧТОМАТУ НА ВІДДІЛЕННІ
+     * ПОЛУЧИТЬ НАЯВНОСТЬ ПОЧТАМАТА НА ОТДЕЛЕНИИ
+     * ОТРИМАТИ НАЯВНІСТЬ ПОЧТОМАТУ НА ВІДДІЛЕННІ
      *
      * @return BOOLEAN | ARRAY | NULL
      *
@@ -1062,8 +1102,8 @@ class Data implements iData
     /**
      *
      * GET CODE HOLDING
-     * НОМЕР ОТДЕЛЕНИЯ В КАЧЕСТВЕ ХОЛДИНГА В СИСТЕМЕ ОРГАНИЗАЦИИ
-     * НОМЕР ВІДДІЛЕННЯ В ЯКОСТІ ХОЛДІНГУ В СИСТЕМІ ОРГАНІЗАЦІЇ
+     * ПОЛУЧИТЬ НОМЕР ОТДЕЛЕНИЯ В КАЧЕСТВЕ ХОЛДИНГА В СИСТЕМЕ ОРГАНИЗАЦИИ
+     * ОТРИМАТИ НОМЕР ВІДДІЛЕННЯ В ЯКОСТІ ХОЛДІНГУ В СИСТЕМІ ОРГАНІЗАЦІЇ
      *
      * @return STRING | ARRAY | NULL
      *
@@ -1119,8 +1159,8 @@ class Data implements iData
     /**
      *
      * GET ENUM
-     * ТИП ТОЧКИ ОБРАБОТКИ
-     * ТИП ТОЧКИ ОБРОБКИ
+     * ПОЛУЧИТЬ ТИП ТОЧКИ ОБРАБОТКИ
+     * ОТРИМАТИ ТИП ТОЧКИ ОБРОБКИ
      *
      * @return STRING | ARRAY | NULL
      *
@@ -1331,7 +1371,7 @@ class Data implements iData
      * ПОЛУЧИТЬ НОМЕР НОВОГО ТТН
      * ОТРИМАТИ НОМЕР НОВОГО ТТН
      *
-     * @return STRING
+     * @return STRING | NULL
      *
      */
     public function ttn()
@@ -1346,11 +1386,11 @@ class Data implements iData
     }
     /**
      *
-     * GET NUMBER NEW ORDER
-     * ПОЛУЧИТЬ НОМЕР НОВОГО ЗАКАЗА
-     * ОТРИМАТИ НОМЕР НОВОГО ЗАМОВЛЕННЯ
+     * GET NUMBER
+     * ПОЛУЧИТЬ НОМЕР
+     * ОТРИМАТИ НОМЕР
      *
-     * @return STRING
+     * @return STRING | NULL
      *
      */
     public function number()
@@ -1363,4 +1403,271 @@ class Data implements iData
         );
 
     }
+    /**
+     *
+     * GET ORDER NUMBER
+     * ПОЛУЧИТЬ НОМЕР ЗАКАЗА
+     * ОТРИМАТИ НОМЕР ЗАМОВЛЕННЯ
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function orderNumber()
+    {
+
+        return $this->formatData(
+
+            'orderNumber'
+
+        );
+
+    }
+    /**
+     *
+     * GET ORDER DESCRIPTION
+     * ПОЛУЧИТЬ ОПИСАНИЕ ЗАКАЗА
+     * ОТРИМАТИ ОПИС ЗАМОВЛЕННЯ
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function orderDescr()
+    {
+
+        return $this->formatData(
+
+            'orderDescription'
+
+        );
+
+    }
+    /**
+     *
+     * GET DATE
+     * ПОЛУЧИТЬ ДАТУ ДОБАВЛЕНИЯ СТАТУСА
+     * ОТРИМАТИ ДАТУ ДОДАВАННЯ СТАТУСУ
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function date()
+    {
+
+        return $this->formatData(
+
+            'date'
+
+        );
+
+    }
+    /**
+     *
+     * GET TIME
+     * ПОЛУЧИТЬ ВРЕМЯ ДОБАВЛЕНИЕ СТАТУСА
+     * ОТРИМАТИ ЧАС ДОДАВАННЯ СТАТУСУ
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function time()
+    {
+
+        return $this->formatData(
+
+            'time'
+
+        );
+
+    }
+    /**
+     *
+     * GET DATE TIME ADDED STATUS
+     * ПОЛУЧИТЬ ДАТУ И ВРЕМЯ ДОБАВЛЕНИЯ СТАТУСА
+     * ОТРИМАТИ ДАТУ ТА ЧАС ДОДАВАННЯ СТАТУСУ
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function dateAdded()
+    {
+
+        $list = [];
+
+        $dates = $this->formatData('date');
+
+        if (!is_array($dates)) {
+
+            $list = $dates . ' ' . $this->formatData('time');
+
+        } else {
+
+            $list = array_map(
+
+                function ($date, $time) {
+
+                    return $date . ' ' . $time;
+
+                },
+
+                $dates, $this->formatData('time')
+
+            );
+
+        }
+
+        return $list;
+
+    }
+    /**
+     *
+     * GET STATUS
+     * ПОЛУЧИТЬ ТЕКУЩИЙ СТАТУС
+     * ОТРИМАТИ ПОТОЧНИЙ СТАТУС
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function status()
+    {
+
+        return $this->formatData(
+
+            'status'
+
+        );
+
+    }
+    /**
+     *
+     * GET DEPARTMENT NUMBER
+     * ПОЛУЧИТЬ НОМЕР ОТДЕЛЕНИЯ (ЕСЛИ ОТПРАВЛЕНИЕ НАХОДИТСЯ НА ОТДЕЛЕНИИ)
+     * ОТПРИМААТИ НОМЕР ВІДДІЛЕННЯ (ЯКЩО ВІДПРАВЛЕННЯ ЗНАХОДИТЬСЯ НА ВІДДІЛЕННІ)
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function deparNumber()
+    {
+
+        return $this->formatData(
+
+            'departmentNumber'
+
+        );
+
+    }
+    /**
+     *
+     * GET DEPARTMENT ADDRESS
+     * ПОЛУЧИТЬ АДРЕС ОТДЕЛЕНИЯ (ЕСЛИ ОТПРАВЛЕНИЕ НАХОДИТСЯ НА ОТДЕЛЕНИИ)
+     * ОТРИМАТИ АДРЕСУ ВІДДІЛЕННЯ (ЯКЩО ВІДПРАВЛЕННЯ ЗНАХОДИТЬСЯ НА ВІДДІЛЕННІ)
+     * @return STRING | NULL
+     *
+     */
+    public function deparAddress()
+    {
+
+        return $this->formatData(
+
+            'departmentAdress'
+
+        );
+
+    }
+    /**
+     *
+     * GET ADDRESS
+     * ПОЛУЧИТЬ АДРЕС
+     * ОТРИМАТИ АДРЕС
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function address()
+    {
+
+        return $this->formatData(
+
+            'adress'
+
+        );
+
+    }
+    /**
+     *
+     * GET LOCALITY
+     * ПОЛУЧИТЬ НАЗВАНИЕ ГОРОД
+     * ОТРИМАТИ НАЗВУ ГОРОДА
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function getLocality()
+    {
+
+        return $this->formatData(
+
+            'locality'
+
+        );
+
+    }
+    /**
+     *
+     * GET TYPE DEPARTMENT
+     * ПОЛУЧИТЬ ТИП ОТДЕЛЕНИЯ
+     * ОТРИМАТИ ТИП ВІДДІЛЕННЯ
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function format()
+    {
+
+        return $this->formatData(
+
+            'format'
+
+        );
+
+    }
+    /**
+     *
+     * GET SCHEDULE DEPARTMENT DESCRIPTION
+     * ПОЛУЧИТЬ ОПИСАНИЕ ГРАФИКА ОТДЕЛЕНИЯ
+     * ОТРИМАТИ ОПИС ГРАФІКУ ВІДДІЛЕННЯ
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function scheduDescr()
+    {
+
+        return $this->formatData(
+
+            'shedule_description'
+
+        );
+
+    }
+    /**
+     *
+     * GET DISTANCE
+     * РАССТОЯНИЕ ДО ОТДЕЛЕНИЯ НА КАРТЕ (КМ)
+     * ВІДСТАНЬ ДО ВІДДІЛЕННЯ НА КАРТІ (КМ)
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function distance()
+    {
+
+        return $this->formatData(
+
+            'distance'
+
+        );
+
+    }
+
 }

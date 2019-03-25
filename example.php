@@ -6,7 +6,7 @@ use Justin\Justin;
 
 $justin = new Justin('RU', true);
 
-$justin->setLogin('Exchange')->setPassword('Exchange');
+$justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
 
 print_r(
 

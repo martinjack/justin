@@ -12,6 +12,7 @@ PHP клас для роботи з API [Justin](https://justin.ua)
 # Документація
 
 [API documentation v6.0.1](https://github.com/martinjack/justin/blob/master/doc/API_JustIn_v6.0.1_UKR.pdf "PDF")
+[Openapi](http://openapi.justin.ua/ "OPENAPI")
 
 # Вимога
 
@@ -29,34 +30,54 @@ composer require jackmartin/justin
 
 # Основні методи API
 
-1. Отримати список областей
+1. Налаштування підключення
+    * [__construct](https://github.com/martinjack/justin#__construct)
+2. Отримати поточний статус замовлення:
+    * [currentStatus](https://github.com/martinjack/justin#currentStatus)
+3. Отримати список областей
     * [listRegions](https://github.com/martinjack/justin#listregions)
-2. Отримати список обласних районів
+4. Отримати список обласних районів
     * [listAreasRegions](https://github.com/martinjack/justin#listareasregions)
-3. Отримати список населених пунктів
+5. Отримати список населених пунктів
     * [listCities](https://github.com/martinjack/justin#listcities)
-4. Отримати список районів населених пунктів
+6. Отримати список районів населених пунктів
     * [listCityRegion](https://github.com/martinjack/justin#listcityregion)
-5. Отримати список вулиць міста
+7. Отримати список вулиць міста
     * [listStreetsCity](https://github.com/martinjack/justin#liststreetscity)
-6. Отримати список відділень. Старий метод
+8. Отримати інформацію про відділення
+    * [getBranch](https://github.com/martinjack/justin#getBranch)
+9. Отримати список відділень. Старий метод
     * [listDepartments](https://github.com/martinjack/justin#listdepartments)
-7. Отримати список відділень.
+10. Отримати список відділень.
     * [listDepartmentsLang](https://github.com/martinjack/justin#listdepartmentslang)
-8. Отримати список статусів замовлення
+11. Отримати найближче відділення за адресою
+    * [getNeartDepartment](https://github.com/martinjack/justin#getNeartDepartment)
+12. Отримати список статусів замовлення
     * [listStatuses](https://github.com/martinjack/justin#liststatuses)
-9. Отримати ключ торговця(senderID)
+13. Отримати ключ торговця(senderID)
     * [keySeller](https://github.com/martinjack/justin#keyseller)
-10. Отримати історію статусів замовлення. Старий метод
+14. Отримати історію руху відправлення
+    * [trackingHistory](https://github.com/martinjack/justin#trackingHistory)
+15. Отримати історію статусів замовлення. Старий метод
     * [getStatusHistory](https://github.com/martinjack/justin#getstatushistory)
-11. Отримати історію статусів замовлення.
+16. Отримати історію статусів замовлення.
     * [getStatusHistoryF](https://github.com/martinjack/justin#getstatushistoryf)
-12. Створити нове замовлення(Відправлення)
+17. Створити нове замовлення(Відправлення)
     * [Order](https://github.com/martinjack/justin#order)
-13. Створити стікер замовлення
+18. Створити стікер замовлення
     * [createSticker](https://github.com/martinjack/justin#createsticker)
 
 # Приклади
+
+### __construct() ###
+
+```php
+use Justin\Justin;
+
+include_once 'vendor/autoload.php';
+
+$justin = new Justin('RU', true, 'v2', 30, 30, 'UTC');
+```
 
 ### listRegions() ###
 
@@ -157,6 +178,28 @@ print_r(
 );
 ```
 
+### getBranch() ###
+
+```php
+use Justin\Justin;
+
+include_once 'vendor/autoload.php';
+
+$justin = new Justin('RU', true);
+
+print_r(
+
+    $justin->getBranch('220')->getData()
+    // $justin->getBranch('220')->fields()->number()
+    // $justin->getBranch('220')->fields()->getType()
+    // $justin->getBranch('220')->fields()->address()
+    // $justin->getBranch('220')->fields()->getPosition()
+    // $justin->getBranch('220')->fields()->getDescr()
+    // $justin->getBranch('220')->fields()->scheduDescr()
+
+);
+```
+
 ### listDepartments() ####
 
 ```php
@@ -186,6 +229,27 @@ print_r(
 
     $justin->listDepartmentsLang()
 
+);
+```
+
+### getNeartDepartment() ###
+
+```php
+
+use Justin\Justin;
+
+include_once 'vendor/autoload.php';
+
+$justin = new Justin('UA', true);
+
+print_r(
+
+    $justin->getNeartDepartment('Київ,Шевченка,30')->getData()
+    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->getPosition()
+    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->distance()
+    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->format()
+    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->number()
+    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->address()
 );
 ```
 
@@ -236,6 +300,80 @@ print_r(
     
     // $justin->name('login')->leftValue('test')->equal()->keySeller()
     // $justin->name('login')->equal('test')->keySeller()
+
+);
+```
+
+### currentStatus() ###
+
+```php
+include_once 'vendor/autoload.php';
+
+use Justin\Justin;
+
+$justin = new Justin('UA', true);
+
+print_r(
+
+    $justin->currentStatus('201971185')->getData()
+
+);
+```
+
+### trackingHistory() ###
+
+```php
+include_once 'vendor/autoload.php';
+
+use Justin\Justin;
+
+$justin = new Justin('UA', true);
+
+print_r(
+
+    $justin->trackingHistory('201810165')->getData()
+    // $justin->trackingHistory('201810165')->fields()->orderNumber()
+    // $justin->trackingHistory('201810165')->fields()->orderDescr()
+    // $justin->trackingHistory('201810165')->fields()->status()
+    // $justin->trackingHistory('201810165')->fields()->date()
+    // $justin->trackingHistory('201810165')->fields()->time()
+    // $justin->trackingHistory('201810165')->fields()->dateAdded()
+    // $justin->trackingHistory('201810165')->fields()->deparNumber()
+    // $justin->trackingHistory('201810165')->fields()->deparAddress()
+
+);
+
+### getStatusHistory() ###
+
+```php
+use Justin\Justin;
+
+include_once 'vendor/autoload.php';
+
+$justin = new Justin('UA', true);
+
+print_r(
+
+    $justin->getStatusHistory(
+
+        [
+
+            [
+
+                'name'       => 'orderNumber',
+
+                'comparison' => 'equal',
+
+                'leftValue'  => '000000004',
+
+            ],
+
+        ]
+
+    )
+
+    // $justin->name('orderNumber')->leftValue('000000004')->equal()->getStatusHistory()
+    // $justin->name('orderNumber')->equal('000000004')->getStatusHistory()
 
 );
 ```

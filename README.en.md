@@ -12,6 +12,7 @@ PHP class to work with Justin API
 # Documentation
 
 [API documentation v6.0.1](https://github.com/martinjack/justin/blob/master/doc/API_JustIn_v6.0.1_UKR.pdf "PDF")
+[Openapi](http://openapi.justin.ua/ "OPENAPI")
 
 # Requirements
 
@@ -29,34 +30,54 @@ composer require jackmartin/justin
 
 # Basic methods API
 
-1. Get list regions.
+1. Setup connection 
+    * [__construct](https://github.com/martinjack/justin#__construct)
+2. Get current status order:
+    * [currentStatus](https://github.com/martinjack/justin#currentStatus)
+3. Get list regions.
     * [listRegions](https://github.com/martinjack/justin#listregions)
-2. Get list regional areas.
+4. Get list regional areas.
     * [listAreasRegions](https://github.com/martinjack/justin#listareasregions)
-3. Get list settlements.
+5. Get list settlements.
     * [listCities](https://github.com/martinjack/justin#listcities)
-4. Get list areas of settlements
+6. Get list areas of settlements
     * [listCityRegion](https://github.com/martinjack/justin#listcityregion)
-5. Get list streets city.
+7. Get list streets city.
     * [listStreetsCity](https://github.com/martinjack/justin#liststreetscity)
-6. Get list departments. Old method
+8. Get information about department
+    * [getBranch](https://github.com/martinjack/justin#getBranch)
+9. Get list departments. Old method
     * [listDepartments](https://github.com/martinjack/justin#listdepartments)
-7. Get list departments.
+10. Get list departments.
     * [listDepartmentsLang](https://github.com/martinjack/justin#listdepartmentslang)
-8. Get list statuses order.
+11. Get nearest department by address
+    * [getNeartDepartment](https://github.com/martinjack/justin#getNeartDepartment)
+12. Get list statuses order.
     * [listStatuses](https://github.com/martinjack/justin#liststatuses)
-9. Get key seller(senderID)
+13. Get key seller(senderID)
     * [keySeller](https://github.com/martinjack/justin#keyseller)
-10. Get story statuses order. Old method
+14. Get tracking history
+    * [trackingHistory](https://github.com/martinjack/justin#trackingHistory)
+15. Get story statuses order. Old method
     * [getStatusHistory](https://github.com/martinjack/justin#getstatushistory)
-11. Get story statuses order.
+16. Get story statuses order.
     * [getStatusHistoryF](https://github.com/martinjack/justin#getstatushistoryf)
-12. Create new order(Departure)
+17. Create new order(Departure)
     * [Order](https://github.com/martinjack/justin#order)
-13. Create sticker order
+18. Create sticker order
     * [createSticker](https://github.com/martinjack/justin#createsticker)
 
 # Examples
+
+### __construct() ###
+
+```php
+use Justin\Justin;
+
+include_once 'vendor/autoload.php';
+
+$justin = new Justin('RU', true, 'v2', 30, 30, 'UTC');
+```
 
 ### listRegions() ###
 
@@ -157,6 +178,28 @@ print_r(
 );
 ```
 
+### getBranch() ###
+
+```php
+use Justin\Justin;
+
+include_once 'vendor/autoload.php';
+
+$justin = new Justin('RU', true);
+
+print_r(
+
+    $justin->getBranch('220')->getData()
+    // $justin->getBranch('220')->fields()->number()
+    // $justin->getBranch('220')->fields()->getType()
+    // $justin->getBranch('220')->fields()->address()
+    // $justin->getBranch('220')->fields()->getPosition()
+    // $justin->getBranch('220')->fields()->getDescr()
+    // $justin->getBranch('220')->fields()->scheduDescr()
+
+);
+```
+
 ### listDepartments() ####
 
 ```php
@@ -186,6 +229,27 @@ print_r(
 
     $justin->listDepartmentsLang()
 
+);
+```
+
+### getNeartDepartment() ###
+
+```php
+
+use Justin\Justin;
+
+include_once 'vendor/autoload.php';
+
+$justin = new Justin('EN', true);
+
+print_r(
+
+    $justin->getNeartDepartment('Київ,Шевченка,30')->getData()
+    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->getPosition()
+    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->distance()
+    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->format()
+    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->number()
+    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->address()
 );
 ```
 
@@ -236,6 +300,80 @@ print_r(
     
     // $justin->name('login')->leftValue('test')->equal()->keySeller()
     // $justin->name('login')->equal('test')->keySeller()
+
+);
+```
+
+### currentStatus() ###
+
+```php
+include_once 'vendor/autoload.php';
+
+use Justin\Justin;
+
+$justin = new Justin('EN', true);
+
+print_r(
+
+    $justin->currentStatus('201971185')->getData()
+
+);
+```
+
+### trackingHistory() ###
+
+```php
+include_once 'vendor/autoload.php';
+
+use Justin\Justin;
+
+$justin = new Justin('EN', true);
+
+print_r(
+
+    $justin->trackingHistory('201810165')->getData()
+    // $justin->trackingHistory('201810165')->fields()->orderNumber()
+    // $justin->trackingHistory('201810165')->fields()->orderDescr()
+    // $justin->trackingHistory('201810165')->fields()->status()
+    // $justin->trackingHistory('201810165')->fields()->date()
+    // $justin->trackingHistory('201810165')->fields()->time()
+    // $justin->trackingHistory('201810165')->fields()->dateAdded()
+    // $justin->trackingHistory('201810165')->fields()->deparNumber()
+    // $justin->trackingHistory('201810165')->fields()->deparAddress()
+
+);
+
+### getStatusHistory() ###
+
+```php
+use Justin\Justin;
+
+include_once 'vendor/autoload.php';
+
+$justin = new Justin('EN', true);
+
+print_r(
+
+    $justin->getStatusHistory(
+
+        [
+
+            [
+
+                'name'       => 'orderNumber',
+
+                'comparison' => 'equal',
+
+                'leftValue'  => '000000004',
+
+            ],
+
+        ]
+
+    )
+
+    // $justin->name('orderNumber')->leftValue('000000004')->equal()->getStatusHistory()
+    // $justin->name('orderNumber')->equal('000000004')->getStatusHistory()
 
 );
 ```

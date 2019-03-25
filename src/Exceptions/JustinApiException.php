@@ -2,6 +2,8 @@
 
 namespace Justin\Exceptions;
 
+use Justin\Exceptions\JustinException;
+
 /**
  *
  * Class JustinApiException
