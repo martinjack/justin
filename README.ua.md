@@ -11,7 +11,8 @@ PHP клас для роботи з API [Justin](https://justin.ua)
 
 # Документація
 
-[API documentation v6.0.1](https://github.com/martinjack/justin/blob/master/doc/API_JustIn_v6.0.1_UKR.pdf "PDF")
+[API documentation v6.0.1](https://justin.ua/api/api_justin_documentation.pdf "PDF")
+
 [Openapi](http://openapi.justin.ua/ "OPENAPI")
 
 # Вимога

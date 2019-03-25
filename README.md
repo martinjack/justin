@@ -12,6 +12,7 @@ PHP класс для работы с API [Justin](https://justin.ua)
 # Документация
 
 [API documentation v6.0.1](https://justin.ua/api/api_justin_documentation.pdf "PDF")
+
 [Openapi](http://openapi.justin.ua/ "OPENAPI")
 
 # Требования
