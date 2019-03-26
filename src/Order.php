@@ -8,6 +8,7 @@ use Justin\Contracts\iOrder;
 use Justin\Data;
 use Justin\Exceptions\JustinApiException;
 use Justin\Exceptions\JustinAuthException;
+use Justin\Exceptions\JustinHttpException;
 
 /**
  *
@@ -74,11 +75,11 @@ class Order extends Justin implements iOrder
 
         if (!$this->sandbox) {
 
-            $this->api = $this->api . 'api_pms/hs/api/';
+            $this->api = $this->api . 'api_pms/hs/api/v1';
 
         } else {
 
-            $this->api = $this->api . 'api_test/hs/api/';
+            $this->api = $this->api . 'api_test/hs/api/v1';
 
         }
 
@@ -97,7 +98,7 @@ class Order extends Justin implements iOrder
     public function orderVersion($version = 'v1')
     {
 
-        $this->api = $this->api . "{$version}/documents/orders";
+        $this->api = preg_replace('/api\/v\d.*/', "api/${version}/documents/orders", $this->api);
 
         return $this;
 
@@ -115,7 +116,6 @@ class Order extends Justin implements iOrder
      */
     public function create($data = [])
     {
-
         $response = [];
         ##
         # SET DATA
@@ -127,10 +127,6 @@ class Order extends Justin implements iOrder
         $this->data = [
 
             'api_key' => $this->key,
-
-            // 'keyAccount' => $this->login,
-
-            // 'sign'       => $this->password,
 
             'data'    => $this->data,
 
@@ -206,11 +202,17 @@ class Order extends Justin implements iOrder
 
                     $error = $exception->getResponse()->getBody()->getContents();
 
+                    if (!$error) {
+
+                        $error = $exception->getMessage();
+
+                    }
+
                     break;
 
             }
 
-            throw new JustinApiException(
+            throw new JustinHttpException(
 
                 $error
 

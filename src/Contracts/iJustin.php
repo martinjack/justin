@@ -31,26 +31,6 @@ interface iJustin
     public function __construct($language = 'UA', $sandbox = false, $version = 'v2', $timeout = 60, $connect_timeout = 60, $timezone = 'UTC');
     /**
      *
-     * SET SANDBOX
-     *
-     * @param BOOLEAN
-     *
-     * @return OBJECT
-     *
-     */
-    public function setSandbox($sandbox);
-    /**
-     *
-     * SET VERSION
-     *
-     * @param STRING
-     *
-     * @return OBJECT
-     *
-     */
-    public function setVersion($version);
-    /**
-     *
      * SET LANGUAGE
      *
      * @param STRING $lang

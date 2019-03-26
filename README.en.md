@@ -17,7 +17,7 @@ PHP class to work with Justin API
 
 # Requirements
 
-* PHP 7.0 or above
+* PHP 5.6 or above
 * Composer
 
 # Composer
@@ -447,8 +447,6 @@ use Justin\Order;
 
 $order = new Order('EN', true);
 
-$justin->setLogin('Your login')->setPassword('Your password');
-
 $order->setKey('Your key');
 
 $newOrder = $order
@@ -513,8 +511,6 @@ include_once 'vendor/autoload.php';
 use Justin\Order;
 
 $order = new Order('EN', true);
-
-$order->setLogin('Your login')->setPassword('Your password');
 
 $order->setKey('Your key');
 
@@ -597,8 +593,6 @@ use Justin\Justin;
 include_once 'vendor/autoload.php';
 
 $justin = new Justin('EN', true);
-
-$justin->setLogin('Your login')->setPassword('Your password');
 
 $justin->setKey('Your key');
 

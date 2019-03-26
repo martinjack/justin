@@ -12,6 +12,7 @@ use Justin\Exceptions\JustinApiException;
 use Justin\Exceptions\JustinAuthException;
 use Justin\Exceptions\JustinException;
 use Justin\Exceptions\JustinFileException;
+use Justin\Exceptions\JustinHttpException;
 
 /**
  *
@@ -156,7 +157,7 @@ class Justin extends Filter implements iJustin
      * @return OBJECT
      *
      */
-    public function setSandbox($sandbox)
+    private function setSandbox($sandbox)
     {
 
         $this->sandbox = $sandbox;
@@ -183,7 +184,7 @@ class Justin extends Filter implements iJustin
      * @return OBJECT
      *
      */
-    public function setVersion($version = 'v2')
+    private function setVersion($version = 'v2')
     {
 
         $this->api = $this->api . "${version}/runRequest";
@@ -334,6 +335,7 @@ class Justin extends Filter implements iJustin
      */
     private function request($request, $type, $method, $data, $query = 'post')
     {
+
         $response = [];
         ##
         # SET DEFAULT FIELDS
@@ -450,7 +452,13 @@ class Justin extends Filter implements iJustin
                     break;
                 default:
 
-                    $error = $exception->getResponse()->getBody()->getResponse();
+                    $error = $exception->getResponse()->getBody()->getContents();
+
+                    if (!$error) {
+
+                        $error = $exception->getMessage();
+
+                    }
 
                     break;
 

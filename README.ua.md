@@ -17,7 +17,7 @@ PHP клас для роботи з API [Justin](https://justin.ua)
 
 # Вимога
 
-* PHP 7.0 або вище
+* PHP 5.6 або вище
 * Composer
 
 # Composer
@@ -447,8 +447,6 @@ use Justin\Order;
 
 $order = new Order('UA', true);
 
-$justin->setLogin('Ваш логін')->setPassword('Ваш пароль');
-
 $order->setKey('Ваш ключ');
 
 $newOrder = $order
@@ -513,8 +511,6 @@ include_once 'vendor/autoload.php';
 use Justin\Order;
 
 $order = new Order('UA', true);
-
-$order->setLogin('Ваш логін')->setPassword('Ваш пароль');
 
 $order->setKey('Ваш ключ');
 
@@ -597,8 +593,6 @@ use Justin\Justin;
 include_once 'vendor/autoload.php';
 
 $justin = new Justin('UA', true);
-
-$justin->setLogin('Ваш логін')->setPassword('Ваш пароль');
 
 $justin->setKey('Ваш ключ');
 
