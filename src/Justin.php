@@ -13,6 +13,7 @@ use Justin\Exceptions\JustinAuthException;
 use Justin\Exceptions\JustinException;
 use Justin\Exceptions\JustinFileException;
 use Justin\Exceptions\JustinHttpException;
+use Justin\Exceptions\JustinResponseException;
 
 /**
  *
@@ -338,21 +339,31 @@ class Justin extends Filter implements iJustin
 
         $response = [];
         ##
-        # SET DEFAULT FIELDS
+        # SET FIELDS
         #
-        $params = [
+        $body = json_encode(
 
-            'keyAccount' => $this->login,
+            array_merge(
 
-            'sign'       => $this->password,
+                [
 
-            'request'    => $request,
+                    'keyAccount' => $this->login,
 
-            'type'       => $type,
+                    'sign'       => $this->password,
 
-            'name'       => $method,
+                    'request'    => $request,
 
-        ];
+                    'type'       => $type,
+
+                    'name'       => $method,
+
+                ],
+
+                $data
+
+            )
+
+        );
         #
         try {
 
@@ -372,11 +383,7 @@ class Justin extends Filter implements iJustin
 
                         ],
 
-                        'body' => json_encode(
-
-                            array_merge($params, $data)
-
-                        ),
+                        'body' => $body,
 
                     ]
 
@@ -426,13 +433,15 @@ class Justin extends Filter implements iJustin
 
                 throw new JustinApiException(
 
-                    'Error API: ' . json_encode($result)
+                    json_encode($result)
 
                 );
 
             }
 
         } catch (RequestException $exception) {
+
+            $error = $exception->getCode();
 
             switch ($exception->getCode()) {
 
@@ -452,7 +461,11 @@ class Justin extends Filter implements iJustin
                     break;
                 default:
 
-                    $error = $exception->getResponse()->getBody()->getContents();
+                    if ($exception->getResponse()) {
+
+                        $error = $exception->getResponse()->getBody()->getContents();
+
+                    }
 
                     if (!$error) {
 
@@ -472,7 +485,7 @@ class Justin extends Filter implements iJustin
 
         } catch (Exception $exception) {
 
-            throw new JustinException(
+            throw new JustinResponseException(
 
                 $exception
 
@@ -1008,6 +1021,16 @@ class Justin extends Filter implements iJustin
 
         }
 
+        if (!$path) {
+
+            throw new JustinFileException(
+
+                'Failed. Check path save!'
+
+            );
+
+        }
+
         try {
 
             $sticker = fopen($path, 'w+');
@@ -1043,6 +1066,8 @@ class Justin extends Filter implements iJustin
 
         } catch (RequestException $exception) {
 
+            unlink($path);
+
             if ($exception->getCode() == 401) {
 
                 throw new JustinAuthException(
@@ -1055,7 +1080,7 @@ class Justin extends Filter implements iJustin
 
                 throw new JustinApiException(
 
-                    'Error API: ' . $exception->getResponse()->getBody()->getContents()
+                    $exception->getResponse()->getBody()->getContents()
 
                 );
 
@@ -1063,7 +1088,7 @@ class Justin extends Filter implements iJustin
 
         } catch (Exception $exception) {
 
-            throw new JustinException(
+            throw new JustinResponseException(
 
                 $exception
 

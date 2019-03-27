@@ -9,6 +9,6 @@ namespace Justin\Exceptions;
  * @package Justin
  *
  */
-class JustinFileException extends JustinException
+class JustinFileException extends Errors
 {
 }

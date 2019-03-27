@@ -3,12 +3,14 @@
 namespace Justin\Exceptions;
 
 /**
- *
- * Class JustinException
- *
- * @package Justin
- *
+ * @method string getMessage()
+ * @method \Throwable|null getPrevious()
+ * @method mixed getCode()
+ * @method string getFile()
+ * @method int getLine()
+ * @method array getTrace()
+ * @method string getTraceAsString()
  */
-class JustinException extends \Exception
+interface JustinException
 {
 }

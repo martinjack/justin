@@ -106,7 +106,7 @@ class Data implements iData
 
         throw new JustinDataException(
 
-            'No data to display. Empty array raw'
+            'error'
 
         );
 

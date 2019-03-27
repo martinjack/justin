@@ -2,8 +2,6 @@
 
 namespace Justin\Exceptions;
 
-use Justin\Exceptions\JustinException;
-
 /**
  *
  * Class JustinApiException
@@ -11,6 +9,6 @@ use Justin\Exceptions\JustinException;
  * @package Justin
  *
  */
-class JustinApiException extends JustinException
+class JustinApiException extends Errors
 {
 }
