@@ -15,6 +15,14 @@ class Filter implements iFilter
 {
     /**
      *
+     * AMOUNT FILTERS
+     *
+     * @var INTEGER
+     *
+     */
+    protected $amount_filters = 0;
+    /**
+     *
      * FILTER
      *
      * @var ARRAY
@@ -56,15 +64,31 @@ class Filter implements iFilter
      *
      * @param ARRAY $filter
      *
+     * @param INTEGER $limit
+     *
+     * @param BOOLEAN $lang
+     *
      * @return ARRAY
      *
      */
-    protected function getFilter($filter)
+    protected function getFilter($filter, $limit = 0, $lang = true)
     {
+
+        if ($lang) {
+
+            $this->filter['language'] = $this->language;
+
+            $this->filter['params'] = [
+
+                'language' => $this->language,
+
+            ];
+
+        }
 
         if ($filter) {
 
-            $this->filter = [
+            $this->filter['filter'] = [
 
                 $filter,
 
@@ -72,28 +96,13 @@ class Filter implements iFilter
 
         }
 
-        return $this->filter;
-
-    }
-    /**
-     *
-     * GET LIMIT
-     *
-     * @param INTEGER $limit
-     *
-     * @return INTEGER
-     *
-     */
-    protected function getLimit($limit = 15)
-    {
-
         if ($limit) {
 
-            $this->limit = $limit;
+            $this->filter['TOP'] = $limit;
 
         }
 
-        return $this->limit;
+        return $this->filter;
 
     }
     /**
@@ -107,10 +116,10 @@ class Filter implements iFilter
      * @param OBJECT
      *
      */
-    public function limit($limit = 10)
+    public function limit($limit = 0)
     {
 
-        $this->limit = $limit;
+        $this->filter['TOP'] = $limit;
 
         return $this;
 
@@ -129,7 +138,7 @@ class Filter implements iFilter
     public function name($val)
     {
 
-        $this->filter[0]['name'] = $val;
+        $this->filter['filter'][$this->amount_filters]['name'] = $val;
 
         return $this;
 
@@ -148,7 +157,9 @@ class Filter implements iFilter
     public function leftValue($val)
     {
 
-        $this->filter[0]['leftValue'] = $val;
+        $this->filter['filter'][$this->amount_filters]['leftValue'] = $val;
+
+        $this->amount_filters += 1;
 
         return $this;
 
@@ -167,7 +178,7 @@ class Filter implements iFilter
     public function rightValue($val)
     {
 
-        $this->filter[0]['rightValue'] = $val;
+        $this->filter['filter'][$this->amount_filters]['rightValue'] = $val;
 
         return $this;
 
@@ -186,7 +197,7 @@ class Filter implements iFilter
     public function equal($val = '')
     {
 
-        $this->filter[0]['comparison'] = 'equal';
+        $this->filter['filter'][$this->amount_filters]['comparison'] = 'equal';
 
         if (!$val) {
 
@@ -212,7 +223,7 @@ class Filter implements iFilter
     public function not($val = '')
     {
 
-        $this->filter[0]['comparison'] = 'not';
+        $this->filter['filter'][$this->amount_filters]['comparison'] = 'not';
 
         if (!$val) {
 
@@ -236,7 +247,7 @@ class Filter implements iFilter
     public function less($val = '')
     {
 
-        $this->filter[0]['comparison'] = 'less';
+        $this->filter['filter'][$this->amount_filters]['comparison'] = 'less';
 
         if (!$val) {
 
@@ -262,7 +273,7 @@ class Filter implements iFilter
     public function more($val = '')
     {
 
-        $this->filter[0]['comparison'] = 'more';
+        $this->filter['filter'][$this->amount_filters]['comparison'] = 'more';
 
         if (!$val) {
 
@@ -288,7 +299,7 @@ class Filter implements iFilter
     public function in($vals = [])
     {
 
-        $this->filter[0]['comparison'] = 'in';
+        $this->filter['filter'][$this->amount_filters]['comparison'] = 'in';
 
         if (!$vals) {
 
@@ -314,7 +325,7 @@ class Filter implements iFilter
     public function between($vals = [])
     {
 
-        $this->filter[0]['comparison'] = 'between';
+        $this->filter['filter'][$this->amount_filters]['comparison'] = 'between';
 
         if (!$vals) {
 
@@ -323,7 +334,7 @@ class Filter implements iFilter
         }
 
         return $this
-            ->leftValue($vals[0])
+            ->leftValue($vals[$this->amount_filters])
             ->rightValue($vals[1]);
 
     }
@@ -341,7 +352,7 @@ class Filter implements iFilter
     public function notIn($vals = [])
     {
 
-        $this->filter[0]['comparison'] = 'not in';
+        $this->filter['filter'][$this->amount_filters]['comparison'] = 'not in';
 
         if (!$vals) {
 
@@ -367,7 +378,7 @@ class Filter implements iFilter
     public function lessEqual($val = '')
     {
 
-        $this->filter[0]['comparison'] = 'less or equal';
+        $this->filter['filter'][$this->amount_filters]['comparison'] = 'less or equal';
 
         if (!$val) {
 
@@ -393,7 +404,7 @@ class Filter implements iFilter
     public function moreEqual($val = '')
     {
 
-        $this->filter[0]['comparison'] = 'more or equal';
+        $this->filter['filter'][$this->amount_filters]['comparison'] = 'more or equal';
 
         if (!$val) {
 
@@ -418,7 +429,7 @@ class Filter implements iFilter
     public function like($val = '')
     {
 
-        $this->filter[0]['comparison'] = 'like';
+        $this->filter['filter'][$this->amount_filters]['comparison'] = 'like';
 
         if (!$val) {
 

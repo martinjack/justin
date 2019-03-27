@@ -32,7 +32,7 @@ interface iFilter
      * @param OBJECT
      *
      */
-    public function limit($limit = 10);
+    public function limit($limit = 0);
     /**
      *
      * NAME

@@ -103,7 +103,7 @@ class Justin extends Filter implements iJustin
      * @var STRING
      *
      */
-    private $language = 'ua';
+    protected $language = 'UA';
     /**
      *
      * INIT CLASS
@@ -409,8 +409,8 @@ class Justin extends Filter implements iJustin
 
                     ##
                     # SET DEFAULT
-                    $this->filter = [];
-                    $this->limit  = 10;
+                    $this->filter         = [];
+                    $this->amount_filters = 0;
                     ##
                 } else {
 
@@ -503,23 +503,13 @@ class Justin extends Filter implements iJustin
 
             $this->request(
 
-                'getData', 'catalog', 'cat_Region', [
+                'getData', 'catalog', 'cat_Region',
 
-                    'language' => $this->language,
+                $this->getFilter(
 
-                    'TOP'      => $this->getLimit(
+                    $filter, $limit
 
-                        $limit
-
-                    ),
-
-                    'filter'   => $this->getFilter(
-
-                        $filter
-
-                    ),
-
-                ]
+                )
 
             )
 
@@ -546,23 +536,13 @@ class Justin extends Filter implements iJustin
 
             $this->request(
 
-                'getData', 'catalog', 'cat_areasRegion', [
+                'getData', 'catalog', 'cat_areasRegion',
 
-                    'laguange' => $this->language,
+                $this->getFilter(
 
-                    'TOP'      => $this->getLimit(
+                    $filter, $limit
 
-                        $limit
-
-                    ),
-
-                    'filter'   => $this->getFilter(
-
-                        $filter
-
-                    ),
-
-                ]
+                )
 
             )
 
@@ -589,23 +569,13 @@ class Justin extends Filter implements iJustin
 
             $this->request(
 
-                'getData', 'catalog', 'cat_Cities', [
+                'getData', 'catalog', 'cat_Cities',
 
-                    'language' => $this->language,
+                $this->getFilter(
 
-                    'TOP'      => $this->getLimit(
+                    $filter, $limit
 
-                        $limit
-
-                    ),
-
-                    'filter'   => $this->getFilter(
-
-                        $filter
-
-                    ),
-
-                ]
+                )
 
             )
 
@@ -632,23 +602,13 @@ class Justin extends Filter implements iJustin
 
             $this->request(
 
-                'getData', 'catalog', 'cat_cityRegions', [
+                'getData', 'catalog', 'cat_cityRegions',
 
-                    'language' => $this->language,
+                $this->getFilter(
 
-                    'TOP'      => $this->getLimit(
+                    $filter, $limit
 
-                        $limit
-
-                    ),
-
-                    'filter'   => $this->getFilter(
-
-                        $filter
-
-                    ),
-
-                ]
+                )
 
             )
 
@@ -675,23 +635,13 @@ class Justin extends Filter implements iJustin
 
             $this->request(
 
-                'getData', 'catalog', 'cat_cityStreets', [
+                'getData', 'catalog', 'cat_cityStreets',
 
-                    'language' => $this->language,
+                $this->getFilter(
 
-                    'TOP'      => $this->getLimit(
+                    $filter, $limit
 
-                        $limit
-
-                    ),
-
-                    'filter'   => $this->getFilter(
-
-                        $filter
-
-                    ),
-
-                ]
+                )
 
             )
 
@@ -742,21 +692,13 @@ class Justin extends Filter implements iJustin
 
             $this->request(
 
-                'getData', 'request', 'req_Departments', [
+                'getData', 'request', 'req_Departments',
 
-                    'TOP'    => $this->getLimit(
+                $this->getFilter(
 
-                        $limit
+                    $filter, $limit = 0
 
-                    ),
-
-                    'filter' => $this->getFilter(
-
-                        $filter
-
-                    ),
-
-                ]
+                )
 
             )
 
@@ -783,29 +725,13 @@ class Justin extends Filter implements iJustin
 
             $this->request(
 
-                'getData', 'request', 'req_DepartmentsLang', [
+                'getData', 'request', 'req_DepartmentsLang',
 
-                    'language' => $this->language,
+                $this->getFilter(
 
-                    'params'   => [
+                    $filter, $limit
 
-                        'lagnauge' => $this->language,
-
-                    ],
-
-                    'TOP'      => $this->getLimit(
-
-                        $limit
-
-                    ),
-
-                    'filter'   => $this->getFilter(
-
-                        $filter
-
-                    ),
-
-                ]
+                )
 
             )
 
@@ -848,22 +774,20 @@ class Justin extends Filter implements iJustin
      * @return OBJECT
      *
      */
-    public function listStatuses($limit = 0)
+    public function listStatuses($filter = [], $limit = 0)
     {
 
         return new Data(
 
             $this->request(
 
-                'getData', 'catalog', 'orderStatuses', [
+                'getData', 'catalog', 'orderStatuses',
 
-                    'TOP' => $this->getLimit(
+                $this->getFilter(
 
-                        $limit
+                    $filter, $limit
 
-                    ),
-
-                ]
+                )
 
             )
 
@@ -888,15 +812,13 @@ class Justin extends Filter implements iJustin
 
             $this->request(
 
-                'getData', 'infoData', 'getSenderUUID', [
+                'getData', 'infoData', 'getSenderUUID',
 
-                    'filter' => $this->getFilter(
+                $this->getFilter(
 
-                        $filter
+                    $filter
 
-                    ),
-
-                ]
+                )
 
             )
 
@@ -962,25 +884,25 @@ class Justin extends Filter implements iJustin
      *
      * @param ARRAY $filter
      *
+     * @param INTEGER $limit
+     *
      * @return OBJECT
      *
      */
-    public function getStatusHistory($filter = [])
+    public function getStatusHistory($filter = [], $limit = 0)
     {
 
         return new Data(
 
             $this->request(
 
-                'getData', 'request', 'getOrderStatusesHistory', [
+                'getData', 'request', 'getOrderStatusesHistory',
 
-                    'filter' => $this->getFilter(
+                $this->getFilter(
 
-                        $filter
+                    $filter, $limit, false
 
-                    ),
-
-                ]
+                )
 
             )
 
@@ -995,42 +917,61 @@ class Justin extends Filter implements iJustin
      *
      * @param ARRAY $filter
      *
+     * @param INTEGER $limit
+     *
      * @param STRING $senderID
      *
      * @return OBJECT
      *
      */
-    public function getStatusHistoryF($filter = [], $senderID = '')
+    public function getStatusHistoryF($filter = [], $limit = 0, $senderID = '')
     {
 
         $senderID = !$this->key ? $senderID : $this->key;
+
+        $filter = $this->getFilter(
+
+            $filter, $limit, false
+
+        );
+
+        if (isset($filter['filter'])) {
+
+            array_push(
+
+                $filter['filter'],
+
+                [
+
+                    'name'       => 'senderId',
+
+                    'comparison' => 'equal',
+
+                    'leftValue'  => $senderID,
+
+                ]
+
+            );
+
+        } else {
+
+            $filter['filter'][] = [
+
+                'name'       => 'senderId',
+
+                'comparison' => 'equal',
+
+                'leftValue'  => $senderID,
+
+            ];
+
+        }
 
         return new Data(
 
             $this->request(
 
-                'getData', 'request', 'getOrderStatusesHistoryF', [
-
-                    'filter' => [
-
-                        [
-
-                            'name'       => 'senderId',
-
-                            'comparison' => 'equal',
-
-                            'leftValue'  => $senderID,
-
-                        ],
-
-                        $this->getFilter(
-
-                            $filter
-
-                        )[0],
-
-                    ],
-                ]
+                'getData', 'request', 'getOrderStatusesHistoryF', $filter
 
             )
 

@@ -202,12 +202,14 @@ interface iJustin
      * СПИСОК СТАСУСОВ ЗАКАЗА
      * СПИСОК СТАТУСІВ ЗАМОВЛЕНЬ
      *
+     * @param ARRAY $filter
+     *
      * @param INTEGER $limit
      *
      * @return ARRAY
      *
      */
-    public function listStatuses($limit = 0);
+    public function listStatuses($filter = [], $limit = 0);
     /**
      *
      * KEY SELLER
@@ -253,10 +255,12 @@ interface iJustin
      *
      * @param ARRAY $filter
      *
-     * @return VOID
+     * @param INTEGER $limit
+     *
+     * @return OBJECT
      *
      */
-    public function getStatusHistory($filter = []);
+    public function getStatusHistory($filter = [], $limit = 0);
     /**
      *
      * GET HISTORY STATUSES ORDERS
@@ -265,12 +269,14 @@ interface iJustin
      *
      * @param ARRAY $filter
      *
+     * @param INTEGER $limit
+     *
      * @param STRING $senderID
      *
-     * @return VOID
+     * @return OBJECT
      *
      */
-    public function getStatusHistoryF($filter, $senderID = '');
+    public function getStatusHistoryF($filter, $limit = 0, $senderID = '');
     /**
      *
      * STICKER PDF
