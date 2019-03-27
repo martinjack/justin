@@ -1005,22 +1005,36 @@ class Justin extends Filter implements iJustin
      *
      * @param STRING $version
      *
+     * @throws JustinFileException
+     *
      * @return BOOLEAN
      *
      */
-    public function createSticker($orderNumber, $path, $type = false, $version = 'v1')
+    public function createSticker($orderNumber, $path, $type = 0, $version = 'v1')
     {
 
-        if (!$type) {
+        ##
+        # GET TYPE
+        #
+        switch ($type) {
 
-            $type = 'printSticker';
+            case 0:
 
-        } else {
+                $type = 'printSticker';
 
-            $type = 'printStickerWithContactPerson';
+                break;
+            case 1:
+
+                $type = 'printStickerWithContactPerson';
+                break;
+            case 2:
+
+                $type = 'printStickerAddress';
+
+                break;
 
         }
-
+        #
         if (!$path) {
 
             throw new JustinFileException(
@@ -1036,11 +1050,24 @@ class Justin extends Filter implements iJustin
             $sticker = fopen($path, 'w+');
 
             ##
+            # CHECK SANDBOX
+            #
+            if ($this->sandbox) {
+
+                $space = 'api_pms_preprod';
+
+            } else {
+
+                $space = 'pms';
+
+            }
+
+            ##
             # SAVE PDF
             #
             $this->client->get(
 
-                "http://195.201.72.186/pms/hs/api/{$version}/{$type}/order?order_number={$orderNumber}&api_key=" . $this->key,
+                "http://195.201.72.186/${space}/hs/api/{$version}/{$type}/order?order_number={$orderNumber}&api_key=" . $this->key,
 
                 [
 

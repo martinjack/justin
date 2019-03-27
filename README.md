@@ -11,7 +11,7 @@ PHP класс для работы с API [Justin](https://justin.ua)
 
 # Документация
 
-[API documentation v6.0.1](https://justin.ua/api/api_justin_documentation.pdf "PDF")
+[API documentation](https://justin.ua/api/api_justin_documentation.pdf "PDF")
 
 [Openapi](http://openapi.justin.ua/ "OPENAPI")
 
@@ -610,13 +610,25 @@ print_r(
 
     $justin->createSticker(
 
-        '877893', __DIR__ . '/' . time() . '.pdf', true
+        '877893', __DIR__ . '/' . time() . '.pdf', 1
+
+    )
+
+);
+
+print_r(
+
+    $justin->createSticker(
+
+        '877893', __DIR__ . '/' . time() . '.pdf', 2
 
     )
 
 );
 ```
-### Стикер имеет название или ФИО отправителя и получателя
+### Стикер имеет название или ФИО отправителя и получателя.
 ![Sticker1](https://github.com/martinjack/justin/blob/master/doc/sticker1.png?raw=true "Пример стикера заказа. Стикер имеет название или ФИО отправителя и получателя")
-### Стикер имеет имена отправителя и получателя
+### Стикер имеет имена отправителя и получателя.
 ![Sticker2](https://github.com/martinjack/justin/blob/master/doc/sticker2.png?raw=true "Пример стикера заказа. Стикер имеет имена отправителя и получателя")
+### Стикер имеет адрес получателя, если была оформлена доставка за адресом.
+![Sticker3](https://github.com/martinjack/justin/blob/master/doc/sticker3.png?raw=true "Пример стикера заказа.Стикер имеет адрес получателя, если была оформлена доставка за адресом")

@@ -11,7 +11,7 @@ PHP class to work with Justin API
 
 # Documentation
 
-[API documentation v6.0.1](https://justin.EN/api/api_justin_documentation.pdf "PDF")
+[API documentation](https://justin.ua/api/api_justin_documentation.pdf "PDF")
 
 [Openapi](http://openapi.justin.EN/ "OPENAPI")
 
@@ -610,7 +610,17 @@ print_r(
 
     $justin->createSticker(
 
-        '877893', __DIR__ . '/' . time() . '.pdf', true
+        '877893', __DIR__ . '/' . time() . '.pdf', 1
+
+    )
+
+);
+
+print_r(
+
+    $justin->createSticker(
+
+        '877893', __DIR__ . '/' . time() . '.pdf', 2
 
     )
 
@@ -620,3 +630,5 @@ print_r(
 ![Sticker1](https://github.com/martinjack/justin/blob/master/doc/sticker1.png?raw=true "Example sticker order. Sticker has name or FIO sender and receiver")
 ### Sticker has names sender and receiver
 ![Sticker2](https://github.com/martinjack/justin/blob/master/doc/sticker2.png?raw=true "Example sticker order. Sticker has names sender and receiver")
+### Sticker has address receiver, if delivery was made at the address
+![Sticker2](https://github.com/martinjack/justin/blob/master/doc/sticker3.png?raw=true "Example sticker order. Sticker has address receiver, if delivery was made at the address")

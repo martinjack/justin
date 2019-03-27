@@ -27,6 +27,19 @@ class Errors extends TransferException
     }
     /**
      *
+     * GET REQUEST DATA
+     *
+     * @return ARRAY
+     *
+     */
+    public function getRequest()
+    {
+
+        return $this->exception->getTrace()[0]['args'];
+
+    }
+    /**
+     *
      * GET RESPONSE MESSAGE
      *
      * @return STRING
@@ -48,19 +61,6 @@ class Errors extends TransferException
         }
 
         return $error;
-
-    }
-    /**
-     *
-     * GET REQUEST DATA
-     *
-     * @return ARRAY
-     *
-     */
-    public function getRequest()
-    {
-
-        return $this->exception->getTrace()[0]['args'];
 
     }
 

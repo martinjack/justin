@@ -285,11 +285,15 @@ interface iJustin
      *
      * @param STRING $path
      *
-     * @param BOOLEAN $type
+     * @param INTEGER $type
+     *
+     * @param BOOLEAN $version
+     *
+     * @throws JustinFileException
      *
      * @return BOOLEAN
      *
      */
-    public function createSticker($orderNumber, $path, $type = false);
+    public function createSticker($orderNumber, $path, $type = 0, $version = 'v1');
 
 }
