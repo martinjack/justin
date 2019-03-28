@@ -53,6 +53,8 @@ composer require jackmartin/justin
     * [listDepartmentsLang](https://github.com/martinjack/justin/blob/master/README.ua.md#listdepartmentslang)
 11. Отримати найближче відділення за адресою
     * [getNeartDepartment](https://github.com/martinjack/justin/blob/master/README.ua.md#getNeartDepartment)
+12. Відміна замовлення
+    * [cancelOrder](https://github.com/martinjack/justin#cancelorder)
 12. Отримати список статусів замовлення
     * [listStatuses](https://github.com/martinjack/justin/blob/master/README.ua.md#liststatuses)
 13. Отримати ключ торговця(senderID)
@@ -70,7 +72,7 @@ composer require jackmartin/justin
 
 # Приклади
 
-### __construct() ###
+### __construct()
 
 ```php
 use Justin\Justin;
@@ -80,7 +82,7 @@ include_once 'vendor/autoload.php';
 $justin = new Justin('UA', true, 'v2', 30, 30, 'UTC');
 ```
 
-### listRegions() ###
+### listRegions()
 
 ```php
 use Justin\Justin;
@@ -98,7 +100,7 @@ print_r(
 );
 ```
 
-### listAreasRegions() ###
+### listAreasRegions()
 
 ```php
 use Justin\Justin;
@@ -116,7 +118,7 @@ print_r(
 );
 ```
 
-### listCities() ###
+### listCities()
 
 ```php
 use Justin\Justin;
@@ -134,7 +136,7 @@ print_r(
 );
 ```
 
-### listCityRegion() ###
+### listCityRegion()
 
 ```php
 use Justin\Justin;
@@ -152,7 +154,7 @@ print_r(
 );
 ```
 
-### listStreetsCity() ###
+### listStreetsCity()
 
 ```php
 use Justin\Justin;
@@ -189,7 +191,7 @@ print_r(
 );
 ```
 
-### getBranch() ###
+### getBranch()
 
 ```php
 use Justin\Justin;
@@ -211,7 +213,7 @@ print_r(
 );
 ```
 
-### listDepartments() ####
+### listDepartments()#
 
 ```php
 use Justin\Justin;
@@ -229,7 +231,7 @@ print_r(
 );
 ```
 
-### listDepartmentsLang() ###
+### listDepartmentsLang()
 
 ```php
 use Justin\Justin;
@@ -247,7 +249,7 @@ print_r(
 );
 ```
 
-### getNeartDepartment() ###
+### getNeartDepartment()
 
 ```php
 
@@ -268,7 +270,27 @@ print_r(
 );
 ```
 
-### listStatuses() ###
+### cancelOrder()
+
+```php
+include_once 'vendor/autoload.php';
+
+use Justin\Justin;
+
+$justin = new Justin('UA', false);
+
+
+$justin->setKey('Ваш ключ API');
+
+print_r(
+
+    $justin->cancelOrder('Код замовлення')->getData()
+
+);
+
+```
+
+### listStatuses()
 
 ```php
 use Justin\Justin;
@@ -286,7 +308,7 @@ print_r(
 );
 ```
 
-### keySeller() ###
+### keySeller()
 
 ```php
 use Justin\Justin;
@@ -323,7 +345,7 @@ print_r(
 );
 ```
 
-### currentStatus() ###
+### currentStatus()
 
 ```php
 include_once 'vendor/autoload.php';
@@ -341,7 +363,7 @@ print_r(
 );
 ```
 
-### trackingHistory() ###
+### trackingHistory()
 
 ```php
 include_once 'vendor/autoload.php';
@@ -365,7 +387,7 @@ print_r(
 );
 ```
 
-### getStatusHistory() ###
+### getStatusHistory()
 
 ```php
 use Justin\Justin;
@@ -402,7 +424,7 @@ print_r(
 );
 ```
 
-### getStatusHistoryF() ###
+### getStatusHistoryF()
 
 ```php
 use Justin\Justin;
@@ -436,7 +458,7 @@ print_r(
 
 );
 ```
-### order() ###
+### order()
 
 #### Пример 1
 
@@ -489,7 +511,7 @@ $newOrder = $order
     ->requireDelivery(false)
     ->orderPay(true)
     ->comment('Тест заказ')
-    ->create();
+    ->createOrder();
 
 print_r(
 
@@ -514,7 +536,7 @@ $order = new Order('UA', true);
 
 $order->setKey('Ваш ключ');
 
-$newOrder = $order->create(
+$newOrder = $order->createOrder(
 
     [
         'number'                         => '123456',
@@ -585,7 +607,7 @@ print_r(
 );
 ```
 
-### createSticker() ###
+### createSticker()
 
 ```php
 use Justin\Justin;

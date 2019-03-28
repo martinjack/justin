@@ -3,12 +3,9 @@
 namespace Justin;
 
 use Exception;
-use GuzzleHttp\Exception\RequestException;
 use Justin\Contracts\iOrder;
 use Justin\Data;
-use Justin\Exceptions\JustinApiException;
-use Justin\Exceptions\JustinAuthException;
-use Justin\Exceptions\JustinHttpException;
+use Justin\Exceptions\JustinOrderException;
 
 /**
  *
@@ -17,17 +14,21 @@ use Justin\Exceptions\JustinHttpException;
  * @package Justin
  *
  */
-class Order extends Justin implements iOrder
+class Order extends Filter implements iOrder
 {
 
     /**
      *
-     * API
+     * ORDER API
      *
-     * @var STRING
+     * @var ARRAY
      *
      */
-    private $api = 'http://195.201.72.186/';
+    protected $orderApi = [
+
+        0 => 'http://195.201.72.186',
+
+    ];
     /**
      *
      * DATA ORDER
@@ -35,12 +36,26 @@ class Order extends Justin implements iOrder
      * @var ARRAY
      *
      */
-    private $data = [];
+    protected $dataOrder = [];
     /**
      *
-     * INIT CLASS
+     * CARGO LIST
      *
-     * @param STRING $language
+     * @var ARRAY
+     *
+     */
+    private $cargoList = [];
+    /**
+     *
+     * AMOUNT CARGO
+     *
+     * @var INTEGER
+     *
+     */
+    private $amountCargo = 0;
+    /**
+     *
+     * SET ORDER VERSION API
      *
      * @param BOOLEAN $sandbox
      *
@@ -49,190 +64,147 @@ class Order extends Justin implements iOrder
      * @return OBJECT
      *
      */
-    public function __construct($language = 'UA', $sandbox = false, $version = 'v2', $timeout = 60, $connect_timeout = 60, $timezone = 'UTC')
+    public function orderVersion($sandbox = false, $version = 'v1')
     {
 
-        parent::__construct(
+        if (!$sandbox) {
 
-            $language, $sandbox, $version, $timeout, $connect_timeout, $timezone
-
-        );
-
-        return $this
-            ->urlOrder()
-            ->orderVersion();
-
-    }
-    /**
-     *
-     * URL ORDER
-     *
-     * @return OBJECT
-     *
-     */
-    private function urlOrder()
-    {
-
-        if (!$this->sandbox) {
-
-            $this->api = $this->api . 'api_pms/hs/api/v1';
+            $this->orderApi[1] = "api_pms/hs/api/${version}";
 
         } else {
 
-            $this->api = $this->api . 'api_test/hs/api/v1';
+            $this->orderApi[1] = "api_pms_demo/hs/api/${version}";
 
         }
 
-        return $this;
-
-    }
-    /**
-     *
-     * SET ORDER VERSION API
-     *
-     * @param STRING $version
-     *
-     * @return OBJECT
-     *
-     */
-    public function orderVersion($version = 'v1')
-    {
-
-        $this->api = preg_replace('/api\/v\d.*/', "api/${version}/documents/orders", $this->api);
+        $this->orderApi[2] = 'documents/orders';
 
         return $this;
 
     }
     /**
      *
-     * CREATE ORDER
-     * СОЗДАНИЕ ЗАКАЗА НА ДОСТАВКУ
-     * СТВОРЕННЯ ЗАМОВЛЕННЯ НА ДОСТАВКУ
+     * CHECK FIELDS ORDER
      *
-     * @param ARRAY $data
+     * @throws JustinOrderException
      *
-     * @return ARRAY
+     * @return BOOLEAN
      *
      */
-    public function create($data = [])
+    protected function checkFieldsOrder()
     {
-        $response = [];
         ##
-        # SET DATA
-        if ($data) {
-
-            $this->data = $data;
-
-        }
-        $this->data = [
-
-            'api_key' => $this->key,
-
-            'data'    => $this->data,
-
-        ];
+        # CHECK COD TYPE
         #
-        try {
+        $error = null;
 
-            $request = $this->client->post(
+        switch (true) {
 
-                $this->api,
+            ##
+            # CHECK DELIVERY TYPE 1 - C2C
+            #
+            case (
 
-                [
+                    isset($this->dataOrderOrder['data']['cod_transfer_type'])
 
-                    'auth' => [
+                    &&
 
-                        $this->auth_login,
+                    !isset($this->dataOrderOrder['data']['delivery_type'])
 
-                        $this->auth_password,
+                ) ? true : false:
 
-                    ],
+                $error = 'Please add field "delivery_type or deliveryType()"';
 
-                    'body' => json_encode(
+                break;
+            case (
 
-                        $this->data
+                    isset($this->dataOrder['data']['delivery_type'])
 
-                    ),
+                    &&
 
-                ]
+                    $this->dataOrder['data']['delivery_type'] == 1
 
-            );
+                    &&
 
-            $response = json_decode(
+                    !isset($this->dataOrder['data']['cod_transfer_type'])
 
-                $request->getBody()->getContents(),
+                ) ? true : false:
 
-                true
+                $error = 'Please add field "cod_transfer_type or codType()"';
 
-            );
+                break;
+            ##
+            # CHECK COD CARD NUMBER
+            #
+            case (
 
-            if ($response['result'] == 'error') {
+                    isset($this->dataOrder['data']['cod_transfer_type'])
 
-                throw new JustinApiException(
+                    &&
 
-                    'Error API: ' . json_encode(
+                    $this->dataOrder['data']['cod_transfer_type'] == 1
 
-                        $response
+                    &&
 
-                    )
+                    !isset($this->dataOrder['data']['cod_card_number'])
 
-                );
+                ) ? true : false:
 
-            }
+                $error = 'Please add field "cod_card_number or cardNumber()"';
 
-        } catch (RequestException $exception) {
+                break;
+            #
+            case (
 
-            switch ($exception->getCode()) {
+                    isset($this->dataOrder['data']['pick_up_is_required'])
 
-                case 401:
+                    &&
 
-                    throw new JustinAuthException(
+                    !$this->dataOrder['data']['pick_up_is_required']
 
-                        'Unauthorized. Please check correct login or password(401)'
+                    &&
 
-                    );
+                    !isset($this->dataOrder['data']['sender_branch'])
 
-                    break;
-                case 502:
+                ) ? true : false:
 
-                    $error = 'Server response failed. Await!(502)';
+                $error = 'Please add field "sender_branch or senderBranchID()"';
 
-                    break;
-                default:
+            case (
 
-                    $error = $exception->getResponse()->getBody()->getContents();
+                    isset($this->dataOrder['data']['cargo_places_array'])
 
-                    if (!$error) {
+                ) ? true : false:
 
-                        $error = $exception->getMessage();
+                foreach ($this->dataOrder['data']['cargo_places_array'] as $key => $cargo) {
+
+                    if (!isset($cargo['marking'])) {
+
+                        $error = 'Please add field "marking". Cargo: ' . $key;
+
+                    } elseif (!isset($cargo['weight'])) {
+
+                        $error = 'Please add field "weight". Cargo: ' . $key;
 
                     }
 
-                    break;
+                }
 
-            }
+                break;
 
-            throw new JustinHttpException(
+        }
+
+        if ($error) {
+
+            throw new JustinOrderException(
 
                 $error
 
             );
 
-        } catch (Exception $exception) {
-
-            throw new JustinException(
-
-                $exception
-
-            );
-
         }
 
-        return new Data(
-
-            $response
-
-        );
+        return true;
 
     }
     /**
@@ -249,7 +221,7 @@ class Order extends Justin implements iOrder
     public function setNumber($number)
     {
 
-        $this->data['number'] = $number;
+        $this->dataOrder['number'] = $number;
 
         return $this;
 
@@ -273,11 +245,11 @@ class Order extends Justin implements iOrder
 
         if (!$format) {
 
-            $this->data['date'] = date('Ymd');
+            $this->dataOrder['date'] = date('Ymd');
 
         } else {
 
-            $this->data['date'] = date('Y-m-d');
+            $this->dataOrder['date'] = date('Y-m-d');
 
         }
 
@@ -298,7 +270,7 @@ class Order extends Justin implements iOrder
     public function senderCityID($cityID)
     {
 
-        $this->data['sender_city_id'] = $cityID;
+        $this->dataOrder['sender_city_id'] = $cityID;
 
         return $this;
 
@@ -317,7 +289,7 @@ class Order extends Justin implements iOrder
     public function sender($val)
     {
 
-        $this->data['sender_company'] = $val;
+        $this->dataOrder['sender_company'] = $val;
 
         return $this;
 
@@ -336,7 +308,7 @@ class Order extends Justin implements iOrder
     public function senderContact($contact)
     {
 
-        $this->data['sender_contact'] = $contact;
+        $this->dataOrder['sender_contact'] = $contact;
 
         return $this;
 
@@ -353,7 +325,7 @@ class Order extends Justin implements iOrder
     public function senderPhone($phone)
     {
 
-        $this->data['sender_phone'] = $phone;
+        $this->dataOrder['sender_phone'] = $phone;
 
         return $this;
 
@@ -370,7 +342,7 @@ class Order extends Justin implements iOrder
     public function senderBranchID($id)
     {
 
-        $this->data['sender_branch'] = $id;
+        $this->dataOrder['sender_branch'] = $id;
 
         return $this;
 
@@ -389,7 +361,7 @@ class Order extends Justin implements iOrder
     public function receiver($val)
     {
 
-        $this->data['receiver'] = $val;
+        $this->dataOrder['receiver'] = $val;
 
         return $this;
 
@@ -408,7 +380,7 @@ class Order extends Justin implements iOrder
     public function receiverContact($val)
     {
 
-        $this->data['receiver_contact'] = $val;
+        $this->dataOrder['receiver_contact'] = $val;
 
         return $this;
 
@@ -427,7 +399,7 @@ class Order extends Justin implements iOrder
     public function receiverPhone($phone)
     {
 
-        $this->data['receiver_phone'] = $phone;
+        $this->dataOrder['receiver_phone'] = $phone;
 
         return $this;
 
@@ -446,7 +418,7 @@ class Order extends Justin implements iOrder
     public function receiverBranchID($id)
     {
 
-        $this->data['branch'] = $id;
+        $this->dataOrder['branch'] = $id;
 
         return $this;
 
@@ -465,7 +437,7 @@ class Order extends Justin implements iOrder
     public function addressReceipt($address)
     {
 
-        $this->data['sender_pick_up_address'] = $address;
+        $this->dataOrder['sender_pick_up_address'] = $address;
 
         return $this;
 
@@ -484,7 +456,7 @@ class Order extends Justin implements iOrder
     public function requirePickup($pickup = false)
     {
 
-        $this->data['pick_up_is_required'] = $pickup;
+        $this->dataOrder['pick_up_is_required'] = $pickup;
 
         return $this;
 
@@ -503,11 +475,155 @@ class Order extends Justin implements iOrder
     public function countPlace($count)
     {
 
-        $this->data['count_cargo_places'] = $count;
+        $this->dataOrder['count_cargo_places'] = $count;
 
         return $this;
 
     }
+    /**
+     *
+     * SET ARRAY CARGO PLACE.
+     * МАССИВ ДАННЫХ ГРУЗОВЫХ МЕСТ. СОДЕРЖИТ МАРКИРОВКИ И ВГХ КАЖДОГО ВМ
+     * МАСИВ ДАНИХ ВАНТАЖНИХ МІСЦЬ. ЗБЕРІГАЄ МАРКУВАННЯ І ВГХ КОЖНОГО ВМ
+     *
+     * @param ARRAY $list
+     *
+     * @return OBJECT
+     *
+     */
+    public function cargoList($list = [])
+    {
+
+        if ($this->cargoList) {
+
+            $list = $this->cargoList;
+
+        }
+
+        $this->dataOrder['cargo_places_array'] = $list;
+
+        ##
+        # SET DEFAULT
+        #
+        $this->cargoList   = [];
+        $this->amountCargo = 0;
+        #
+        return $this;
+
+    }
+    /**
+     *
+     * SET CARGO MARKING
+     * КОД МАРКИРОВКИ ВМ
+     * КОД МАРКУВАННЯ ВМ
+     *
+     * @param STRING $marking
+     *
+     * @return OBJECT
+     *
+     */
+    public function cargoMarking($marking)
+    {
+
+        $this->cargoList[$this->amountCargo]['marking'] = $marking;
+
+        return $this;
+
+    }
+    /**
+     *
+     * SET CARGO WEIGHT
+     * ВЕС ВМ , кг
+     * ВАГА ВМ, кг
+     *
+     * @param STRING weight
+     *
+     * @return OBJECT
+     *
+     */
+    public function cargoWeight($weight)
+    {
+
+        $this->cargoList[$this->amountCargo]['weight'] = $weight;
+
+        return $this;
+
+    }
+    /**
+     *
+     * SET CARGO WIDTH
+     * ШИРИНА ВМ, см
+     * ШИРИНА ВМ, см
+     *
+     * @param STRING $width
+     *
+     * @return OBJECT
+     *
+     */
+    public function cargoWidth($width)
+    {
+
+        $this->cargoList[$this->amountCargo]['width'] = $width;
+
+        return $this;
+
+    }
+    /**
+     *
+     * SET CARGO HEIGHT
+     * ВЫСОТА ВМ, см
+     * ВИСОТА ВМ, см
+     *
+     * @param STRING $height
+     *
+     * @return OBJECT
+     *
+     */
+    public function cargoHeight($height)
+    {
+
+        $this->cargoList[$this->amountCargo]['height'] = $height;
+
+        return $this;
+
+    }
+    /**
+     *
+     * SET CARGO DEPTH
+     * ГЛУБИНА ВМ, см
+     * ГЛИБИНА ВМ, см
+     *
+     * @param STRING $depth
+     *
+     * @return OBJECT
+     *
+     */
+    public function cargoDepth($depth)
+    {
+
+        $this->cargoList[$this->amountCargo]['depth'] = $depth;
+
+        return $this;
+
+    }
+    /**
+     *
+     * ADD CARGO IN LIST
+     * ДОБАВИТЬ ГРУЗ В СПИСОК
+     * ДОДАТИ ВАНТАЖ ДО СПИСКУ
+     *
+     * @return OBJECT
+     *
+     */
+    public function addCargo()
+    {
+
+        $this->amountCargo += 1;
+
+        return $this;
+
+    }
+    //
     /**
      *
      * SET WEIGHT ORDER
@@ -522,7 +638,7 @@ class Order extends Justin implements iOrder
     public function weight($weight)
     {
 
-        $this->data['weight'] = $weight;
+        $this->dataOrder['weight'] = $weight;
 
         return $this;
 
@@ -543,7 +659,72 @@ class Order extends Justin implements iOrder
     public function volume($volume)
     {
 
-        $this->data['volume'] = $volume;
+        $this->dataOrder['volume'] = $volume;
+
+        return $this;
+
+    }
+    /**
+     *
+     * SET DELIVERY TYPE
+     * ТИП ЗАКАЗА
+     * ТИП ЗАМОВЛЕННЯ
+     *
+     * 0 - B2C
+     * 1 - C2C
+     * 2 - B2B
+     * 3 - C2B
+     *
+     * @param INTEGER $type
+     *
+     * @return OBJECT
+     *
+     */
+    public function deliveryType($type = 0)
+    {
+
+        $this->dataOrder['delivery_type'] = $type;
+
+        return $this;
+
+    }
+    /**
+     *
+     * SET COD TYPE
+     * ФОРМА ВЫДАЧИ COD
+     * ФОРМА ВИДАЧІ COD
+     *
+     * 0 - cast settlement   | наличных расчет    | готівковий розрахунок
+     * 1 - cashless payments | безналичный расчет | безготівковий розрахунок
+     *
+     * @param INTEGER $type
+     *
+     * @return OBJECT
+     *
+     */
+    public function codType($type)
+    {
+
+        $this->dataOrder['cod_transfer_type'] = $type;
+
+        return $this;
+
+    }
+    /**
+     *
+     * SET COD CARD NUMBER
+     * НОМЕР БАНКОВСКОЙ КАРТЫ ДЛЯ ВЫДАЧИ COD
+     * НОМЕР БАНКІВСЬКОЇ КАРТИ ДЛЯ ВИДАЧІ COD
+     *
+     * @param STRING $number
+     *
+     * @return OBJECT
+     *
+     */
+    public function cardNumber($number)
+    {
+
+        $this->dataOrder['cod_card_number'] = $number;
 
         return $this;
 
@@ -560,7 +741,7 @@ class Order extends Justin implements iOrder
     public function costDeclared($cost)
     {
 
-        $this->data['declared_cost'] = $cost;
+        $this->dataOrder['declared_cost'] = $cost;
 
         return $this;
 
@@ -582,7 +763,7 @@ class Order extends Justin implements iOrder
     public function deliveryAmount($amount = 0)
     {
 
-        $this->data['delivery_amount'] = $amount;
+        $this->dataOrder['delivery_amount'] = $amount;
 
         return $this;
 
@@ -601,7 +782,7 @@ class Order extends Justin implements iOrder
     public function deliveryPay($pay = false)
     {
 
-        $this->data['delivery_payment_is_required'] = $pay;
+        $this->dataOrder['delivery_payment_is_required'] = $pay;
 
         return $this;
 
@@ -623,7 +804,7 @@ class Order extends Justin implements iOrder
     public function deliveryPayer($payer = 0)
     {
 
-        $this->data['delivery_payment_payer'] = $payer;
+        $this->dataOrder['delivery_payment_payer'] = $payer;
 
         return $this;
 
@@ -642,7 +823,7 @@ class Order extends Justin implements iOrder
     public function requireDelivery($delivery = false)
     {
 
-        $this->data['delivery_is_required'] = $delivery;
+        $this->dataOrder['delivery_is_required'] = $delivery;
 
         return $this;
 
@@ -664,7 +845,7 @@ class Order extends Justin implements iOrder
     public function redeliveryAmount($amount)
     {
 
-        $this->data['redelivery_amount'] = $amount;
+        $this->dataOrder['redelivery_amount'] = $amount;
 
         return $this;
 
@@ -683,7 +864,7 @@ class Order extends Justin implements iOrder
     public function redeliveryPay($pay = false)
     {
 
-        $this->data['redelivery_payment_is_required'] = $pay;
+        $this->dataOrder['redelivery_payment_is_required'] = $pay;
 
         return $this;
 
@@ -706,7 +887,7 @@ class Order extends Justin implements iOrder
     public function redeliveryPayer($payer = 0)
     {
 
-        $this->data['redelivery_payment_payer'] = $payer;
+        $this->dataOrder['redelivery_payment_payer'] = $payer;
 
         return $this;
 
@@ -725,7 +906,7 @@ class Order extends Justin implements iOrder
     public function orderAmount($amount)
     {
 
-        $this->data['order_amount'] = $amount;
+        $this->dataOrder['order_amount'] = $amount;
 
         return $this;
 
@@ -744,7 +925,7 @@ class Order extends Justin implements iOrder
     public function orderPay($pay = false)
     {
 
-        $this->data['order_payment_is_required'] = $pay;
+        $this->dataOrder['order_payment_is_required'] = $pay;
 
         return $this;
 
@@ -763,7 +944,7 @@ class Order extends Justin implements iOrder
     public function comment($val)
     {
 
-        $this->data['add_description'] = $val;
+        $this->dataOrder['add_description'] = $val;
 
         return $this;
 

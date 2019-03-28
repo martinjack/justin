@@ -198,6 +198,34 @@ interface iJustin
     public function getNeartDepartment($address);
     /**
      *
+     * CREATE NEW ORDER
+     * СОЗДАТЬ НОВЫЙ ЗАКАЗ НА ДОСТАВКУ
+     * СТВОРИТИ НОВЕ ЗАМОВЛЕННЯ НА ДОСТАВКУ
+     *
+     * @param ARRAY $data
+     *
+     * @param STRING $version
+     *
+     * @return OBJECT
+     *
+     */
+    public function createOrder($data = [], $version = 'v1');
+    /**
+     *
+     * CANCEL ORDER
+     * ОТМЕНА ЗАКАЗА
+     * ВІДМІНА ЗАМОВЛЕННЯ
+     *
+     * @param STRING $number
+     *
+     * @param STRING $version
+     *
+     * @return OBJECT
+     *
+     */
+    public function cancelOrder($number, $version = 'v1');
+    /**
+     *
      * LIST STATUSES
      * СПИСОК СТАСУСОВ ЗАКАЗА
      * СПИСОК СТАТУСІВ ЗАМОВЛЕНЬ

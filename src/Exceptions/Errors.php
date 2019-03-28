@@ -35,7 +35,13 @@ class Errors extends TransferException
     public function getRequest()
     {
 
-        return $this->exception->getTrace()[0]['args'];
+        if (method_exists($this->exception, 'getTrace')) {
+
+            return $this->exception->getTrace()[0]['args'];
+
+        }
+
+        return null;
 
     }
     /**
@@ -52,7 +58,15 @@ class Errors extends TransferException
 
         if (is_object($this->exception)) {
 
-            $error = $this->exception->message;
+            if (property_exists($this->exception, 'exception')) {
+
+                $error = $this->exception->exception;
+
+            } elseif (property_exists($this->exception, 'message')) {
+
+                $error = $this->exception->message;
+
+            }
 
         } else {
 

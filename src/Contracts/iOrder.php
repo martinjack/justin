@@ -14,9 +14,7 @@ interface iOrder
 
     /**
      *
-     * INIT CLASS
-     *
-     * @param STRING $language
+     * SET ORDER VERSION API
      *
      * @param BOOLEAN $sandbox
      *
@@ -25,29 +23,7 @@ interface iOrder
      * @return OBJECT
      *
      */
-    public function __construct($language = 'UA', $sandbox = false, $version = 'v2', $timeout = 60, $connect_timeout = 60, $timezone = 'UTC');
-    /**
-     *
-     * SET ORDER VERSION API
-     *
-     * @param STRING $version
-     *
-     * @return OBJECT
-     *
-     */
-    public function orderVersion($version = 'v1');
-    /**
-     *
-     * CREATE ORDER
-     * СОЗДАНИЕ ЗАКАЗА НА ДОСТАВКУ
-     * СТВОРЕННЯ ЗАМОВЛЕННЯ НА ДОСТАВКУ
-     *
-     * @param ARRAY $data
-     *
-     * @return ARRAY
-     *
-     */
-    public function create($data = []);
+    public function orderVersion($sandbox = false, $version = 'v1');
     /**
      *
      * SET UNIQUE NUMBER
@@ -205,6 +181,88 @@ interface iOrder
     public function countPlace($count);
     /**
      *
+     * SET ARRAY CARGO PLACE
+     * МАССИВ ДАННЫХ ГРУЗОВЫХ МЕСТ. СОДЕРЖИТ МАРКИРОВКИ И ВГХ КАЖДОГО ВМ
+     * МАСИВ ДАНИХ ВАНТАЖНИХ МІСЦЬ. ЗБЕРІГАЄ МАРКУВАННЯ І ВГХ КОЖНОГО ВМ
+     *
+     * @param ARRAY $list
+     *
+     * @return OBJECT
+     *
+     */
+    public function cargoList($list = []);
+    /**
+     *
+     * SET CARGO MARKING
+     * КОД МАРКИРОВКИ ВМ
+     * КОД МАРКУВАННЯ ВМ
+     *
+     * @param STRING $marking
+     *
+     * @return OBJECT
+     *
+     */
+    public function cargoMarking($marking);
+    /**
+     *
+     * SET CARGO WEIGHT
+     * ВЕС ВМ , кг
+     * ВАГА ВМ, кг
+     *
+     * @param STRING weight
+     *
+     * @return OBJECT
+     *
+     */
+    public function cargoWeight($weight);
+    /**
+     *
+     * SET CARGO WIDTH
+     * ШИРИНА ВМ, см
+     * ШИРИНА ВМ, см
+     *
+     * @param STRING $width
+     *
+     * @return OBJECT
+     *
+     */
+    public function cargoWidth($width);
+    /**
+     *
+     * SET CARGO HEIGHT
+     * ВЫСОТА ВМ, см
+     * ВИСОТА ВМ, см
+     *
+     * @param STRING $height
+     *
+     * @return OBJECT
+     *
+     */
+    public function cargoHeight($height);
+    /**
+     *
+     * SET CARGO DEPTH
+     * ГЛУБИНА ВМ, см
+     * ГЛИБИНА ВМ, см
+     *
+     * @param STRING $depth
+     *
+     * @return OBJECT
+     *
+     */
+    public function cargoDepth($depth);
+    /**
+     *
+     * ADD CARGO IN LIST
+     * ДОБАВИТЬ ГРУЗ В СПИСОК
+     * ДОДАТИ ВАНТАЖ ДО СПИСКУ
+     *
+     * @return OBJECT
+     *
+     */
+    public function addCargo();
+    /**
+     *
      * SET RECEIVER BRANCH ID
      * УКАЗЫВАЕМ НОМЕР ОТДЕЛЕНИЯ ДОСТАВКИ
      * ВКАЗУЄМО НОМЕР ВІДДІЖЕННЯ ДОСТАВКИ
@@ -241,6 +299,50 @@ interface iOrder
      *
      */
     public function volume($volume);
+    /**
+     *
+     * SET DELIVERY TYPE
+     * ТИП ЗАКАЗА
+     * ТИП ЗАМОВЛЕННЯ
+     *
+     * 0 - B2C
+     * 1 - C2C
+     * 2 - B2B
+     * 3 - C2B
+     *
+     * @param INTEGER $type
+     *
+     * @return OBJECT
+     *
+     */
+    public function deliveryType($type);
+    /**
+     *
+     * SET COD TYPE
+     * ФОРМА ВЫДАЧИ COD
+     * ФОРМА ВИДАЧІ COD
+     *
+     * 0 - cast settlement   | наличных расчет    | готівковий розрахунок
+     * 1 - cashless payments | безналичный расчет | безготівковий розрахунок
+     *
+     * @param INTEGER $type
+     *
+     * @return OBJECT
+     *
+     */
+    public function codType($type);
+    /**
+     *
+     * SET COD CARD NUMBER
+     * НОМЕР БАНКОВСКОЙ КАРТЫ ДЛЯ ВЫДАЧИ COD
+     * НОМЕР БАНКІВСЬКОЇ КАРТИ ДЛЯ ВИДАЧІ COD
+     *
+     * @param STRING $number
+     *
+     * @return OBJECT
+     *
+     */
+    public function cardNumber($number);
     /**
      *
      * SET COST DECLARED

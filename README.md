@@ -53,24 +53,26 @@ composer require jackmartin/justin
     * [listDepartmentsLang](https://github.com/martinjack/justin#listdepartmentslang)
 11. Получить ближайшее отделение по адресу
     * [getNeartDepartment](https://github.com/martinjack/justin#getNeartDepartment)
-12. Получить список статусов заказа
+12. Отмена заказа
+    * [cancelOrder](https://github.com/martinjack/justin#cancelorder)
+13. Получить список статусов заказа
     * [listStatuses](https://github.com/martinjack/justin#liststatuses)
-13. Получить ключ торговца(senderID)
+14. Получить ключ торговца(senderID)
     * [keySeller](https://github.com/martinjack/justin#keyseller)
-14. Получить историю движения отправления
+15. Получить историю движения отправления
     * [trackingHistory](https://github.com/martinjack/justin#trackingHistory)
-15. Получить историю статусов заказа. Старый метод
+16. Получить историю статусов заказа. Старый метод
     * [getStatusHistory](https://github.com/martinjack/justin#getstatushistory)
-16. Получить историю статусов заказа.
+17. Получить историю статусов заказа.
     * [getStatusHistoryF](https://github.com/martinjack/justin#getstatushistoryf)
-17. Создать новый заказ(Отправление)
+18. Создать новый заказ(Отправление)
     * [Order](https://github.com/martinjack/justin#order)
-18. Создать стикер заказа
+19. Создать стикер заказа
     * [createSticker](https://github.com/martinjack/justin#createsticker)
 
 # Примеры
 
-### __construct() ###
+### __construct()
 
 ```php
 use Justin\Justin;
@@ -80,7 +82,7 @@ include_once 'vendor/autoload.php';
 $justin = new Justin('RU', true, 'v2', 30, 30, 'UTC');
 ```
 
-### listRegions() ###
+### listRegions()
 
 ```php
 use Justin\Justin;
@@ -98,7 +100,7 @@ print_r(
 );
 ```
 
-### listAreasRegions() ###
+### listAreasRegions()
 
 ```php
 use Justin\Justin;
@@ -116,7 +118,7 @@ print_r(
 );
 ```
 
-### listCities() ###
+### listCities()
 
 ```php
 use Justin\Justin;
@@ -134,7 +136,7 @@ print_r(
 );
 ```
 
-### listCityRegion() ###
+### listCityRegion()
 
 ```php
 use Justin\Justin;
@@ -152,7 +154,7 @@ print_r(
 );
 ```
 
-### listStreetsCity() ###
+### listStreetsCity()
 
 ```php
 use Justin\Justin;
@@ -189,7 +191,7 @@ print_r(
 );
 ```
 
-### getBranch() ###
+### getBranch()
 
 ```php
 use Justin\Justin;
@@ -211,7 +213,7 @@ print_r(
 );
 ```
 
-### listDepartments() ####
+### listDepartments()#
 
 ```php
 use Justin\Justin;
@@ -229,7 +231,7 @@ print_r(
 );
 ```
 
-### listDepartmentsLang() ###
+### listDepartmentsLang()
 
 ```php
 use Justin\Justin;
@@ -247,7 +249,7 @@ print_r(
 );
 ```
 
-### getNeartDepartment() ###
+### getNeartDepartment()
 
 ```php
 
@@ -268,7 +270,27 @@ print_r(
 );
 ```
 
-### listStatuses() ###
+### cancelOrder()
+
+```php
+include_once 'vendor/autoload.php';
+
+use Justin\Justin;
+
+$justin = new Justin('RU', false);
+
+
+$justin->setKey('Ваш ключ API');
+
+print_r(
+
+    $justin->cancelOrder('Код заказа')->getData()
+
+);
+
+```
+
+### listStatuses()
 
 ```php
 use Justin\Justin;
@@ -286,7 +308,7 @@ print_r(
 );
 ```
 
-### keySeller() ###
+### keySeller()
 
 ```php
 use Justin\Justin;
@@ -323,7 +345,7 @@ print_r(
 );
 ```
 
-### currentStatus() ###
+### currentStatus()
 
 ```php
 include_once 'vendor/autoload.php';
@@ -341,7 +363,7 @@ print_r(
 );
 ```
 
-### trackingHistory() ###
+### trackingHistory()
 
 ```php
 include_once 'vendor/autoload.php';
@@ -365,7 +387,7 @@ print_r(
 );
 ```
 
-### getStatusHistory() ###
+### getStatusHistory()
 
 ```php
 use Justin\Justin;
@@ -402,7 +424,7 @@ print_r(
 );
 ```
 
-### getStatusHistoryF() ###
+### getStatusHistoryF()
 
 ```php
 use Justin\Justin;
@@ -436,16 +458,16 @@ print_r(
 
 );
 ```
-### order() ###
+### order()
 
 #### Пример 1
 
 ```php
 include_once 'vendor/autoload.php';
 
-use Justin\Order;
+use Justin\Justin;
 
-$order = new Order('RU', true);
+$order = new Justin('RU', true);
 
 $order->setKey('Ваш ключ');
 
@@ -489,7 +511,7 @@ $newOrder = $order
     ->requireDelivery(false)
     ->orderPay(true)
     ->comment('Тест заказ')
-    ->create();
+    ->createOrder();
 
 print_r(
 
@@ -508,13 +530,13 @@ print_r(
 ```php
 include_once 'vendor/autoload.php';
 
-use Justin\Order;
+use Justin\Justin;
 
-$order = new Order('RU', true);
+$order = new Justin('RU', true);
 
 $order->setKey('Ваш ключ');
 
-$newOrder = $order->create(
+$newOrder = $order->createOrder(
 
     [
         'number'                         => '123456',
@@ -585,7 +607,7 @@ print_r(
 );
 ```
 
-### createSticker() ###
+### createSticker()
 
 ```php
 use Justin\Justin;

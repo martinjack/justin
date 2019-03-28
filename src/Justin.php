@@ -22,7 +22,7 @@ use Justin\Exceptions\JustinResponseException;
  * @package Justin
  *
  */
-class Justin extends Filter implements iJustin
+class Justin extends Order implements iJustin
 {
 
     /**
@@ -37,10 +37,14 @@ class Justin extends Filter implements iJustin
      *
      * API URL
      *
-     * @var STRING
+     * @var ARRAY
      *
      */
-    private $api = 'http://195.201.72.186/';
+    private $api = [
+
+        0 => 'http://195.201.72.186',
+
+    ];
     /**
      *
      * OPEN API URL
@@ -153,23 +157,25 @@ class Justin extends Filter implements iJustin
      *
      * SET SANDBOX
      *
-     * @param BOOLEAN
+     * @param BOOLEAN sandbox
+     *
+     * @param STRING $type
      *
      * @return OBJECT
      *
      */
-    private function setSandbox($sandbox)
+    private function setSandbox($sandbox, $type = 'justin_pms')
     {
 
         $this->sandbox = $sandbox;
 
         if ($sandbox) {
 
-            $this->api = $this->api . 'justin_pms_test/hs/';
+            $this->api[1] = "${type}_test/hs";
 
         } else {
 
-            $this->api = $this->api . 'justin_pms/hs/';
+            $this->api[1] = "${type}/hs";
 
         }
 
@@ -180,15 +186,17 @@ class Justin extends Filter implements iJustin
      *
      * SET VERSION
      *
-     * @param STRING
+     * @param STRING $version
+     *
+     * @param STRING $type
      *
      * @return OBJECT
      *
      */
-    private function setVersion($version = 'v2')
+    private function setVersion($version = 'v2', $type = 'runRequest')
     {
 
-        $this->api = $this->api . "${version}/runRequest";
+        $this->api[2] = "${version}/${type}";
 
         return $this;
 
@@ -371,7 +379,13 @@ class Justin extends Filter implements iJustin
 
                 $result = $this->client->post(
 
-                    $this->api,
+                    implode(
+
+                        '/',
+
+                        $this->api
+
+                    ),
 
                     [
 
@@ -418,6 +432,7 @@ class Justin extends Filter implements iJustin
                     # SET DEFAULT
                     $this->filter         = [];
                     $this->amount_filters = 0;
+                    $this->setVersion();
                     ##
                 } else {
 
@@ -778,6 +793,223 @@ class Justin extends Filter implements iJustin
     }
     /**
      *
+     * CREATE NEW ORDER
+     * СОЗДАТЬ НОВЫЙ ЗАКАЗ НА ДОСТАВКУ
+     * СТВОРИТИ НОВЕ ЗАМОВЛЕННЯ НА ДОСТАВКУ
+     *
+     * @param ARRAY $data
+     *
+     * @param STRING $version
+     *
+     * @return OBJECT
+     *
+     */
+    public function createOrder($data = [], $version = 'v1')
+    {
+
+        ##
+        $this->orderVersion(
+
+            $this->sandbox, $version
+
+        );
+        ##
+        $response = [];
+        ##
+        # SET DATA
+        #
+        if ($data) {
+
+            $this->dataOrder = $data;
+
+        }
+        $this->dataOrder = [
+
+            'api_key' => $this->key,
+
+            'data'    => $this->dataOrder,
+
+        ];
+        ##
+        # CHECK FIELDS
+        #
+        if ($this->checkFieldsOrder()) {
+
+            try {
+
+                $request = $this->client->post(
+
+                    implode(
+
+                        '/',
+
+                        $this->orderApi
+
+                    ),
+
+                    [
+
+                        'auth' => [
+
+                            $this->auth_login,
+
+                            $this->auth_password,
+
+                        ],
+
+                        'body' => json_encode(
+
+                            $this->dataOrder
+
+                        ),
+
+                    ]
+
+                );
+
+                $response = json_decode(
+
+                    $request->getBody()->getContents(),
+
+                    true
+
+                );
+
+                if ($response['result'] == 'error') {
+
+                    throw new JustinApiException(
+
+                        'Error API: ' . json_encode(
+
+                            $response
+
+                        )
+
+                    );
+
+                }
+                ##
+                # SET DEFAULT
+                #
+                $this->dataOrder = [];
+                #
+
+            } catch (RequestException $exception) {
+
+                switch ($exception->getCode()) {
+
+                    case 401:
+
+                        throw new JustinAuthException(
+
+                            'Unauthorized. Please check correct login or password(401)'
+
+                        );
+
+                        break;
+                    case 502:
+
+                        $error = 'Server response failed. Await!(502)';
+
+                        break;
+                    default:
+
+                        $error = $exception->getResponse()->getBody()->getContents();
+
+                        if (!$error) {
+
+                            $error = $exception->getMessage();
+
+                        }
+
+                        break;
+
+                }
+
+                throw new JustinHttpException(
+
+                    $error
+
+                );
+
+            } catch (Exception $exception) {
+
+                throw new JustinResponseException(
+
+                    $exception
+
+                );
+
+            }
+
+        } else {
+
+            $response = [];
+
+        }
+
+        return new Data(
+
+            $response
+
+        );
+
+    }
+    /**
+     *
+     * CANCEL ORDER
+     * ОТМЕНА ЗАКАЗА
+     * ВІДМІНА ЗАМОВЛЕННЯ
+     *
+     * @param STRING $number
+     *
+     * @param STRING $version
+     *
+     * @return OBJECT
+     *
+     */
+    public function cancelOrder($number, $version = 'v1')
+    {
+
+        ##
+        # SET URL API
+        #
+        $this->setSandbox(
+
+            $this->sandbox,
+
+            'api_pms'
+
+        );
+
+        $this->setVersion(
+
+            "api/${version}",
+
+            'documents/orders_cancel'
+
+        );
+        #
+        return new Data(
+
+            $this->request(
+
+                '', '', '',
+                [
+
+                    'api_key' => $this->key,
+
+                    'number'  => $number,
+
+                ]
+
+            )
+
+        );
+
+    }
+    /**
+     *
      * LIST STATUSES
      * СПИСОК СТАСУСОВ ЗАКАЗА
      * СПИСОК СТАТУСІВ ЗАМОВЛЕНЬ
@@ -1054,14 +1286,13 @@ class Justin extends Filter implements iJustin
             #
             if ($this->sandbox) {
 
-                $space = 'api_pms_preprod';
+                $space = 'api_pms_demo';
 
             } else {
 
                 $space = 'pms';
 
             }
-
             ##
             # SAVE PDF
             #
@@ -1070,6 +1301,14 @@ class Justin extends Filter implements iJustin
                 "http://195.201.72.186/${space}/hs/api/{$version}/{$type}/order?order_number={$orderNumber}&api_key=" . $this->key,
 
                 [
+
+                    'auth'               => [
+
+                        $this->auth_login,
+
+                        $this->auth_password,
+
+                    ],
 
                     RequestOptions::SINK => $sticker,
 
