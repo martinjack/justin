@@ -66,7 +66,7 @@ composer require jackmartin/justin
 17. Get story statuses order.
     * [getStatusHistoryF](https://github.com/martinjack/justin/blob/master/README.en.md#getstatushistoryf)
 18. Create new order(Departure)
-    * [createOrder](https://github.com/martinjack/justi/blob/master/README.en.mdn#order)
+    * [createOrder](https://github.com/martinjack/justi/blob/master/README.en.mdn#createOrder)
 19. Create sticker order
     * [createSticker](https://github.com/martinjack/justin/blob/master/README.en.md#createsticker)
 
@@ -458,7 +458,7 @@ print_r(
 
 );
 ```
-### order()
+### createOrder()
 
 #### Пример 1
 

@@ -66,7 +66,7 @@ composer require jackmartin/justin
 17. Получить историю статусов заказа.
     * [getStatusHistoryF](https://github.com/martinjack/justin#getstatushistoryf)
 18. Создать новый заказ(Отправление)
-    * [createOrder](https://github.com/martinjack/justin#order)
+    * [createOrder](https://github.com/martinjack/justin#createOrder)
 19. Создать стикер заказа
     * [createSticker](https://github.com/martinjack/justin#createsticker)
 
@@ -458,7 +458,7 @@ print_r(
 
 );
 ```
-### order()
+### createOrder()
 
 #### Пример 1
 
