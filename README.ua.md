@@ -38,7 +38,7 @@ composer require jackmartin/justin
 3. Отримати список областей
     * [listRegions](https://github.com/martinjack/justin/blob/master/README.ua.md#listregions)
 4. Отримати список обласних районів
-    * [listAreasRegions](https://github.com/martinjack/justin/blob/master/README.ua.md#listareasregions)
+    * [listAreasRegion](https://github.com/martinjack/justin/blob/master/README.ua.md#listareasregion)
 5. Отримати список населених пунктів
     * [listCities](https://github.com/martinjack/justin/blob/master/README.ua.md#listcities)
 6. Отримати список районів населених пунктів
@@ -82,6 +82,24 @@ include_once 'vendor/autoload.php';
 $justin = new Justin('UA', true, 'v2', 30, 30, 'UTC');
 ```
 
+### currentStatus()
+
+```php
+include_once 'vendor/autoload.php';
+
+use Justin\Justin;
+
+$justin = new Justin('UA', true);
+
+$justin->setLogin('Ваш логін')->setPassword('Ваш пароль');
+
+print_r(
+
+    $justin->currentStatus('201971185')->getData()
+
+);
+```
+
 ### listRegions()
 
 ```php
@@ -100,7 +118,7 @@ print_r(
 );
 ```
 
-### listAreasRegions()
+### listAreasRegion()
 
 ```php
 use Justin\Justin;
@@ -213,7 +231,7 @@ print_r(
 );
 ```
 
-### listDepartments()#
+### listDepartments()
 
 ```php
 use Justin\Justin;
@@ -341,24 +359,6 @@ print_r(
     
     // $justin->name('login')->leftValue('test')->equal()->keySeller()
     // $justin->name('login')->equal('test')->keySeller()
-
-);
-```
-
-### currentStatus()
-
-```php
-include_once 'vendor/autoload.php';
-
-use Justin\Justin;
-
-$justin = new Justin('UA', true);
-
-$justin->setLogin('Ваш логін')->setPassword('Ваш пароль');
-
-print_r(
-
-    $justin->currentStatus('201971185')->getData()
 
 );
 ```

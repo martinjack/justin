@@ -38,7 +38,7 @@ composer require jackmartin/justin
 3. Get list regions.
     * [listRegions](https://github.com/martinjack/justin/blob/master/README.en.md#listregions)
 4. Get list regional areas.
-    * [listAreasRegions](https://github.com/martinjack/justin/blob/master/README.en.md#listareasregions)
+    * [listAreasRegion](https://github.com/martinjack/justin/blob/master/README.en.md#listareasregion)
 5. Get list settlements.
     * [listCities](https://github.com/martinjack/justin/blob/master/README.en.md#listcities)
 6. Get list areas of settlements
@@ -82,6 +82,24 @@ include_once 'vendor/autoload.php';
 $justin = new Justin('EN', true, 'v2', 30, 30, 'UTC');
 ```
 
+### currentStatus()
+
+```php
+include_once 'vendor/autoload.php';
+
+use Justin\Justin;
+
+$justin = new Justin('EN', true);
+
+$justin->setLogin('Your login')->setPassword('Your password');
+
+print_r(
+
+    $justin->currentStatus('201971185')->getData()
+
+);
+```
+
 ### listRegions()
 
 ```php
@@ -100,7 +118,7 @@ print_r(
 );
 ```
 
-### listAreasRegions()
+### listAreasRegion()
 
 ```php
 use Justin\Justin;
@@ -213,7 +231,7 @@ print_r(
 );
 ```
 
-### listDepartments()#
+### listDepartments()
 
 ```php
 use Justin\Justin;
@@ -341,24 +359,6 @@ print_r(
     
     // $justin->name('login')->leftValue('test')->equal()->keySeller()
     // $justin->name('login')->equal('test')->keySeller()
-
-);
-```
-
-### currentStatus()
-
-```php
-include_once 'vendor/autoload.php';
-
-use Justin\Justin;
-
-$justin = new Justin('EN', true);
-
-$justin->setLogin('Your login')->setPassword('Your password');
-
-print_r(
-
-    $justin->currentStatus('201971185')->getData()
 
 );
 ```

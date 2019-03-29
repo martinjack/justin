@@ -346,36 +346,38 @@ class Justin extends Order implements iJustin
     {
 
         $response = [];
-        ##
-        # SET FIELDS
-        #
-        $body = json_encode(
-
-            array_merge(
-
-                [
-
-                    'keyAccount' => $this->login,
-
-                    'sign'       => $this->password,
-
-                    'request'    => $request,
-
-                    'type'       => $type,
-
-                    'name'       => $method,
-
-                ],
-
-                $data
-
-            )
-
-        );
         #
         try {
 
             if ($query == 'post') {
+
+                ##
+                # SET FIELDS
+                #
+                $body = json_encode(
+
+                    array_merge(
+
+                        [
+
+                            'keyAccount' => $this->login,
+
+                            'sign'       => $this->password,
+
+                            'request'    => $request,
+
+                            'type'       => $type,
+
+                            'name'       => $method,
+
+                        ],
+
+                        $data
+
+                    )
+
+                );
+                #
 
                 $result = $this->client->post(
 
@@ -430,10 +432,11 @@ class Justin extends Order implements iJustin
 
                     ##
                     # SET DEFAULT
+                    #
                     $this->filter         = [];
                     $this->amount_filters = 0;
                     $this->setVersion();
-                    ##
+                    #
                 } else {
 
                     throw new JustinApiException(
