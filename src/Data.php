@@ -365,8 +365,14 @@ class Data implements iData
 
         ##
         # LAST ITEM
-        $list = $this->last ? end($list) : $list;
         #
+        if (is_array($list)) {
+
+            $list = $this->last ? end($list) : $list;
+
+        }
+        #
+
         return $list;
 
     }
