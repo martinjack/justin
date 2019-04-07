@@ -3,9 +3,11 @@
     "type": "library",
     "description": "Library Justin API",
     "keywords": [
-        "rest",
         "api",
-        "library"
+        "library",
+        "delivery",
+        "justin",
+        "justin api"
     ],
     "homepage": "https://github.com/martinjack/justin",
     "license": "MIT",
