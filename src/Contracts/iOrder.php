@@ -123,16 +123,16 @@ interface iOrder
     public function senderPhone($phone);
     /**
      *
-     * SET ADDRESS RECEIPT
-     * УКАЗЫВАЕМ АДРЕС ПОЛУЧАТЕЛЯ ЗАКАЗА
-     * ВКАЗУЄМО АДРЕСУ ОТРИМУВАЧА ЗАМОВЛЕННЯ
+     * SET ADDRESS PICKUP ORDER
+     * УКАЗЫВАЕМ, АДРЕС ПОЛУЧЕНИЯ (ЗАБОРА) ЗАКАЗА
+     * ВКАЗУЄМО, АДРЕСУ ОТРИМАННЯ (ЗАБОРУ) ЗАМОВЛЕННЯ
      *
      * @param STRING $address
      *
      * @return OBJECT
      *
      */
-    public function addressReceipt($address);
+    public function addressPickup($address);
     /**
      *
      * SET REQUIRE PICK UP ORDER

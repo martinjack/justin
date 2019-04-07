@@ -70,6 +70,15 @@ composer require jackmartin/justin
 19. Create sticker order
     * [createSticker](https://github.com/martinjack/justin/blob/master/README.en.md#createsticker)
 
+# Tests
+Check available server API, as well all methods.
+```ssh
+composer install
+key=Your key API login=Your login password=Your password ./phpunit
+```
+## Example successful passing of tests
+![tests](https://github.com/martinjack/justin/blob/master/doc/tests.png?raw=true)
+
 # Examples
 
 ### __construct()
@@ -482,7 +491,7 @@ $newOrder = $order
     ->sender('ТОП ПРОДАЦЕЦ')
     ->senderContact('Иванов Иван')
     ->senderPhone('380524152299')
-    ->addressReceipt('ул. Груша. 7')
+    ->addressPickup('ул. Груша. 7')
     ->requirePickup(true)
     ->senderBranchID(
 

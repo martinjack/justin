@@ -70,6 +70,15 @@ composer require jackmartin/justin
 19. Создать стикер заказа
     * [createSticker](https://github.com/martinjack/justin#createsticker)
 
+# Тесты
+Проверка доступности сервера API , а также всех методов.
+```ssh
+composer install
+key=Ваш ключ API login=Ваш логин password=Ваш пароль ./phpunit
+```
+## Пример удачного прохождение тестов
+![tests](https://github.com/martinjack/justin/blob/master/doc/tests.png?raw=true)
+
 # Примеры
 
 ### __construct()
@@ -482,7 +491,7 @@ $newOrder = $order
     ->sender('ТОП ПРОДАЦЕЦ')
     ->senderContact('Иванов Иван')
     ->senderPhone('380524152299')
-    ->addressReceipt('ул. Груша. 7')
+    ->addressPickup('ул. Груша. 7')
     ->requirePickup(true)
     ->senderBranchID(
 
@@ -499,7 +508,7 @@ $newOrder = $order
 
     )
     ->volume('0.02')
-    ->weight('100')
+    ->weight('10')
     ->costDeclared(1500)
     ->deliveryAmount(0)
     ->redeliveryAmount(1500)

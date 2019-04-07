@@ -425,16 +425,16 @@ class Order extends Filter implements iOrder
     }
     /**
      *
-     * SET ADDRESS RECEIPT
-     * УКАЗЫВАЕМ АДРЕС ПОЛУЧАТЕЛЯ ЗАКАЗА
-     * ВКАЗУЄМО АДРЕСУ ОТРИМУВАЧА ЗАМОВЛЕННЯ
+     * SET ADDRESS PICKUP ORDER
+     * УКАЗЫВАЕМ, АДРЕС ПОЛУЧЕНИЯ (ЗАБОРА) ЗАКАЗА
+     * ВКАЗУЄМО, АДРЕСУ ОТРИМАННЯ (ЗАБОРУ) ЗАМОВЛЕННЯ
      *
      * @param STRING $address
      *
      * @return OBJECT
      *
      */
-    public function addressReceipt($address)
+    public function addressPickup($address)
     {
 
         $this->dataOrder['sender_pick_up_address'] = $address;

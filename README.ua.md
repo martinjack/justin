@@ -70,6 +70,15 @@ composer require jackmartin/justin
 18. Створити стікер замовлення
     * [createSticker](https://github.com/martinjack/justin/blob/master/README.ua.md#createsticker)
 
+# Тести
+Перевірка доступності сервера API, а також всіх методів.
+```ssh
+composer install
+key=Ваш ключ API login=Ваш логин password=Ваш пароль ./phpunit
+```
+## Приклад вдалого проходження тестів
+![tests](https://github.com/martinjack/justin/blob/master/doc/tests.png?raw=true)
+
 # Приклади
 
 ### __construct()
@@ -482,7 +491,7 @@ $newOrder = $order
     ->sender('ТОП ПРОДАЦЕЦ')
     ->senderContact('Иванов Иван')
     ->senderPhone('380524152299')
-    ->addressReceipt('ул. Груша. 7')
+    ->addressPickup('ул. Груша. 7')
     ->requirePickup(true)
     ->senderBranchID(
 
