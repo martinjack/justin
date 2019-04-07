@@ -6,7 +6,7 @@ namespace Justin\Contracts;
  *
  * Interface iData
  *
- * @package Justin
+ * @package Justin\Contracts
  *
  */
 interface iData

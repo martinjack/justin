@@ -6,7 +6,7 @@ namespace Justin\Contracts;
  *
  * Interface iFilter
  *
- * @package Justin
+ * @package Justin\Contracts
  *
  */
 interface iFilter

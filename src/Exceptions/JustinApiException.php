@@ -6,7 +6,7 @@ namespace Justin\Exceptions;
  *
  * Class JustinApiException
  *
- * @package Justin
+ * @package Justin\Exceptions
  *
  */
 class JustinApiException extends Errors

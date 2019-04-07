@@ -8,7 +8,7 @@ use Justin\Justin;
  *
  * Interface iJustin
  *
- * @package Justin
+ * @package Justin\Contracts
  *
  */
 interface iJustin

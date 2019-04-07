@@ -6,7 +6,7 @@ namespace Justin\Exceptions;
  *
  * Class Errors
  *
- * @package Justin
+ * @package Justin\Exceptions
  *
  */
 class Errors extends TransferException

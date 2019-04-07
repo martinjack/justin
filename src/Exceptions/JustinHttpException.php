@@ -6,7 +6,7 @@ namespace Justin\Exceptions;
  *
  * Class JustinHttpException
  *
- * @package Justin
+ * @package Justin\Exceptions
  *
  */
 class JustinHttpException extends Errors

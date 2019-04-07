@@ -6,7 +6,7 @@ namespace Justin\Exceptions;
  *
  * Class JustinOrderException
  *
- * @package Justin
+ * @package Justin\Exceptions
  *
  */
 class JustinOrderException extends Errors

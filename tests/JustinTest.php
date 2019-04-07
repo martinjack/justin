@@ -7,15 +7,46 @@ use Justin\Data;
 use Justin\Justin;
 use PHPUnit\Framework\TestCase;
 
+/**
+ *
+ * Class JustinTest
+ *
+ * @package Justin\Tests
+ *
+ */
 final class JustinTest extends TestCase
 {
-
+    /**
+     *
+     * KEY
+     *
+     * @var STRING
+     *
+     */
     private static $key = '';
-
+    /**
+     *
+     * LOGIN
+     *
+     * @var STRING
+     *
+     */
     private static $login = 'Exchange';
-
+    /**
+     *
+     * PASSWORD
+     *
+     * @var STRING
+     *
+     */
     private static $password = 'Exchange';
-
+    /**
+     *
+     * JUSTIN
+     *
+     * @var OBJECT
+     *
+     */
     private $justin = null;
     /**
      *

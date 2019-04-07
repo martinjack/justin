@@ -10,6 +10,9 @@ namespace Justin\Exceptions;
  * @method int getLine()
  * @method array getTrace()
  * @method string getTraceAsString()
+ *
+ * @package Justin\Exceptions
+ *
  */
 interface JustinException
 {
