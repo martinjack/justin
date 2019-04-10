@@ -853,7 +853,7 @@ final class MethodsTest extends TestCase
 
             $this->justin->createSticker(
 
-                '877893', $pdf
+                '877893', false, $pdf
 
             )
 
