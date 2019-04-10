@@ -738,12 +738,11 @@ print_r(
 
     $justin->createSticker(
 
-        '877893', __DIR__ . '/' . time() . '.pdf', true
+        '877893', true
 
     )
 
 );
-
 ```
 ### Sticker has name or FIO sender and receiver
 ![Sticker1](https://github.com/martinjack/justin/blob/master/doc/sticker1.png?raw=true "Example sticker order. Sticker has name or FIO sender and receiver")

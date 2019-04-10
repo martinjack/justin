@@ -737,7 +737,7 @@ print_r(
 
     $justin->createSticker(
 
-        '877893', __DIR__ . '/' . time() . '.pdf', true
+        '877893', true
 
     )
 
