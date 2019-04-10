@@ -377,9 +377,9 @@ interface iJustin
      *
      * @param INTEGER $orderNumber
      *
-     * @param STRING $path
-     *
      * @param BOOLEAN $show
+     *
+     * @param STRING $path
      *
      * @param INTEGER $type
      *
@@ -390,5 +390,5 @@ interface iJustin
      * @return BOOLEAN
      *
      */
-    public function createSticker($orderNumber, $path, $show = false, $type = 0, $version = 'v1');
+    public function createSticker($orderNumber, $show = false, $path = null, $type = 0, $version = 'v1');
 }

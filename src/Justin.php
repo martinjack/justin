@@ -1439,9 +1439,9 @@ class Justin extends Order implements iJustin
      *
      * @param INTEGER $orderNumber
      *
-     * @param STRING $path
-     *
      * @param BOOLEAN $show
+     *
+     * @param STRING $path
      *
      * @param BOOLEAN $type
      *
@@ -1452,7 +1452,7 @@ class Justin extends Order implements iJustin
      * @return BOOLEAN
      *
      */
-    public function createSticker($orderNumber, $path, $show = false, $type = 0, $version = 'v1')
+    public function createSticker($orderNumber, $show = false, $path = null, $type = 0, $version = 'v1')
     {
         ##
         # GET TYPE
@@ -1476,16 +1476,6 @@ class Justin extends Order implements iJustin
 
         }
         #
-        if (!$path) {
-
-            throw new JustinFileException(
-
-                'Failed. Check path save!'
-
-            );
-
-        }
-
         try {
 
             ##
@@ -1504,6 +1494,16 @@ class Justin extends Order implements iJustin
             $url = "http://195.201.72.186/${space}/hs/api/${version}/${type}/order?order_number=${orderNumber}&api_key=" . $this->key;
 
             if (!$show) {
+
+                if (!$path) {
+
+                    throw new JustinFileException(
+
+                        'Failed. Check path save!'
+
+                    );
+
+                }
 
                 $sticker = fopen($path, 'w+');
 
