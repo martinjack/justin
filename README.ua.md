@@ -5,7 +5,7 @@
 
 PHP клас для роботи з API [Justin](https://justin.ua) 
 
-> Read this in other language: [English](README.ua.md), [Русский](README.md), [Український](README.ua.md)
+> Read this in other language: [English](README.en.md), [Русский](README.md), [Український](README.ua.md)
 
 > [Wiki - Опис роботи бібліотеки](https://github.com/martinjack/justin/wiki)
 
