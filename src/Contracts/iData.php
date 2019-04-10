@@ -365,7 +365,7 @@ interface iData
      * @return STRING | ARRAY | NULL
      *
      */
-    public function getType();
+    public function type();
     /**
      *
      * GET BRANCH ID
@@ -375,7 +375,7 @@ interface iData
      * @return INTEGER | ARRAY | NULL
      *
      */
-    public function getBranchID();
+    public function branchID();
     /**
      *
      * GET ADDRESS
@@ -613,10 +613,12 @@ interface iData
      * ПОЛУЧИТЬ НОМЕР
      * ОТРИМАТИ НОМЕР
      *
-     * @return STRING
+     * @param STRING $field
+     *
+     * @return STRING | NULL
      *
      */
-    public function number();
+    public function number($field = '');
     /**
      *
      * GET DATE
@@ -725,4 +727,441 @@ interface iData
      *
      */
     public function distance();
+    /**
+     * GET SHORT NAME
+     * ПОЛУЧИТЬ КОРОТКОЕ НАЗВАНИЕ
+     * ОТРИМАТИ КОРОТКЕ НАЗВУ
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function shortName();
+    /**
+     *
+     * GET DATA
+     * ПОЛУЧИТЬ ДАТУ
+     * ОТРИМАТИ ДАТУ
+     *
+     * @param BOOLEAN $parse
+     *
+     * @param BOOLEAN $timestamp
+     *
+     * @param INTEGER $type
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function data($parse = false, $timestamp = true, $type = 0);
+    /**
+     *
+     * GET BEGINNING WORK
+     * ПОЛУЧИТЬ ВРЕМЯ НАЧАЛО РАБОЧЕГО ДНЯ
+     * ОТРИМАТИ ЧАС ПОЧАТКУ РОБОЧОГО ДНЯ
+     *
+     * @param BOOLEAN $parse
+     *
+     * @param BOOLEAN $timestamp
+     *
+     * @param INTEGER $type
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function startWork($parse = false, $timestamp = true, $type = 0);
+    /**
+     *
+     * GET END WORK
+     * ПОЛУЧИТЬ ВРЕМЯ ОКОНЧАНИЯ РАБОЧЕГО ДНЯ
+     * ОТРИМАТИ ЧАС ЗАКІЧЕННЯ РОБОЧЕГО ДНЯ
+     *
+     * @param BOOLEAN $parse
+     *
+     * @param BOOLEAN $timestamp
+     *
+     * @param INTEGER $type
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function endWork($parse = false, $timestamp = true, $type = 0);
+    /**
+     *
+     * GET WORKING DAY
+     * ПОЛУЧИТЬ СТАТУС РАБОЧЕГО ДНЯ
+     * ОТРИМАТИ СТАТУС РОБОЧОГО ДНЯ
+     *
+     * @return BOOLEAN | ARRAY | NULL
+     *
+     */
+    public function workDay();
+    /**
+     *
+     * GET NUMBER EN
+     * ПОЛУЧИТЬ НОМЕР ЗАКАЗА С PMS СИСТЕМЫ
+     * ОТРИМАТИ НОМЕР ЗАМОВЛЕННЯ З PMS СИСТЕМИ
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function numberEN();
+    /**
+     *
+     * GET NUMBER KIS
+     * ПОЛУЧИТЬ НОМЕР ЗАКАЗА С СИСТЕМЫ ПРОДАВЦА
+     * ОТРИМАТИ НОМЕР ЗАМОВЛЕННЯ З СИСТЕМИ ТОРГОВЦЯ
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function numberKIS();
+    /**
+     *
+     * GET NUMBER TTN
+     * ПОЛУЧИТЬ НОМЕР ТТН ЗАКАЗА
+     * ОТРИМАТИ НОМЕР ТТН ЗАМОВЛЕННЯ
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function numberTTN();
+    /**
+     *
+     * GET SENDER
+     * ПОЛУЧИТЬ ОТПРАВИТЕЛЯ
+     * ОТРИМАТИ ВІДПРАВНИКА
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function sender();
+    /**
+     *
+     * GET RECEIVER
+     * ПОЛУЧИТЬ ПОЛУЧАТЕЛЯ
+     * ОТРИМАТИ ОТРИМУВАЧА
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function receiver();
+    /**
+     *
+     * GET PHONE SENDER
+     * ПОЛУЧИТЬ ТЕЛЕФОН ОТПРАВИТЕЛЯ
+     * ОТРИМАТИ ТЕЛЕФОН ВІДПРАВНИКА
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function phoneSender();
+    /**
+     *
+     * GET PHONE RECEIVER
+     * ПОЛУЧИТЬ ТЕЛЕФОН ПОЛУЧАТЕЛЯ
+     * ОТРИМАТИ ТЕЛЕФОН ОТРИМУВАЧА
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function phoneReceiver();
+    /**
+     *
+     * GET DATE STATUS
+     * ПОЛУЧИТЬ ДАТУ СТАТУСА
+     * ОТРИМАТИ ДАТУ СТАТУСУ
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function dateStatus();
+    /**
+     *
+     * GET STATUS UUID
+     * ПОЛУЧИТЬ UUID СТАТУСА
+     * ОТРИМАТИ UUID СТАТУСА
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function statusUUID();
+    /**
+     *
+     * GET SENDER CITY ID
+     * ПОЛУЧИТЬ ID ГОРОДА ОТПРАВИТЕЛЯ
+     * ОТРИМАТИ ID МІСТА ВІДПРАВНИКА
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function senderCity();
+    /**
+     *
+     * GET SENDER COMPANY
+     * ПОЛУЧИТЬ НАЗВАНИЕ / ФИО ОТПРАВИТЕЛЯ
+     * ОТПРИМАТИ НАЗВУ / ПІП ВІДПРАВНИКА
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function senderCompany();
+    /**
+     *
+     * GET SENDER CONTACT
+     * ПОЛУЧИТЬ ФИО ОТПРАВИТЕЛЯ
+     * ОТРИМАТИ ПІП ВІДПРАВНИКА
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function senderContact();
+    /**
+     *
+     * GET ADDRESS SENDER ORDER
+     * ПОЛУЧИТЬ АДРЕС ЗАБОРА ЗАКАЗА
+     * ОТПРИМАТИ АДРЕСУ ЗАБОРУ ЗАМОВЛЕННЯ
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function addressPickup();
+    /**
+     *
+     * GET STATUS PICKUP ORDER
+     * ПОЛУЧИТЬ СТАТУС ЗАБОРА
+     * ОТРИМАТИ СТАТУС ЗАБОРУ
+     *
+     * @return BOOLEAN | NULL
+     *
+     */
+    public function requirePickup();
+    /**
+     *
+     * GET BRANCH SENDER
+     * ПОЛУЧИТЬ НОМЕР ОТДЕЛЕНИЯ ОТПРАВИТЕЛЯ
+     * ОТРИМАТИ НОМЕР ВІДДІЛЕННЯ ВІДПРАВНИКА
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function senderBranch();
+    /**
+     *
+     * GET RECEIVER CONTACT
+     * ПОЛУЧИТЬ ФИО ПОЛУЧАТЕЛЯ
+     * ОТПРИМАТИ ПІП ОТРИМУВАЧА
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function receiverContact();
+    /**
+     *
+     * GET COUNT PLACE
+     * ПОЛУЧИТЬ КОЛИЧЕСТВО ГРУЗОВЫХ МЕСТ
+     * ОТРИМАТИ КІЛЬКІСТЬ ВАНТАЖНИХ МІСЦЬ
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function countPlace();
+    /**
+     *
+     * GET VOLUME
+     * ПОЛУЧИТЬ ОБЪЕМ В М3
+     * ОТРИМАТИ ОБ'ЄМ В М3
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function volume();
+    /**
+     *
+     * GET WEIGHT
+     * ПОЛУЧИТЬ ВЕС В КГ
+     * ОТРИМАТИ ВЕС В КГ
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function weight();
+    /**
+     *
+     * GET COST DECLARED
+     * ПОЛУЧИТЬ ЗАДЕКЛАРИРОВАННУЮ СТОИМОСТЬ ЗАКАЗА
+     * ОТРИМАТИ ЗАДЕКЛАРОВАНУ ВАРТІСТЬ ЗАМОВЛЕННЯ
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function costDeclared();
+    /**
+     *
+     * GET DELIVERY AMOUNT
+     * ПОЛУЧИТЬ СТОИМОСТЬ ДОСТАВКИ
+     * ОТРИМАТИ ВАРТІСТЬ ДОСТАВКИ
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function deliveryAmount();
+    /**
+     *
+     * GET REDELIVERY AMOUNT
+     * ПОЛУЧИТЬ КОМИССИЮ ЗА ДОСТАВКУ ЗАКАЗА
+     * ОТРИМАТИ КОМІСІЮ ЗА ДОСТАВКУ ЗАМОВЛЕННЯ
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function redeliveryAmount();
+    /**
+     *
+     * GET ORDER AMOUNT
+     * ПОЛУЧИТЬ СУММУ ЗА ЗАКАЗ
+     * ОТРИМАТИ СУМУ ЗА ЗАМОВЛЕННЯ
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function orderAmount();
+    /**
+     *
+     * GET DELIVERY PAYMENT
+     * ПОЛУЧИТЬ СТАТУС ОПЛАТЫ КОМИССИИ ЗА ЗАКАЗ
+     * ОТРИМАТИ СТАТУС ОПЛАТИ КОМІСІЇ ЗА ЗАМОВЛЕННЯ
+     *
+     * @return BOOLEAN | NULL
+     *
+     */
+    public function redeliveryPay();
+    /**
+     *
+     * GET REDELIVERY PAYER
+     * ПОЛУЧИТЬ ПЛАТЕЛЬЩИКА КОМИССИИ
+     * ОТРИМАТИ ПЛАТНИКА КОМІСЇ
+     *
+     * @return INTEGER | NULL
+     *
+     */
+    public function redeliveryPayer();
+    /**
+     *
+     * GET DELIVERY PAYER
+     * ПОЛУЧИТЬ СТАТУС ОПЛАТЫ ЗА ДОСТАВКУ ЗАКАЗА
+     * ОТРИМАТИ СТАТУС ОПЛАТИ ЗА ДОСТАВКУ ЗАМОВЛЕННЯ
+     *
+     * @return BOOLEAN | NULL
+     *
+     */
+    public function deliveryPay();
+    /**
+     *
+     * GET DELIVERY PAYER
+     * ПОЛУЧИТЬ ПЛАТЕЛЬЩИКА ДОСТАВКИ ЗАКАЗА
+     * ОТРИМАТИ ПЛАТНИКА ДОСТАВКИ ЗАМОВЛЕННЯ
+     *
+     * @return INTEGER | NULL
+     *
+     */
+    public function deliveryPayer();
+    /**
+     *
+     * GET ORDER PAY
+     * ПОЛУЧИТЬ СТАТУС ОПЛАТЫ ЗА ЗАКАЗ
+     * ОТРИМАТИ СТАТУС ОПЛАТИ ЗА ЗАМОВЛЕННЯ
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function orderPay();
+    /**
+     *
+     * GET DELIVERY TYPE
+     * ПОЛУЧИТЬ ТИП ЗАКАЗА
+     * ОТРИМАТИ ТИП ЗАМОВЛЕННЯ
+     *
+     * @return INTEGER | NULL
+     *
+     */
+    public function deliveryType();
+    /**
+     *
+     * GET CODE TYPE
+     * ПОЛУЧИТЬ ТИП ВЫДАЧИ COD
+     * ОТРИМАТИ ТИП ВИДАЧІ COD
+     *
+     * @return INTEGER | NULL
+     *
+     */
+    public function codType();
+    /**
+     *
+     * GET COD CARD NUMBER
+     * ПОЛУЧИТЬ НОМЕР КАРТЫ ДЛЯ COD
+     * ОТРИМАТИ НОМЕР КАРТИ ДЛЯ COD
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function cardNumber();
+    /**
+     *
+     * GET DESCRIPTION
+     * ПОЛУЧИТЬ ОПИСАНИЕ
+     * ОТРИМАТИ ОПИС
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function description();
+    /**
+     *
+     * GET ADD DESCRIPTION
+     * ПОЛУЧИТЬ ДОБАВЛЕНОЕ ОПИСАНИЕ
+     * ОТРИМАТИ ДОДАНИЙ ОПИС
+     *
+     * @return STRING | NULL
+     *
+     */
+    public function addDescription();
+    /**
+     *
+     * GET MARKING CODE
+     * ПОЛУЧИТЬ КОД МАРКИРОВКИ
+     * ОТРИМАТИ КОД МАРКУВАННЯ
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function marking();
+    /**
+     *
+     * GET WIDTH
+     * ПОЛУЧИТЬ ШИРИНУ
+     * ОТРИМАТИ ШИРИНУ
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function width();
+    /**
+     *
+     * GET HEIGHT
+     * ПОЛУЧИТЬ ВЫСОТУ
+     * ОТРИМАТИ ВИСОТУ
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function height();
+    /**
+     *
+     * GET DEPTH
+     * ПОЛУЧИТЬ ГЛУБИНУ, СМ
+     * ОТРИМАТИ ГЛИБИНУ, СМ
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function depth();
 }

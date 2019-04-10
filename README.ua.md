@@ -45,36 +45,44 @@ composer require jackmartin/justin
     * [listCityRegion](https://github.com/martinjack/justin/blob/master/README.ua.md#listcityregion)
 7. Отримати список вулиць міста
     * [listStreetsCity](https://github.com/martinjack/justin/blob/master/README.ua.md#liststreetscity)
-8. Отримати інформацію про відділення
+8. Отримати список типів відділень
+    * [branchTypes](https://github.com/martinjack/justin/blob/master/README.ua.md#branchtypes)
+9. Отримати інформацію про відділення
     * [getBranch](https://github.com/martinjack/justin/blob/master/README.ua.md#getBranch)
-9. Отримати список відділень. Старий метод
+10. Отримати список відділень. Старий метод
     * [listDepartments](https://github.com/martinjack/justin/blob/master/README.ua.md#listdepartments)
-10. Отримати список відділень.
+11. Отримати список відділень.
     * [listDepartmentsLang](https://github.com/martinjack/justin/blob/master/README.ua.md#listdepartmentslang)
-11. Отримати найближче відділення за адресою
+12. Отримати розклад роботи відділень
+    * [branchSchedule](https://github.com/martinjack/justin/blob/master/README.ua.md#branchschedule)
+13. Отримати найближче відділення за адресою
     * [getNeartDepartment](https://github.com/martinjack/justin/blob/master/README.ua.md#getNeartDepartment)
-12. Відміна замовлення
+14. Відміна замовлення
     * [cancelOrder](https://github.com/martinjack/justin#cancelorder)
-12. Отримати список статусів замовлення
+15. Отримати список статусів замовлення
     * [listStatuses](https://github.com/martinjack/justin/blob/master/README.ua.md#liststatuses)
-13. Отримати ключ торговця(senderID)
+16. Отримати ключ торговця(senderID)
     * [keySeller](https://github.com/martinjack/justin/blob/master/README.ua.md#keyseller)
-14. Отримати історію руху відправлення
+17. Отримати історію руху відправлення
     * [trackingHistory](https://github.com/martinjack/justin/blob/master/README.ua.md#trackingHistory)
-15. Отримати історію статусів замовлення. Старий метод
+18. Отримати історію статусів замовлення. Старий метод
     * [getStatusHistory](https://github.com/martinjack/justin/blob/master/README.ua.md#getstatushistory)
-16. Отримати історію статусів замовлення.
+19. Отримати історію статусів замовлення.
     * [getStatusHistoryF](https://github.com/martinjack/justin/blob/master/README.ua.md#getstatushistoryf)
-17. Створити нове замовлення(Відправлення)
+20. Створити нове замовлення(Відправлення)
     * [createOrder](https://github.com/martinjack/justin/blob/master/README.ua.md#createOrder)
-18. Створити стікер замовлення
+21. Отримати список замовлень за вказаний період
+    * [listOrders](https://github.com/martinjack/justin/blob/master/README.ua.md#listorders)
+22. Отримати інформацію про замовлення
+    * [orderInfo](https://github.com/martinjack/justin/blob/master/README.ua.md#orderinfo)
+23. Створити стікер замовлення
     * [createSticker](https://github.com/martinjack/justin/blob/master/README.ua.md#createsticker)
 
 # Тести
 Перевірка доступності сервера API, а також всіх методів.
 ```ssh
 composer install
-key=Ваш ключ API login=Ваш логин password=Ваш пароль ./phpunit
+key=Ваш ключ API login=Ваш логин password=Ваш пароль number=Номер заказа period=Дата замовлень(20190505) ./phpunit --testdox
 ```
 ## Приклад вдалого проходження тестів
 ![tests](https://github.com/martinjack/justin/blob/master/doc/tests.png?raw=true)
@@ -214,6 +222,24 @@ print_r(
 
     // $justin->name('objectOwner')->leftValue('32b69b95-9018-11e8-80c1-525400fb7782')->equal()->listStreetsCity()
     // $justin->name('objectOwner')->equal('32b69b95-9018-11e8-80c1-525400fb7782')->listStreetsCity()
+
+);
+```
+
+### branchTypes()
+
+```php
+use Justin\Justin;
+
+include_once 'vendor/autoload.php';
+
+$justin = new Justin('RU', true);
+
+$justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
+
+print_r(
+
+    $justin->branchTypes()->getData()
 
 );
 ```
@@ -616,6 +642,42 @@ print_r(
 );
 ```
 
+### listOrders()
+
+```php
+use Justin\Justin;
+
+include_once 'vendor/autoload.php';
+
+$justin = new Justin('RU', true);
+
+$justin->setKey('Ваш ключ');
+
+print_r(
+
+    $justin->listOrders('20190505')->getData()
+
+);
+```
+
+### orderInfo()
+
+```php
+use Justin\Justin;
+
+include_once 'vendor/autoload.php';
+
+$justin = new Justin('RU', true);
+
+$justin->setKey('Ваш ключ');
+
+print_r(
+
+    $justin->orderInfo('Ваш номер заказа')->getData()
+
+);
+```
+
 ### createSticker()
 
 ```php
@@ -641,7 +703,7 @@ print_r(
 
     $justin->createSticker(
 
-        '877893', __DIR__ . '/' . time() . '.pdf', 1
+        '877893', __DIR__ . '/' . time() . '.pdf', false, 1
 
     )
 
@@ -651,7 +713,17 @@ print_r(
 
     $justin->createSticker(
 
-        '877893', __DIR__ . '/' . time() . '.pdf', 2
+        '877893', __DIR__ . '/' . time() . '.pdf', false, 2
+
+    )
+
+);
+
+print_r(
+
+    $justin->createSticker(
+
+        '877893', __DIR__ . '/' . time() . '.pdf', true
 
     )
 

@@ -9,12 +9,12 @@ use PHPUnit\Framework\TestCase;
 
 /**
  *
- * Class JustinTest
+ * Class MethodsTest
  *
  * @package Justin\Tests
  *
  */
-final class JustinTest extends TestCase
+final class MethodsTest extends TestCase
 {
     /**
      *
@@ -23,7 +23,7 @@ final class JustinTest extends TestCase
      * @var STRING
      *
      */
-    private static $key = '';
+    private $key = '';
     /**
      *
      * LOGIN
@@ -31,7 +31,7 @@ final class JustinTest extends TestCase
      * @var STRING
      *
      */
-    private static $login = 'Exchange';
+    private $login = 'Exchange';
     /**
      *
      * PASSWORD
@@ -39,7 +39,23 @@ final class JustinTest extends TestCase
      * @var STRING
      *
      */
-    private static $password = 'Exchange';
+    private $password = 'Exchange';
+    /**
+     *
+     * NUMBER
+     *
+     * @var STRING
+     *
+     */
+    private $number = '';
+    /**
+     *
+     * PERIOD
+     *
+     * @var STRING
+     *
+     */
+    private $period = '';
     /**
      *
      * JUSTIN
@@ -48,23 +64,7 @@ final class JustinTest extends TestCase
      *
      */
     private $justin = null;
-    /**
-     *
-     * SET VARIABLES
-     *
-     * @return VOID
-     *
-     */
-    public static function setUpBeforeClass(): void
-    {
 
-        self::$key = getenv('key') ? getenv('key') : '';
-
-        self::$login = getenv('login') ? getenv('login') : self::$login;
-
-        self::$password = getenv('password') ? getenv('password') : self::$password;
-
-    }
     /**
      *
      * INIT CLASS JUSTIN
@@ -75,12 +75,37 @@ final class JustinTest extends TestCase
     public function setUp(): void
     {
 
+        #
+        $this->key = getenv('key');
+
+        $this->login = getenv('login');
+
+        $this->password = getenv('password');
+
+        $this->number = getenv('number');
+
+        $this->period = getenv('period');
+        #
+
         $this->justin = new Justin('UA', true);
 
         $this->justin
-            ->setKey(self::$key)
-            ->setLogin(self::$login)
-            ->setPassword(self::$password);
+            ->setKey($this->key)
+            ->setLogin($this->login)
+            ->setPassword($this->password);
+
+    }
+    /**
+     *
+     * TEAR DOWN
+     *
+     * @return VOID
+     *
+     */
+    public function tearDown(): void
+    {
+
+        $this->justin = null;
 
     }
     /**
@@ -93,7 +118,7 @@ final class JustinTest extends TestCase
     public function testAvailableApi(): void
     {
 
-        exec('ping -c 3 195.201.72.186', $output, $status);
+        exec('ping -c 2 195.201.72.186', $output, $status);
 
         $this->assertFalse((bool) $status);
 
@@ -245,6 +270,39 @@ final class JustinTest extends TestCase
     }
     /**
      *
+     * TEST METHOD BRANCH TYPES
+     *
+     * @return VOID
+     *
+     */
+    public function testBranchTypes(): void
+    {
+
+        $this->justin->setSandbox(false);
+
+        $data = $this->justin->branchTypes();
+
+        $this->assertInstanceOf(
+
+            Data::class,
+
+            $data
+
+        );
+
+        $this->assertIsArray($data->getRaw());
+
+        $this->assertTrue(
+
+            $data->getRaw()['response']['status']
+
+        );
+
+        $this->justin->setSandbox(true);
+
+    }
+    /**
+     *
      * TEST METHOD GET BRANCH
      *
      * @return VOID
@@ -390,6 +448,42 @@ final class JustinTest extends TestCase
     }
     /**
      *
+     * TEST METHODS BRANCH SCHEDULE
+     *
+     * @return VOID
+     *
+     */
+    public function testBranchSchedule(): void
+    {
+
+        $this->justin->setSandbox(false);
+
+        $data = $this->justin
+            ->name('Depart')
+            ->equal('1a4df005-5d8d-11e8-80be-525400fb7782')
+            ->branchSchedule();
+
+        $this->assertInstanceOf(
+
+            Data::class,
+
+            $data
+
+        );
+
+        $this->assertIsArray($data->getRaw());
+
+        $this->assertTrue(
+
+            $data->getRaw()['response']['status']
+
+        );
+
+        $this->justin->setSandbox(true);
+
+    }
+    /**
+     *
      * TEST METHOD GET NEARTDEPARTMENT
      *
      * @return VOID
@@ -456,7 +550,7 @@ final class JustinTest extends TestCase
     public function testKeySeller(): void
     {
 
-        $data = $this->justin->name('login')->equal(self::$login)->keySeller();
+        $data = $this->justin->name('login')->equal($this->login)->keySeller();
 
         $this->assertInstanceOf(
 
@@ -657,6 +751,88 @@ final class JustinTest extends TestCase
         $this->assertIsArray($newOrder->getRaw());
 
         $this->assertEquals('success', $newOrder->getRaw()['result']);
+
+    }
+    /**
+     *
+     * TEST METHOD LIST ORDERS
+     *
+     * @return VOID
+     *
+     */
+    public function testListOrders(): void
+    {
+
+        $this->justin->setSandbox(false);
+
+        $data = $this->justin->listOrders(
+
+            $this->period
+
+        );
+
+        $this->assertInstanceOf(
+
+            Data::class,
+
+            $data
+
+        );
+
+        $this->assertIsArray($data->getRaw());
+
+        $this->assertTrue(
+
+            (bool) count(
+
+                $data->getRaw()
+
+            )
+
+        );
+
+        $this->justin->setSandbox(true);
+
+    }
+    /**
+     *
+     * TEST METHOD ORDER INFO
+     *
+     * @return VOID
+     *
+     */
+    public function testOrderInfo(): void
+    {
+
+        $this->justin->setSandbox(false);
+
+        $data = $this->justin->orderInfo(
+
+            $this->number
+
+        );
+
+        $this->assertInstanceOf(
+
+            Data::class,
+
+            $data
+
+        );
+
+        $this->assertIsArray($data->getRaw());
+
+        $this->assertTrue(
+
+            (bool) count(
+
+                $data->getRaw()
+
+            )
+
+        );
+
+        $this->justin->setSandbox(true);
 
     }
     /**

@@ -122,7 +122,7 @@ class Justin extends Order implements iJustin
      * @return OBJECT
      *
      */
-    public function __construct($language = 'UA', $sandbox = false, $version = 'v2', $timeout = 60, $connect_timeout = 60, $timezone = 'UTC')
+    public function __construct($language = 'UA', $sandbox = false, $version = 'v2', $timeout = 60, $connect_timeout = 60, $timezone = 'Europe/Kiev')
     {
 
         $this->client = new Client(
@@ -164,7 +164,7 @@ class Justin extends Order implements iJustin
      * @return OBJECT
      *
      */
-    private function setSandbox($sandbox, $type = 'justin_pms')
+    public function setSandbox($sandbox, $type = 'justin_pms')
     {
 
         $this->sandbox = $sandbox;
@@ -378,7 +378,6 @@ class Justin extends Order implements iJustin
 
                 );
                 #
-
                 $result = $this->client->post(
 
                     implode(
@@ -424,9 +423,35 @@ class Justin extends Order implements iJustin
 
             );
             #
-            if ((isset($result['response']['status']) && $result['response']['status']) || (isset($result['status']) && $result['status'])) {
+            if (
 
-                if (isset($result['data']) || isset($result['result'])) {
+                (
+
+                    isset($result['response']['status'])
+                    && $result['response']['status']
+
+                )
+                ||
+                (
+
+                    isset($result['status'])
+                    && $result['status']
+
+                )
+                ||
+                (
+
+                    is_array($result) && count($result)
+
+                )
+
+            ) {
+
+                if (
+
+                    isset($result['data']) || isset($result['result']) || isset($result[0]['date']) || isset($result['date'])
+
+                ) {
 
                     $response = $result;
 
@@ -437,6 +462,14 @@ class Justin extends Order implements iJustin
                     $this->amount_filters = 0;
                     $this->setVersion();
                     #
+                } elseif (isset($result['response']['codeError'])) {
+
+                    throw new JustinApiException(
+
+                        $result['response']['message']
+
+                    );
+
                 } else {
 
                     throw new JustinApiException(
@@ -681,9 +714,42 @@ class Justin extends Order implements iJustin
     }
     /**
      *
+     * GET LIST TYPES BRACHES
+     * ПОЛУЧИТЬ СПИСОК ТИПОВ ОТДЕЛЕНИЙ
+     * ОТРИМАТИ СПИСОК ТИПІВ ВІДДІЛЕНЬ
+     *
+     * @param INTEGER $limit
+     *
+     * @return OBJECT
+     *
+     */
+    public function branchTypes($limit = 0)
+    {
+
+        return new Data(
+
+            $this->request(
+
+                'getData', 'catalog', 'cat_branchType',
+
+                $this->getFilter(
+
+                    [], $limit
+
+                )
+
+            )
+
+        );
+
+    }
+    /**
+     *
      * GET BRANCH
      * ПОЛУЧИТЬ ИНФОРМАЦИЮ ПРО ОТДЕЛЕНИЕ
      * ОТРИМАТИ ІНФОРМАЦІЮ ПРО ВІДДІЛЕННЯ
+     *
+     * @param STRING $id
      *
      * @return OBJECT
      *
@@ -757,6 +823,39 @@ class Justin extends Order implements iJustin
             $this->request(
 
                 'getData', 'request', 'req_DepartmentsLang',
+
+                $this->getFilter(
+
+                    $filter, $limit
+
+                )
+
+            )
+
+        );
+
+    }
+    /**
+     *
+     * GET SCHEDULE BRANCHES
+     * ПОЛУЧИТЬ РАСПИСАНИЕ РАБОТЫ ОТДЕЛЕНИЯ
+     * ОТРИМАТИ РОЗКЛАД РОБОТИ ВІДДІЛЕННЯ
+     *
+     * @param ARRAY $filter
+     *
+     * @param INTEGER $limit
+     *
+     * @return OBJECT
+     *
+     */
+    public function branchSchedule($filter = [], $limit = 0)
+    {
+
+        return new Data(
+
+            $this->request(
+
+                'getData', 'infoData', 'getScheduleBranch',
 
                 $this->getFilter(
 
@@ -1228,6 +1327,112 @@ class Justin extends Order implements iJustin
     }
     /**
      *
+     * GET LIST ORDERS
+     * ПОЛУЧИТЬ СПИСОК ЗАКАЗОВ ЗА УКАЗАННЫЙ ПЕРИОД
+     * ОТРИМАТИ СПИСОК ЗАМОВЛЕНЬ ЗА ВКАЗАНИЙ ПЕРІОД
+     *
+     * @param STRING $date
+     *
+     * @param STRING $version
+     *
+     * @return OBJECT
+     *
+     */
+    public function listOrders($date, $version = 'v1')
+    {
+
+        ##
+        # SET URL API
+        #
+        $this->setSandbox(
+
+            $this->sandbox,
+
+            'api_pms'
+
+        );
+
+        $this->setVersion(
+
+            "api/${version}",
+
+            'documents/getListOrders'
+
+        );
+
+        return new Data(
+
+            $this->request(
+
+                '', '', '',
+                [
+
+                    'api_key' => $this->key,
+
+                    'period'  => $date,
+
+                ]
+
+            )
+
+        );
+
+    }
+    /**
+     *
+     * GET ORDER INFO
+     * ПОЛУЧИТЬ ИНФОРМАЦИЮ О ЗАКАЗЕ
+     * ОТРИМАТИ ІНФОРМАЦІЮ ПРО ЗАМОВЛЕННЯ
+     *
+     * @param STRING $number
+     *
+     * @param STRING $version
+     *
+     * @return OBJECT
+     *
+     */
+    public function orderInfo($number, $version = 'v1')
+    {
+
+        ##
+        # SET URL API
+        #
+        $this->setSandbox(
+
+            $this->sandbox,
+
+            'api_pms'
+
+        );
+
+        $this->setVersion(
+
+            "api/${version}",
+
+            'documents/getOrderInfo'
+
+        );
+
+        return new Data(
+
+            $this->request(
+
+                '', '', '',
+                [
+
+                    'api_key'      => $this->key,
+
+                    'order_number' => $number,
+
+                ]
+
+            )
+
+        );
+
+    }
+    /**
+     *
      * STICKER PDF
      * СОЗДАТЬ СТИКЕР ЗАКАЗА В ФОРМАТЕ PDF
      * СТВОРИТИ СТІКЕР ЗАМОВЛЕННЯ В ФОРМАТІ PDF
@@ -1235,6 +1440,8 @@ class Justin extends Order implements iJustin
      * @param INTEGER $orderNumber
      *
      * @param STRING $path
+     *
+     * @param BOOLEAN $show
      *
      * @param BOOLEAN $type
      *
@@ -1245,9 +1452,8 @@ class Justin extends Order implements iJustin
      * @return BOOLEAN
      *
      */
-    public function createSticker($orderNumber, $path, $type = 0, $version = 'v1')
+    public function createSticker($orderNumber, $path, $show = false, $type = 0, $version = 'v1')
     {
-
         ##
         # GET TYPE
         #
@@ -1282,8 +1488,6 @@ class Justin extends Order implements iJustin
 
         try {
 
-            $sticker = fopen($path, 'w+');
-
             ##
             # CHECK SANDBOX
             #
@@ -1296,40 +1500,74 @@ class Justin extends Order implements iJustin
                 $space = 'pms';
 
             }
-            ##
-            # SAVE PDF
-            #
-            $this->client->get(
 
-                "http://195.201.72.186/${space}/hs/api/{$version}/{$type}/order?order_number={$orderNumber}&api_key=" . $this->key,
+            $url = "http://195.201.72.186/${space}/hs/api/${version}/${type}/order?order_number=${orderNumber}&api_key=" . $this->key;
 
-                [
+            if (!$show) {
 
-                    'auth'               => [
+                $sticker = fopen($path, 'w+');
 
-                        $this->auth_login,
+                ##
+                # SAVE PDF
+                #
+                $this->client->get(
 
-                        $this->auth_password,
+                    $url,
 
-                    ],
+                    [
 
-                    RequestOptions::SINK => $sticker,
+                        'auth'               => [
 
-                ]
+                            $this->auth_login,
 
-            );
-            #
-            if (file_exists($path) && filesize($path) != 0) {
+                            $this->auth_password,
 
-                return true;
+                        ],
+
+                        RequestOptions::SINK => $sticker,
+
+                    ]
+
+                );
+                #
+                if (file_exists($path) && filesize($path) != 0) {
+
+                    return true;
+
+                } else {
+
+                    throw new JustinFileException(
+
+                        'Failed pdf sticker. Please check arguments'
+
+                    );
+
+                }
 
             } else {
 
-                throw new JustinFileException(
+                $request = $this->client->get(
 
-                    'Failed pdf sticker. Please check arguments'
+                    $url,
+
+                    [
+
+                        'auth' => [
+
+                            $this->auth_login,
+
+                            $this->auth_password,
+
+                        ],
+
+                    ]
 
                 );
+
+                header('Content-type: application/pdf');
+                header('Content-Disposition: inline;');
+
+                echo $request->getBody()->getContents();
 
             }
 

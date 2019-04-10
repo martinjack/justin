@@ -45,36 +45,44 @@ composer require jackmartin/justin
     * [listCityRegion](https://github.com/martinjack/justin#listcityregion)
 7. Получить список улиц города
     * [listStreetsCity](https://github.com/martinjack/justin#liststreetscity)
-8. Получить информацию про отделение
+8. Получить список типов отделений 
+    * [branchTypes](https://github.com/martinjack/justin#branchtypes)
+9. Получить информацию про отделение
     * [getBranch](https://github.com/martinjack/justin#getBranch)
-9. Получить список отделений. Старый метод
+10. Получить список отделений. Старый метод
     * [listDepartments](https://github.com/martinjack/justin#listdepartments)
-10. Получить список отделений.
+11. Получить список отделений.
     * [listDepartmentsLang](https://github.com/martinjack/justin#listdepartmentslang)
-11. Получить ближайшее отделение по адресу
+12. Получить расписание работы отделения
+    * [branchSchedule](https://github.com/martinjack/justin#branchschedule)
+13. Получить ближайшее отделение по адресу
     * [getNeartDepartment](https://github.com/martinjack/justin#getNeartDepartment)
-12. Отмена заказа
-    * [cancelOrder](https://github.com/martinjack/justin#cancelorder)
-13. Получить список статусов заказа
-    * [listStatuses](https://github.com/martinjack/justin#liststatuses)
-14. Получить ключ торговца(senderID)
-    * [keySeller](https://github.com/martinjack/justin#keyseller)
-15. Получить историю движения отправления
-    * [trackingHistory](https://github.com/martinjack/justin#trackingHistory)
-16. Получить историю статусов заказа. Старый метод
-    * [getStatusHistory](https://github.com/martinjack/justin#getstatushistory)
-17. Получить историю статусов заказа.
-    * [getStatusHistoryF](https://github.com/martinjack/justin#getstatushistoryf)
-18. Создать новый заказ(Отправление)
+14. Создать новый заказ(Отправление)
     * [createOrder](https://github.com/martinjack/justin#createOrder)
-19. Создать стикер заказа
+15. Отмена заказа
+    * [cancelOrder](https://github.com/martinjack/justin#cancelorder)
+16. Получить список статусов заказа
+    * [listStatuses](https://github.com/martinjack/justin#liststatuses)
+17. Получить ключ торговца(senderID)
+    * [keySeller](https://github.com/martinjack/justin#keyseller)
+18. Получить историю движения отправления
+    * [trackingHistory](https://github.com/martinjack/justin#trackingHistory)
+19. Получить историю статусов заказа. Старый метод
+    * [getStatusHistory](https://github.com/martinjack/justin#getstatushistory)
+20. Получить историю статусов заказа.
+    * [getStatusHistoryF](https://github.com/martinjack/justin#getstatushistoryf)
+21. Получить список заказов за указанный период
+    * [listOrders](https://github.com/martinjack/justin#listorders)
+22. Получить информацию о заказе
+    * [orderInfo](https://github.com/martinjack/justin#orderinfo)
+23. Создать стикер заказа
     * [createSticker](https://github.com/martinjack/justin#createsticker)
 
 # Тесты
 Проверка доступности сервера API , а также всех методов.
 ```ssh
 composer install
-key=Ваш ключ API login=Ваш логин password=Ваш пароль ./phpunit
+key=Ваш ключ API login=Ваш логин password=Ваш пароль number=Ваш номер заказа period=Дата заказов(20190405) ./phpunit --testdox
 ```
 ## Пример удачного прохождение тестов
 ![tests](https://github.com/martinjack/justin/blob/master/doc/tests.png?raw=true)
@@ -88,7 +96,7 @@ use Justin\Justin;
 
 include_once 'vendor/autoload.php';
 
-$justin = new Justin('RU', true, 'v2', 30, 30, 'UTC');
+$justin = new Justin('RU', true, 'v2', 30, 30, 'Europe/Kiev');
 ```
 
 ### currentStatus()
@@ -218,6 +226,24 @@ print_r(
 );
 ```
 
+### branchTypes()
+
+```php
+use Justin\Justin;
+
+include_once 'vendor/autoload.php';
+
+$justin = new Justin('RU', true);
+
+$justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
+
+print_r(
+
+    $justin->branchTypes()->getData()
+
+);
+```
+
 ### getBranch()
 
 ```php
@@ -276,10 +302,31 @@ print_r(
 );
 ```
 
+### branchSchedule()
+
+```php
+use Justin\Justin;
+
+include_once 'vendor/autoload.php';
+
+$justin = new Justin('RU', true);
+
+$justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
+
+print_r(
+
+    $justin
+    ->name('Depart')
+    ->equal('1a4df005-5d8d-11e8-80be-525400fb7782')
+    ->branchSchedule()
+    ->getData()
+
+);
+```
+
 ### getNeartDepartment()
 
 ```php
-
 use Justin\Justin;
 
 include_once 'vendor/autoload.php';
@@ -616,6 +663,42 @@ print_r(
 );
 ```
 
+### listOrders()
+
+```php
+use Justin\Justin;
+
+include_once 'vendor/autoload.php';
+
+$justin = new Justin('RU', true);
+
+$justin->setKey('Ваш ключ');
+
+print_r(
+
+    $justin->listOrders('20190505')->getData()
+
+);
+```
+
+### orderInfo()
+
+```php
+use Justin\Justin;
+
+include_once 'vendor/autoload.php';
+
+$justin = new Justin('RU', true);
+
+$justin->setKey('Ваш ключ');
+
+print_r(
+
+    $justin->orderInfo('Ваш номер заказа')->getData()
+
+);
+```
+
 ### createSticker()
 
 ```php
@@ -641,7 +724,7 @@ print_r(
 
     $justin->createSticker(
 
-        '877893', __DIR__ . '/' . time() . '.pdf', 1
+        '877893', __DIR__ . '/' . time() . '.pdf', false, 1
 
     )
 
@@ -651,7 +734,17 @@ print_r(
 
     $justin->createSticker(
 
-        '877893', __DIR__ . '/' . time() . '.pdf', 2
+        '877893', __DIR__ . '/' . time() . '.pdf', false, 2
+
+    )
+
+);
+
+print_r(
+
+    $justin->createSticker(
+
+        '877893', __DIR__ . '/' . time() . '.pdf', true
 
     )
 

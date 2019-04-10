@@ -28,7 +28,19 @@ interface iJustin
      * @return OBJECT
      *
      */
-    public function __construct($language = 'UA', $sandbox = false, $version = 'v2', $timeout = 60, $connect_timeout = 60, $timezone = 'UTC');
+    public function __construct($language = 'UA', $sandbox = false, $version = 'v2', $timeout = 60, $connect_timeout = 60, $timezone = 'Europe/Kiev');
+    /**
+     *
+     * SET SANDBOX
+     *
+     * @param BOOLEAN sandbox
+     *
+     * @param STRING $type
+     *
+     * @return OBJECT
+     *
+     */
+    public function setSandbox($sandbox, $type = 'justin_pms');
     /**
      *
      * SET LANGUAGE
@@ -147,6 +159,18 @@ interface iJustin
     public function listStreetsCity($filter = [], $limit = 0);
     /**
      *
+     * GET LIST TYPES BRACHES
+     * ПОЛУЧИТЬ СПИСОК ТИПОВ ОТДЕЛЕНИЙ
+     * ОТРИМАТИ СПИСОК ТИПІВ ВІДДІЛЕНЬ
+     *
+     * @param INTEGER $limit
+     *
+     * @return OBJECT
+     *
+     */
+    public function branchTypes($limit = 0);
+    /**
+     *
      * GET BRANCH
      * ПОЛУЧИТЬ ИНФОРМАЦИЮ ПРО ОТДЕЛЕНИЕ
      * ОТРИМАТИ ІНФОРМАЦІЮ ПРО ВІДДІЛЕННЯ
@@ -184,6 +208,20 @@ interface iJustin
      *
      */
     public function listDepartmentsLang($filter = [], $limit = 0);
+    /**
+     *
+     * GET SCHEDULE BRANCHES
+     * ПОЛУЧИТЬ РАСПИСАНИЕ РАБОТЫ ОТДЕЛЕНИЯ
+     * ОТРИМАТИ РОЗКЛАД РОБОТИ ВІДДІЛЕННЯ
+     *
+     * @param ARRAY $filter
+     *
+     * @param INTEGER $limit
+     *
+     * @return OBJECT
+     *
+     */
+    public function branchSchedule($filter = [], $limit = 0);
     /**
      *
      * GET NEAREST DEPARTMENT
@@ -307,11 +345,41 @@ interface iJustin
     public function getStatusHistoryF($filter, $limit = 0, $senderID = '');
     /**
      *
+     * GET LIST ORDERS
+     * ПОЛУЧИТЬ СПИСОК ЗАКАЗОВ ЗА УКАЗАННЫЙ ПЕРИОД
+     * ОТРИМАТИ СПИСОК ЗАМОВЛЕНЬ ЗА ВКАЗАНИЙ ПЕРІОД
+     *
+     * @param STRING $date
+     *
+     * @param STRING $version
+     *
+     * @return OBJECT
+     *
+     */
+    public function listOrders($date, $version = 'v1');
+    /**
+     *
+     * GET ORDER INFO
+     * ПОЛУЧИТЬ ИНФОРМАЦИЮ О ЗАКАЗЕ
+     * ОТРИМАТИ ІНФОРМАЦІЮ ПРО ЗАМОВЛЕННЯ
+     *
+     * @param STRING $number
+     *
+     * @param STRING $version
+     *
+     * @return OBJECT
+     *
+     */
+    public function orderInfo($number, $version = 'v1');
+    /**
+     *
      * STICKER PDF
      *
      * @param INTEGER $orderNumber
      *
      * @param STRING $path
+     *
+     * @param BOOLEAN $show
      *
      * @param INTEGER $type
      *
@@ -322,6 +390,5 @@ interface iJustin
      * @return BOOLEAN
      *
      */
-    public function createSticker($orderNumber, $path, $type = 0, $version = 'v1');
-
+    public function createSticker($orderNumber, $path, $show = false, $type = 0, $version = 'v1');
 }
