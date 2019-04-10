@@ -688,7 +688,7 @@ $justin->setKey('Ваш ключ');
 
 print_r(
 
-    $justin->orderInfo('Ваш номер заказа')->getData()
+    $justin->orderInfo('Your order number')->getData()
 
 );
 ```
