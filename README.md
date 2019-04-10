@@ -78,14 +78,7 @@ composer require jackmartin/justin
 23. Создать стикер заказа
     * [createSticker](https://github.com/martinjack/justin#createsticker)
 
-# Тесты
-Проверка доступности сервера API , а также всех методов.
-```ssh
-composer install
-key=Ваш ключ API login=Ваш логин password=Ваш пароль number=Ваш номер заказа period=Дата заказов(20190405) ./phpunit --testdox
-```
-## Пример удачного прохождение тестов
-![tests](https://github.com/martinjack/justin/blob/master/doc/tests.png?raw=true)
+# [Тесты](https://github.com/martinjack/justin/wiki/Tests) 
 
 # Примеры
 

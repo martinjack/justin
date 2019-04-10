@@ -78,14 +78,7 @@ composer require jackmartin/justin
 23. Create sticker order
     * [createSticker](https://github.com/martinjack/justin/blob/master/README.en.md#createsticker)
 
-# Tests
-Check available server API, as well all methods.
-```ssh
-composer install
-key=Your key API login=Your login password=Your password number=Order number period=Date orders(20190505) ./phpunit --testdox
-```
-## Example successful passing of tests
-![tests](https://github.com/martinjack/justin/blob/master/doc/tests.png?raw=true)
+# [Tests](https://github.com/martinjack/justin/wiki/Tests)
 
 # Examples
 
