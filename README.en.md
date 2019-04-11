@@ -5,7 +5,7 @@
 
 PHP class to work with Justin API
 
-> Read this in other language: [English](README.en.md), [Русский](README.md), [Український](README.EN.md)
+> Read this in other language: [English](README.en.md), [Русский](README.md), [Український](README.ua.md)
 
 > [Wiki - Description library](https://github.com/martinjack/justin/wiki)
 
