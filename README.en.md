@@ -9,6 +9,8 @@ PHP class to work with Justin API
 
 > [Wiki - Description library](https://github.com/martinjack/justin/wiki)
 
+> [Testing](https://github.com/martinjack/justin/wiki/Tests)
+
 # Documentation
 
 [API documentation](https://justin.ua/api/api_justin_documentation.pdf "PDF")
@@ -77,8 +79,6 @@ composer require jackmartin/justin
     * [orderInfo](https://github.com/martinjack/justin/blob/master/README.en.md#orderinfo)
 23. Create sticker order
     * [createSticker](https://github.com/martinjack/justin/blob/master/README.en.md#createsticker)
-
-# [Tests](https://github.com/martinjack/justin/wiki/Tests)
 
 # Examples
 

@@ -9,6 +9,8 @@ PHP класс для работы с API [Justin](https://justin.ua)
 
 > [Wiki - Описание работы библиотеки](https://github.com/martinjack/justin/wiki)
 
+> [Тестирование](https://github.com/martinjack/justin/wiki/Tests)
+
 # Документация
 
 [API documentation](https://justin.ua/api/api_justin_documentation.pdf "PDF")
@@ -77,8 +79,6 @@ composer require jackmartin/justin
     * [orderInfo](https://github.com/martinjack/justin#orderinfo)
 23. Создать стикер заказа
     * [createSticker](https://github.com/martinjack/justin#createsticker)
-
-# [Тесты](https://github.com/martinjack/justin/wiki/Tests) 
 
 # Примеры
 
