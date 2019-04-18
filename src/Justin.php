@@ -1546,28 +1546,36 @@ class Justin extends Order implements iJustin
 
             } else {
 
-                $request = $this->client->get(
+                if ($path != 'url') {
 
-                    $url,
+                    $request = $this->client->get(
 
-                    [
+                        $url,
 
-                        'auth' => [
+                        [
 
-                            $this->auth_login,
+                            'auth' => [
 
-                            $this->auth_password,
+                                $this->auth_login,
 
-                        ],
+                                $this->auth_password,
 
-                    ]
+                            ],
 
-                );
+                        ]
 
-                header('Content-type: application/pdf');
-                header('Content-Disposition: inline;');
+                    );
 
-                echo $request->getBody()->getContents();
+                    header('Content-type: application/pdf');
+                    header('Content-Disposition: inline;');
+
+                    echo $request->getBody()->getContents();
+
+                } else {
+
+                    return $url;
+
+                }
 
             }
 

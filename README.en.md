@@ -743,6 +743,16 @@ print_r(
     )
 
 );
+
+print_r(
+
+    $justin->createSticker(
+
+        '877893', true, 'url'
+
+    )
+
+);
 ```
 ### Sticker has name or FIO sender and receiver
 ![Sticker1](https://github.com/martinjack/justin/blob/master/doc/sticker1.png?raw=true "Example sticker order. Sticker has name or FIO sender and receiver")

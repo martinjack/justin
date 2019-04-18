@@ -742,6 +742,16 @@ print_r(
     )
 
 );
+
+print_r(
+
+    $justin->createSticker(
+
+        '877893', true, 'url'
+
+    )
+
+);
 ```
 ### Стикер имеет название или ФИО отправителя и получателя.
 ![Sticker1](https://github.com/martinjack/justin/blob/master/doc/sticker1.png?raw=true "Пример стикера заказа. Стикер имеет название или ФИО отправителя и получателя")

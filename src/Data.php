@@ -57,6 +57,14 @@ class Data extends Utils implements iData
     private $last = false;
     /**
      *
+     * ARRAY FIELDS
+     *
+     * @var OBJECT
+     *
+     */
+    public $arrayFields = null;
+    /**
+     *
      * INIT CLASS
      *
      * @param ARRAY $rawData
@@ -287,6 +295,8 @@ class Data extends Utils implements iData
             }
 
         }
+
+        $this->arrayFields = $this;
 
         return $this;
 

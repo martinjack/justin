@@ -721,6 +721,16 @@ print_r(
     )
 
 );
+
+print_r(
+
+    $justin->createSticker(
+
+        '877893', true, 'url'
+
+    )
+
+);
 ```
 ### Стікер має назву або ПІБ відправника та одержувача
 ![Sticker1](https://github.com/martinjack/justin/blob/master/doc/sticker1.png?raw=true "Приклад стікера замовлення. Стікер має назву або ПІБ відправника та одержувача")
