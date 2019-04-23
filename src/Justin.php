@@ -35,16 +35,20 @@ class Justin extends Order implements iJustin
     public $client = null;
     /**
      *
-     * API URL
+     * SANDBOX
      *
-     * @var ARRAY
+     * @var BOOLEAN
      *
      */
-    private $api = [
-
-        0 => 'http://195.201.72.186',
-
-    ];
+    protected $sandbox = false;
+    /**
+     *
+     * ADDRESS API
+     *
+     * @var STRING
+     *
+     */
+    private $address_api = 'http://195.201.72.186';
     /**
      *
      * OPEN API URL
@@ -53,14 +57,6 @@ class Justin extends Order implements iJustin
      *
      */
     private $open_api = 'http://openapi.justin.ua/';
-    /**
-     *
-     * SANDBOX
-     *
-     * @var BOOLEAN
-     *
-     */
-    protected $sandbox = false;
     /**
      *
      * AUTH_LOGIN
@@ -111,6 +107,18 @@ class Justin extends Order implements iJustin
     protected $language = 'UA';
     /**
      *
+     * API URL
+     *
+     * @var ARRAY
+     *
+     */
+    private $api = [
+
+        0 => '',
+
+    ];
+    /**
+     *
      * INIT CLASS
      *
      * @param STRING $language
@@ -146,6 +154,8 @@ class Justin extends Order implements iJustin
             $timezone
 
         );
+
+        $this->api[0] = $this->address_api;
 
         return $this
             ->setSandbox($sandbox)
@@ -303,6 +313,23 @@ class Justin extends Order implements iJustin
             "{$password}:" . date('Y-m-d')
 
         );
+
+        return $this;
+
+    }
+    /**
+     *
+     * SET ADDRESS API
+     *
+     * @param STRING $address_api
+     *
+     * @return OBJECT
+     *
+     */
+    public function setAddressApi($address_api)
+    {
+
+        $this->api[0] = $address_api;
 
         return $this;
 
@@ -1491,7 +1518,7 @@ class Justin extends Order implements iJustin
 
             }
 
-            $url = "http://195.201.72.186/${space}/hs/api/${version}/${type}/order?order_number=${orderNumber}&api_key=" . $this->key;
+            $url = "{$this->address_api}/${space}/hs/api/${version}/${type}/order?order_number=${orderNumber}&api_key=" . $this->key;
 
             if (!$show) {
 
@@ -1581,7 +1608,11 @@ class Justin extends Order implements iJustin
 
         } catch (RequestException $exception) {
 
-            unlink($path);
+            if ($path) {
+
+                unlink($path);
+
+            }
 
             if ($exception->getCode() == 401) {
 

@@ -103,6 +103,16 @@ interface iJustin
     public function setPassword($password);
     /**
      *
+     * SET ADDRESS API
+     *
+     * @param STRING $address_api
+     *
+     * @return OBJECT
+     *
+     */
+    public function setAddressApi($address_api);
+    /**
+     *
      * LIST REGIONS
      * СПИСОК ОБЛАСТЕЙ
      * ДАННІ ОБЛАСТЕЙ
