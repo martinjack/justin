@@ -449,28 +449,11 @@ class Justin extends Order implements iJustin
                 true
 
             );
+
             #
             if (
 
-                (
-
-                    isset($result['response']['status'])
-                    && $result['response']['status']
-
-                )
-                ||
-                (
-
-                    isset($result['status'])
-                    && $result['status']
-
-                )
-                ||
-                (
-
-                    is_array($result) && count($result)
-
-                )
+                (isset($result['response']['status']) && $result['response']['status']) || (isset($result['status']) && $result['status']) || (is_array($result) && count($result))
 
             ) {
 
@@ -499,9 +482,20 @@ class Justin extends Order implements iJustin
 
                 } else {
 
+                    $error = 'Error API. Empty response data';
+
+                    ##
+                    # OPENAPI ERROR
+                    #
+                    if (isset($result['msg']) && $result['msg']) {
+
+                        $error = $result['msg'];
+
+                    }
+
                     throw new JustinApiException(
 
-                        'Error API. Empty response data'
+                        $error
 
                     );
 

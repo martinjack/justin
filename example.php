@@ -8,8 +8,16 @@ $justin = new Justin('RU', true);
 
 $justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
 
-print_r(
+try {
 
-    $justin->listRegions()->getRaw()
+    print_r(
 
-);
+        $justin->listRegions()->getRaw()
+
+    );
+
+} catch (JustinHttpException | JustinResponseException | JustinDataException | Exception $exception) {
+
+    echo $exception->getResponse() . "\n";
+
+}
