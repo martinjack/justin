@@ -48,7 +48,7 @@ class Justin extends Order implements iJustin
      * @var STRING
      *
      */
-    private $address_api = 'http://195.201.72.186';
+    private $address_api = 'https://api.justin.ua';
     /**
      *
      * OPEN API URL

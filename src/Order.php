@@ -26,7 +26,7 @@ class Order extends Filter implements iOrder
      */
     protected $orderApi = [
 
-        0 => 'http://195.201.72.186',
+        0 => 'https://api.justin.ua',
 
     ];
     /**
