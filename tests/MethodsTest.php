@@ -87,7 +87,7 @@ final class MethodsTest extends TestCase
         $this->period = getenv('period');
         #
 
-        $this->justin = new Justin('UA', true);
+        $this->justin = new Justin('UA', false);
 
         $this->justin
             ->setKey($this->key)
@@ -110,15 +110,30 @@ final class MethodsTest extends TestCase
     }
     /**
      *
-     * TEST AVAILABLE API
+     * TEST AVAILABLE CLIENT API
      *
      * @return VOID
      *
      */
-    public function testAvailableApi(): void
+    public function testAvailableClientApi(): void
     {
 
-        exec('ping -c 2 195.201.72.186', $output, $status);
+        exec('ping -c 2 193.19.84.20', $output, $status);
+
+        $this->assertFalse((bool) $status);
+
+    }
+    /**
+     *
+     * TEST AVAILABLE OPEN API
+     *
+     * @return VOID
+     *
+     */
+    public function testAvailableOpenApi(): void
+    {
+
+        exec('ping -c 2 89.184.93.26', $output, $status);
 
         $this->assertFalse((bool) $status);
 
@@ -697,6 +712,8 @@ final class MethodsTest extends TestCase
      */
     public function testCreateOrder(): void
     {
+
+        $this->justin->setSandbox(true);
 
         $newOrder = $this->justin
             ->setNumber(rand())

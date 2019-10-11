@@ -87,7 +87,7 @@ final class FieldsTest extends TestCase
         $this->period = getenv('period');
         #
 
-        $this->justin = new Justin('UA', true);
+        $this->justin = new Justin('UA', false);
 
         $this->justin
             ->setKey($this->key)

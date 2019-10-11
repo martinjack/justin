@@ -110,7 +110,7 @@ class Data extends Utils implements iData
     public function getRaw()
     {
 
-        if (count($this->raw)) {
+        if ($this->raw && count($this->raw)) {
 
             return $this->raw;
 
