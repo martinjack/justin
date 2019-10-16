@@ -323,6 +323,30 @@ interface iJustin
      */
     public function trackingHistory($number);
     /**
+     *
+     * LOCALITIES
+     *
+     * ПОЛУЧИТЬ НАСЕЛЕННЫЕ ПУНКТЫ
+     * ОТРИМАТИ НАСЕЛЕНІ ПУНКТИ
+     *
+     * @param STRING $action all | activity
+     *
+     * @return OBJECT
+     *
+     */
+    public function localities($action = '');
+    /**
+     *
+     * SERVICES
+     *
+     * ПОЛУЧИТЬ ИНФОРМАЦИЮ О ДОСТУПНЫХ СЕРВИСАХ
+     * ОТРИМАТИ ІНФОРМАЦІЮ ПРО ДОСТУПНІ СЕРВІСИ
+     *
+     * @return OBJECT
+     *
+     */
+    public function services();
+    /**
      * OLD METHOD
      *
      * GET HISTORY STATUSES ORDERS

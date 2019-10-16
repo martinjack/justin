@@ -2595,5 +2595,124 @@ class Data extends Utils implements iData
         );
 
     }
+    /**
+     *
+     * PARENT UUID
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function parentUUID()
+    {
+
+        return $this->formatData(
+
+            'parent_uuid'
+
+        );
+
+    }
+    /**
+     *
+     * PARENT TITLE UA
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function parentTitleUA()
+    {
+
+        return $this->formatData(
+
+            'parent_title_ua'
+
+        );
+
+    }
+    /**
+     *
+     * PARENT TITLE RU
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function parentTitleRU()
+    {
+
+        return $this->formatData(
+
+            'parent_title_ru'
+
+        );
+
+    }
+    /**
+     *
+     * PARENT TITLE UA
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function parentTitleEN()
+    {
+
+        return $this->formatData(
+
+            'parent_title_en'
+
+        );
+
+    }
+    /**
+     *
+     * TITLE UA
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function titleUA()
+    {
+
+        return $this->formatData(
+
+            'title_ua'
+
+        );
+
+    }
+    /**
+     *
+     * TITLE RU
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function titleRU()
+    {
+
+        return $this->formatData(
+
+            'title_ru'
+
+        );
+
+    }
+    /**
+     *
+     * TITLE EN
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function titleEN()
+    {
+
+        return $this->formatData(
+
+            'title_en'
+
+        );
+
+    }
 
 }

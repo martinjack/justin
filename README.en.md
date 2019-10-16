@@ -59,25 +59,29 @@ composer require jackmartin/justin
     * [branchSchedule](https://github.com/martinjack/justin/blob/master/README.en.md#branchschedule)
 13. Get nearest department by address
     * [getNeartDepartment](https://github.com/martinjack/justin/blob/master/README.en.md#getNeartDepartment)
-14. Cancel order
-    * [cancelOrder](https://github.com/martinjack/justin#cancelorder)
-15. Get list statuses order.
-    * [listStatuses](https://github.com/martinjack/justin/blob/master/README.en.md#liststatuses)
-16. Get key seller(senderID)
-    * [keySeller](https://github.com/martinjack/justin/blob/master/README.en.md#keyseller)
-17. Get tracking history
-    * [trackingHistory](https://github.com/martinjack/justin/blob/master/README.en.md#trackingHistory)
-18. Get story statuses order. Old method
-    * [getStatusHistory](https://github.com/martinjack/justin/blob/master/README.en.md#getstatushistory)
-19. Get story statuses order.
-    * [getStatusHistoryF](https://github.com/martinjack/justin/blob/master/README.en.md#getstatushistoryf)
-20. Create new order(Departure)
+14. Create new order(Departure)
     * [createOrder](https://github.com/martinjack/justi/blob/master/README.en.mdn#createorder)
-21. Get list orders for specified period
+15. Cancel order
+    * [cancelOrder](https://github.com/martinjack/justin#cancelorder)
+16. Get list statuses order.
+    * [listStatuses](https://github.com/martinjack/justin/blob/master/README.en.md#liststatuses)
+17. Get key seller(senderID)
+    * [keySeller](https://github.com/martinjack/justin/blob/master/README.en.md#keyseller)
+18. Get tracking history
+    * [trackingHistory](https://github.com/martinjack/justin/blob/master/README.en.md#trackingHistory)
+19. Get localities
+    * [localities](https://github.com/martinjack/justin#localities)
+20. Get information available services
+    * [services](https://github.com/martinjack/justin#services)
+21. Get story statuses order. Old method
+    * [getStatusHistory](https://github.com/martinjack/justin/blob/master/README.en.md#getstatushistory)
+22. Get story statuses order.
+    * [getStatusHistoryF](https://github.com/martinjack/justin/blob/master/README.en.md#getstatushistoryf)
+23. Get list orders for specified period
     * [listOrders](https://github.com/martinjack/justi/blob/master/README.en.mdn#listorders)
-22. Get information about order
+24. Get information about order
     * [orderInfo](https://github.com/martinjack/justin/blob/master/README.en.md#orderinfo)
-23. Create sticker order
+25. Create sticker order
     * [createSticker](https://github.com/martinjack/justin/blob/master/README.en.md#createsticker)
 
 # Examples
@@ -433,6 +437,42 @@ print_r(
     // $justin->trackingHistory('201810165')->fields()->dateAdded()
     // $justin->trackingHistory('201810165')->fields()->deparNumber()
     // $justin->trackingHistory('201810165')->fields()->deparAddress()
+
+);
+```
+
+### localities()
+
+```php
+
+include_once 'vendor/autoload.php';
+
+use Justin\Justin;
+
+$justin = new Justin('RU', true);
+
+print_r(
+
+    $justin->localities()
+    // $justin->localities('all')
+    // $justin->localities('activity')
+
+);
+```
+
+### services()
+
+```php
+
+include_once 'vendor/autoload.php';
+
+use Justin\Justin;
+
+$justin = new Justin('RU', true);
+
+print_r(
+
+    $justin->services()
 
 );
 ```

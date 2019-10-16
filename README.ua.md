@@ -59,25 +59,29 @@ composer require jackmartin/justin
     * [branchSchedule](https://github.com/martinjack/justin/blob/master/README.ua.md#branchschedule)
 13. Отримати найближче відділення за адресою
     * [getNeartDepartment](https://github.com/martinjack/justin/blob/master/README.ua.md#getNeartDepartment)
-14. Відміна замовлення
-    * [cancelOrder](https://github.com/martinjack/justin#cancelorder)
-15. Отримати список статусів замовлення
-    * [listStatuses](https://github.com/martinjack/justin/blob/master/README.ua.md#liststatuses)
-16. Отримати ключ торговця(senderID)
-    * [keySeller](https://github.com/martinjack/justin/blob/master/README.ua.md#keyseller)
-17. Отримати історію руху відправлення
-    * [trackingHistory](https://github.com/martinjack/justin/blob/master/README.ua.md#trackingHistory)
-18. Отримати історію статусів замовлення. Старий метод
-    * [getStatusHistory](https://github.com/martinjack/justin/blob/master/README.ua.md#getstatushistory)
-19. Отримати історію статусів замовлення.
-    * [getStatusHistoryF](https://github.com/martinjack/justin/blob/master/README.ua.md#getstatushistoryf)
-20. Створити нове замовлення(Відправлення)
+14. Створити нове замовлення(Відправлення)
     * [createOrder](https://github.com/martinjack/justin/blob/master/README.ua.md#createOrder)
-21. Отримати список замовлень за вказаний період
+15. Відміна замовлення
+    * [cancelOrder](https://github.com/martinjack/justin#cancelorder)
+16. Отримати список статусів замовлення
+    * [listStatuses](https://github.com/martinjack/justin/blob/master/README.ua.md#liststatuses)
+17. Отримати ключ торговця(senderID)
+    * [keySeller](https://github.com/martinjack/justin/blob/master/README.ua.md#keyseller)
+18. Отримати історію руху відправлення
+    * [trackingHistory](https://github.com/martinjack/justin/blob/master/README.ua.md#trackingHistory)
+19. Отримати населені пункти
+    * [localities](https://github.com/martinjack/justin#localities)
+20. Отримати інформацію про доступні сервіси
+    * [services](https://github.com/martinjack/justin#services) 
+21. Отримати історію статусів замовлення. Старий метод
+    * [getStatusHistory](https://github.com/martinjack/justin/blob/master/README.ua.md#getstatushistory)
+22. Отримати історію статусів замовлення.
+    * [getStatusHistoryF](https://github.com/martinjack/justin/blob/master/README.ua.md#getstatushistoryf)
+23. Отримати список замовлень за вказаний період
     * [listOrders](https://github.com/martinjack/justin/blob/master/README.ua.md#listorders)
-22. Отримати інформацію про замовлення
+24. Отримати інформацію про замовлення
     * [orderInfo](https://github.com/martinjack/justin/blob/master/README.ua.md#orderinfo)
-23. Створити стікер замовлення
+25. Створити стікер замовлення
     * [createSticker](https://github.com/martinjack/justin/blob/master/README.ua.md#createsticker)
 
 # Приклади
@@ -411,6 +415,42 @@ print_r(
     // $justin->trackingHistory('201810165')->fields()->dateAdded()
     // $justin->trackingHistory('201810165')->fields()->deparNumber()
     // $justin->trackingHistory('201810165')->fields()->deparAddress()
+
+);
+```
+
+### localities()
+
+```php
+
+include_once 'vendor/autoload.php';
+
+use Justin\Justin;
+
+$justin = new Justin('RU', true);
+
+print_r(
+
+    $justin->localities()
+    // $justin->localities('all')
+    // $justin->localities('activity')
+
+);
+```
+
+### services()
+
+```php
+
+include_once 'vendor/autoload.php';
+
+use Justin\Justin;
+
+$justin = new Justin('RU', true);
+
+print_r(
+
+    $justin->services()
 
 );
 ```

@@ -1244,6 +1244,56 @@ class Justin extends Order implements iJustin
 
     }
     /**
+     *
+     * LOCALITIES
+     *
+     * ПОЛУЧИТЬ НАСЕЛЕННЫЕ ПУНКТЫ
+     * ОТРИМАТИ НАСЕЛЕНІ ПУНКТИ
+     *
+     * @param STRING $action all | activity
+     *
+     * @return OBJECT
+     *
+     */
+    public function localities($action = '')
+    {
+
+        return new Data(
+
+            $this->request(
+
+                '', '', 'localities', $action, 'get'
+
+            )
+
+        );
+
+    }
+    /**
+     *
+     * SERVICES
+     *
+     * ПОЛУЧИТЬ ИНФОРМАЦИЮ О ДОСТУПНЫХ СЕРВИСАХ
+     * ОТРИМАТИ ІНФОРМАЦІЮ ПРО ДОСТУПНІ СЕРВІСИ
+     *
+     * @return OBJECT
+     *
+     */
+    public function services()
+    {
+
+        return new Data(
+
+            $this->request(
+
+                '', '', 'services', '', 'get'
+
+            )
+
+        );
+
+    }
+    /**
      * OLD METHOD
      *
      * GET HISTORY STATUSES ORDERS

@@ -1164,4 +1164,61 @@ interface iData
      *
      */
     public function depth();
+    /**
+     *
+     * PARENT UUID
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function parentUUID();
+    /**
+     *
+     * PARENT TITLE UA
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function parentTitleUA();
+    /**
+     *
+     * PARENT TITLE RU
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function parentTitleRU();
+    /**
+     *
+     * PARENT TITLE UA
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function parentTitleEN();
+    /**
+     *
+     * TITLE UA
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function titleUA();
+    /**
+     *
+     * TITLE RU
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function titleRU();
+    /**
+     *
+     * TITLE EN
+     *
+     * @return STRING | ARRAY | NULL
+     *
+     */
+    public function titleEN();
+
 }

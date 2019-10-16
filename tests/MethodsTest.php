@@ -644,6 +644,64 @@ final class MethodsTest extends TestCase
     }
     /**
      *
+     * TEST LOCALITIES
+     *
+     * @return VOID
+     *
+     */
+    public function testLocalities()
+    {
+
+        $data = $this->justin->localities();
+
+        $this->assertInstanceOf(
+
+            Data::class,
+
+            $data
+
+        );
+
+        $this->assertIsArray($data->getRaw());
+
+        $this->assertTrue(
+
+            (bool) $data->getRaw()['status']
+
+        );
+
+    }
+    /**
+     *
+     * TEST SERVICES
+     *
+     * @return VOID
+     *
+     */
+    public function testServices()
+    {
+
+        $data = $this->justin->services();
+
+        $this->assertInstanceOf(
+
+            Data::class,
+
+            $data
+
+        );
+
+        $this->assertIsArray($data->getRaw());
+
+        $this->assertTrue(
+
+            (bool) $data->getRaw()['status']
+
+        );
+
+    }
+    /**
+     *
      * TEST METHOD GET STATUS HISTORY
      *
      * @return VOID

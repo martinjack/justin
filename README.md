@@ -69,15 +69,19 @@ composer require jackmartin/justin
     * [keySeller](https://github.com/martinjack/justin#keyseller)
 18. Получить историю движения отправления
     * [trackingHistory](https://github.com/martinjack/justin#trackingHistory)
-19. Получить историю статусов заказа. Старый метод
+19. Получить населенные пункты
+    * [localities](https://github.com/martinjack/justin#localities)
+20. Получить информацию о доступных сервисах
+    * [services](https://github.com/martinjack/justin#services)
+21. Получить историю статусов заказа. Старый метод
     * [getStatusHistory](https://github.com/martinjack/justin#getstatushistory)
-20. Получить историю статусов заказа.
+22. Получить историю статусов заказа.
     * [getStatusHistoryF](https://github.com/martinjack/justin#getstatushistoryf)
-21. Получить список заказов за указанный период
+23. Получить список заказов за указанный период
     * [listOrders](https://github.com/martinjack/justin#listorders)
-22. Получить информацию о заказе
+24. Получить информацию о заказе
     * [orderInfo](https://github.com/martinjack/justin#orderinfo)
-23. Создать стикер заказа
+25. Создать стикер заказа
     * [createSticker](https://github.com/martinjack/justin#createsticker)
 
 # Примеры
@@ -432,6 +436,42 @@ print_r(
     // $justin->trackingHistory('201810165')->fields()->dateAdded()
     // $justin->trackingHistory('201810165')->fields()->deparNumber()
     // $justin->trackingHistory('201810165')->fields()->deparAddress()
+
+);
+```
+
+### localities()
+
+```php
+
+include_once 'vendor/autoload.php';
+
+use Justin\Justin;
+
+$justin = new Justin('RU', true);
+
+print_r(
+
+    $justin->localities()
+    // $justin->localities('all')
+    // $justin->localities('activity')
+
+);
+```
+
+### services()
+
+```php
+
+include_once 'vendor/autoload.php';
+
+use Justin\Justin;
+
+$justin = new Justin('RU', true);
+
+print_r(
+
+    $justin->services()
 
 );
 ```
