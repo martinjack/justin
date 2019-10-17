@@ -504,7 +504,7 @@ final class MethodsTest extends TestCase
      * @return VOID
      *
      */
-    public function testGetNeartDepartment()
+    public function testGetNeartDepartment(): void
     {
 
         $data = $this->justin->getNeartDepartment('Київ,Шевченка,30');
@@ -649,7 +649,7 @@ final class MethodsTest extends TestCase
      * @return VOID
      *
      */
-    public function testLocalities()
+    public function testLocalities(): void
     {
 
         $data = $this->justin->localities();
@@ -678,7 +678,7 @@ final class MethodsTest extends TestCase
      * @return VOID
      *
      */
-    public function testServices()
+    public function testServices(): void
     {
 
         $data = $this->justin->services();
@@ -707,7 +707,7 @@ final class MethodsTest extends TestCase
      * @return VOID
      *
      */
-    public function testGetStatusHistory()
+    public function testGetStatusHistory(): void
     {
 
         $data = $this->justin->name('orderNumber')->equal('000000004')->getStatusHistory();
