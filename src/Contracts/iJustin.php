@@ -18,11 +18,8 @@ interface iJustin
      * INIT CLASS
      *
      * @param STRING $language
-     *
      * @param BOOLEAN $sandbox
-     *
      * @param STRING $version
-     *
      * @param STRING $timezone
      *
      * @return OBJECT
@@ -34,7 +31,6 @@ interface iJustin
      * SET SANDBOX
      *
      * @param BOOLEAN sandbox
-     *
      * @param STRING $type
      *
      * @return OBJECT
@@ -113,6 +109,16 @@ interface iJustin
     public function setAddressApi($address_api);
     /**
      *
+     * SET BEARER
+     *
+     * @param STRING $token
+     *
+     * @return OBJECT
+     *
+     */
+    public function setBearer($token);
+    /**
+     *
      * LIST REGIONS
      * СПИСОК ОБЛАСТЕЙ
      * ДАННІ ОБЛАСТЕЙ
@@ -181,31 +187,6 @@ interface iJustin
     public function branchTypes($limit = 0);
     /**
      *
-     * GET BRANCH
-     * ПОЛУЧИТЬ ИНФОРМАЦИЮ ПРО ОТДЕЛЕНИЕ
-     * ОТРИМАТИ ІНФОРМАЦІЮ ПРО ВІДДІЛЕННЯ
-     *
-     * @return OBJECT
-     *
-     */
-    public function getBranch($id);
-    /**
-     * OLD METHOD
-     *
-     * LIST DEPARTMENTS
-     * СПИСОК ОТДЕЛЕНИЙ
-     * СПИСОК ВІДДІЛЕНЬ
-     *
-     * @param ARRAY $filter
-     *
-     * @param INTEGER $limit
-     *
-     * @return ARRAY
-     *
-     */
-    public function listDepartments($filter = [], $limit = 0);
-    /**
-     *
      * LIST DEPARTMENTS
      * СПИСОК ОТДЕЛЕНИЙ
      * СПИСОК ВІДДІЛЕНЬ
@@ -234,18 +215,6 @@ interface iJustin
     public function branchSchedule($filter = [], $limit = 0);
     /**
      *
-     * GET NEAREST DEPARTMENT
-     * ПОЛУЧИТЬ БЛИЖАЙШЕЕ ОТДЛЕНИЕ ПО АДРЕСУ
-     * ОТРИМАТИ НАЙБЛИЖЧЕ ВІДДІЛЕННЯ ЗА АДРЕСОЮ
-     *
-     * @param STRING $address
-     *
-     * @return OBJECT
-     *
-     */
-    public function getNeartDepartment($address);
-    /**
-     *
      * CREATE NEW ORDER
      * СОЗДАТЬ НОВЫЙ ЗАКАЗ НА ДОСТАВКУ
      * СТВОРИТИ НОВЕ ЗАМОВЛЕННЯ НА ДОСТАВКУ
@@ -265,7 +234,6 @@ interface iJustin
      * ВІДМІНА ЗАМОВЛЕННЯ
      *
      * @param STRING $number
-     *
      * @param STRING $version
      *
      * @return OBJECT
@@ -279,7 +247,6 @@ interface iJustin
      * СПИСОК СТАТУСІВ ЗАМОВЛЕНЬ
      *
      * @param ARRAY $filter
-     *
      * @param INTEGER $limit
      *
      * @return ARRAY
@@ -300,67 +267,19 @@ interface iJustin
     public function keySeller($filter = []);
     /**
      *
-     * GET CURRENT STATUS
-     * ПОЛУЧИТЬ ТЕКУЩИЙ СТАТУС ЗАКАЗА
-     * ОТРИМАТИ ПОТОЧНИЙ СТАТУС ЗАМОВЛЕННЯ
+     * ORDER INFO
+     *
+     * GET ORDER INFO
+     * ПОЛУЧИТЬ ИНФОРМАЦИЮ О ЗАКАЗЕ
+     * ОТРИМАТИ ІНФОРМАЦІЮ ПРО ЗАМОВЛЕННЯ
      *
      * @param STRING $number
+     * @param STRING $version
      *
      * @return OBJECT
      *
      */
-    public function currentStatus($number);
-    /**
-     *
-     * GET TRACKING HISTORY
-     * ПОЛУЧИТЬ ИСТОРИЮ ДВИЖЕНИЯ ОТПРАВЛЕНИЯ
-     * ОТРИМАТИ ІСТОРІЮ РУХУ ВІДПРАВЛЕННЯ
-     *
-     * @param STRING $number
-     *
-     * @return OBJECT
-     *
-     */
-    public function trackingHistory($number);
-    /**
-     *
-     * LOCALITIES
-     *
-     * ПОЛУЧИТЬ НАСЕЛЕННЫЕ ПУНКТЫ
-     * ОТРИМАТИ НАСЕЛЕНІ ПУНКТИ
-     *
-     * @param STRING $action all | activity
-     *
-     * @return OBJECT
-     *
-     */
-    public function localities($action = '');
-    /**
-     *
-     * SERVICES
-     *
-     * ПОЛУЧИТЬ ИНФОРМАЦИЮ О ДОСТУПНЫХ СЕРВИСАХ
-     * ОТРИМАТИ ІНФОРМАЦІЮ ПРО ДОСТУПНІ СЕРВІСИ
-     *
-     * @return OBJECT
-     *
-     */
-    public function services();
-    /**
-     * OLD METHOD
-     *
-     * GET HISTORY STATUSES ORDERS
-     * ПОЛУЧИТЬ ИСТОРИЮ СТАТУСОВ ЗАКАЗОВ
-     * ОТРИМАТИ ІСТОРІЮ СТАТУСІВ ЗАМОВЛЕНЬ
-     *
-     * @param ARRAY $filter
-     *
-     * @param INTEGER $limit
-     *
-     * @return OBJECT
-     *
-     */
-    public function getStatusHistory($filter = [], $limit = 0);
+    public function orderInfo($number, $version = 'v1');
     /**
      *
      * GET HISTORY STATUSES ORDERS
@@ -368,9 +287,7 @@ interface iJustin
      * ОТРИМАТИ ІСТОРІЮ СТАТУСІВ ЗАМОВЛЕНЬ
      *
      * @param ARRAY $filter
-     *
      * @param INTEGER $limit
-     *
      * @param STRING $senderID
      *
      * @return OBJECT
@@ -384,7 +301,6 @@ interface iJustin
      * ОТРИМАТИ СПИСОК ЗАМОВЛЕНЬ ЗА ВКАЗАНИЙ ПЕРІОД
      *
      * @param STRING $date
-     *
      * @param STRING $version
      *
      * @return OBJECT
@@ -393,36 +309,105 @@ interface iJustin
     public function listOrders($date, $version = 'v1');
     /**
      *
-     * GET ORDER INFO
-     * ПОЛУЧИТЬ ИНФОРМАЦИЮ О ЗАКАЗЕ
-     * ОТРИМАТИ ІНФОРМАЦІЮ ПРО ЗАМОВЛЕННЯ
+     * CREATE STICKER
      *
-     * @param STRING $number
+     * СТВОРЕННЯ СТІКЕРІВ
+     * СОЗДАНИЕ СТИКЕРОВ
+     *
+     * @param ARRAY $orders
+     * @param STRING $order
+     * @param STRING $path
+     * @param STRING $cargoPlace
+     * @param BOOLEAN $show
+     * @param STRING $version
+     *
+     * @return BOOLEAN | OBJECT | NULL
+     *
+     */
+    public function createSticker($orders = null, $order = null, $path = null, $cargoPlace = null, $show = false, $version = 'v1');
+    /**
+     *
+     * CREATE REGISTRY
+     *
+     * @param ARRAY $data
+     * @param STRING $version
+     *
+     * @return OBJECT
+     *
+     */
+    public function createRegistry($data, $version = 'v1');
+    /**
+     *
+     * GET REGISTRY
+     *
+     * ПОЛУЧИТЬ ИНФОРМАЦИЮ ПРО РЕЕСТР ОТПРАВЛЕНИЙ
+     * ОТРИМАТИ ІНФОРМАЦІЯ ПРО РЕЄСТР ВІДПРАВЛЕНЬ
+     * GET INFO REGISTRY ORDERS
+     *
+     * @param ARRAY $data
+     * @param STRING $version
+     *
+     * @return OBJECT
+     *
+     */
+    public function getRegistry($data, $version = 'v1');
+    /**
+     *
+     * REMOVE REGISTRY
+     *
+     * УДАЛЕНИЕ РЕЕСТРА ОТПРАВЛЕНИЙ
+     * ВИДАЛЕННЯ РЕЄСТРУ ВІДПРАВЛЕНЬ
+     * REMOVE REGISTRY ORDERS
+     *
+     * @param ARRAY $data
+     * @param STRING $version
+     *
+     * @return OBJECT
+     *
+     */
+    public function removeRegistry($data, $version = 'v1');
+    /**
+     *
+     * CREATE SESSION
+     *
+     * ОТКРЫТЬ СЕССИЮ
+     * ВІДКРИТИ СЕСІЮ
+     * OPEN SESSION
      *
      * @param STRING $version
      *
      * @return OBJECT
      *
      */
-    public function orderInfo($number, $version = 'v1');
+    public function createSession($version = 'v3');
     /**
      *
-     * STICKER PDF
+     * REFRESH SESSION
      *
-     * @param INTEGER $orderNumber
+     * ОБНОВИТЬ КЛЮЧ СЕССИИ
+     * ОНОВИТИ КЛЮЧ СЕСІЇ
+     * REFRESH KEY SESSION
      *
-     * @param BOOLEAN $show
+     * @param STRING $token
+     * @param STRING $version
      *
-     * @param STRING $path
-     *
-     * @param INTEGER $type
-     *
-     * @param BOOLEAN $version
-     *
-     * @throws JustinFileException
-     *
-     * @return BOOLEAN
+     * @return OBJECT
      *
      */
-    public function createSticker($orderNumber, $show = false, $path = null, $type = 0, $version = 'v1');
+    public function refreshSession($token, $version = 'v3');
+    /**
+     *
+     * CLOSE SESSION
+     *
+     * ЗАКРЫТЬ СЕССИЮ
+     * ЗАКРИТИ СЕСІЮ
+     * CLOSE SESSION
+     *
+     * @param BOOLEAN $all
+     * @param STRING $version
+     *
+     * @return OBJECT
+     *
+     */
+    public function closeSession($all = false, $version = 'v3');
 }

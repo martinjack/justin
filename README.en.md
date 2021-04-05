@@ -15,7 +15,7 @@ PHP class to work with Justin API
 
 [API documentation](https://justin.ua/api/api_justin_documentation.pdf "PDF")
 
-[Openapi](http://openapi.justin.EN/ "OPENAPI")
+[Telegram Support API](https://t.me/justin_support_api)
 
 # Requirements
 
@@ -49,39 +49,27 @@ composer require jackmartin/justin
     * [listStreetsCity](https://github.com/martinjack/justin/blob/master/README.en.md#liststreetscity)
 8. Get list types branches
     * [branchTypes](https://github.com/martinjack/justin/blob/master/README.en.md#branchTypes)
-9. Get information about department
-    * [getBranch](https://github.com/martinjack/justin/blob/master/README.en.md#getBranch)
-10. Get list departments. Old method
-    * [listDepartments](https://github.com/martinjack/justin/blob/master/README.en.md#listdepartments)
-11. Get list departments.
+9. Get list departments.
     * [listDepartmentsLang](https://github.com/martinjack/justin/blob/master/README.en.md#listdepartmentslang)
-12. Get schedule work branch
+10. Get schedule work branch. (OLD method)
     * [branchSchedule](https://github.com/martinjack/justin/blob/master/README.en.md#branchschedule)
-13. Get nearest department by address
-    * [getNeartDepartment](https://github.com/martinjack/justin/blob/master/README.en.md#getNeartDepartment)
-14. Create new order(Departure)
+11. Create new order(Departure)
     * [createOrder](https://github.com/martinjack/justi/blob/master/README.en.mdn#createorder)
-15. Cancel order
+12. Cancel order
     * [cancelOrder](https://github.com/martinjack/justin#cancelorder)
-16. Get list statuses order.
+13. Get list statuses order.
     * [listStatuses](https://github.com/martinjack/justin/blob/master/README.en.md#liststatuses)
-17. Get key seller(senderID)
+14. Get key seller(senderID)
     * [keySeller](https://github.com/martinjack/justin/blob/master/README.en.md#keyseller)
-18. Get tracking history
+15. Get tracking history
     * [trackingHistory](https://github.com/martinjack/justin/blob/master/README.en.md#trackingHistory)
-19. Get localities
-    * [localities](https://github.com/martinjack/justin#localities)
-20. Get information available services
-    * [services](https://github.com/martinjack/justin#services)
-21. Get story statuses order. Old method
-    * [getStatusHistory](https://github.com/martinjack/justin/blob/master/README.en.md#getstatushistory)
-22. Get story statuses order.
+16. Get story statuses order.
     * [getStatusHistoryF](https://github.com/martinjack/justin/blob/master/README.en.md#getstatushistoryf)
-23. Get list orders for specified period
+17. Get list orders for specified period
     * [listOrders](https://github.com/martinjack/justi/blob/master/README.en.mdn#listorders)
-24. Get information about order
+18. Get information about order
     * [orderInfo](https://github.com/martinjack/justin/blob/master/README.en.md#orderinfo)
-25. Create sticker order
+19. Create sticker order
     * [createSticker](https://github.com/martinjack/justin/blob/master/README.en.md#createsticker)
 
 # Examples
@@ -241,46 +229,6 @@ print_r(
 );
 ```
 
-### getBranch()
-
-```php
-use Justin\Justin;
-
-include_once 'vendor/autoload.php';
-
-$justin = new Justin('EN', true);
-
-print_r(
-
-    $justin->getBranch('220')->getData()
-    // $justin->getBranch('220')->fields()->number()
-    // $justin->getBranch('220')->fields()->getType()
-    // $justin->getBranch('220')->fields()->address()
-    // $justin->getBranch('220')->fields()->getPosition()
-    // $justin->getBranch('220')->fields()->getDescr()
-    // $justin->getBranch('220')->fields()->scheduDescr()
-
-);
-```
-
-### listDepartments()
-
-```php
-use Justin\Justin;
-
-include_once 'vendor/autoload.php';
-
-$justin = new Justin('EN', true);
-
-$justin->setLogin('Your login')->setPassword('Your password');
-
-print_r(
-
-    $justin->listDepartments()
-
-);
-```
-
 ### listDepartmentsLang()
 
 ```php
@@ -318,27 +266,6 @@ print_r(
     ->branchSchedule()
     ->getData()
 
-);
-```
-
-### getNeartDepartment()
-
-```php
-
-use Justin\Justin;
-
-include_once 'vendor/autoload.php';
-
-$justin = new Justin('EN', true);
-
-print_r(
-
-    $justin->getNeartDepartment('Київ,Шевченка,30')->getData()
-    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->getPosition()
-    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->distance()
-    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->format()
-    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->number()
-    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->address()
 );
 ```
 
@@ -437,79 +364,6 @@ print_r(
     // $justin->trackingHistory('201810165')->fields()->dateAdded()
     // $justin->trackingHistory('201810165')->fields()->deparNumber()
     // $justin->trackingHistory('201810165')->fields()->deparAddress()
-
-);
-```
-
-### localities()
-
-```php
-
-include_once 'vendor/autoload.php';
-
-use Justin\Justin;
-
-$justin = new Justin('RU', true);
-
-print_r(
-
-    $justin->localities()
-    // $justin->localities('all')
-    // $justin->localities('activity')
-
-);
-```
-
-### services()
-
-```php
-
-include_once 'vendor/autoload.php';
-
-use Justin\Justin;
-
-$justin = new Justin('RU', true);
-
-print_r(
-
-    $justin->services()
-
-);
-```
-
-### getStatusHistory()
-
-```php
-use Justin\Justin;
-
-include_once 'vendor/autoload.php';
-
-$justin = new Justin('EN', true);
-
-$justin->setLogin('Your login')->setPassword('Your password');
-
-print_r(
-
-    $justin->getStatusHistory(
-
-        [
-
-            [
-
-                'name'       => 'orderNumber',
-
-                'comparison' => 'equal',
-
-                'leftValue'  => '000000004',
-
-            ],
-
-        ]
-
-    )
-
-    // $justin->name('orderNumber')->leftValue('000000004')->equal()->getStatusHistory()
-    // $justin->name('orderNumber')->equal('000000004')->getStatusHistory()
 
 );
 ```
@@ -748,55 +602,18 @@ print_r(
 
     $justin->createSticker(
 
-        '877893', __DIR__ . '/' . time() . '.pdf'
+        null, '400144837', __DIR__ . '/' . time() . '.pdf', null, false
 
     )
 
-);
+    // $justin->createSticker(
 
-print_r(
+    //     [400144837, 400144837], null, __DIR__ . '/t.pdf', null, false
 
-    $justin->createSticker(
-
-        '877893', __DIR__ . '/' . time() . '.pdf', false, 1
-
-    )
+    // )
 
 );
 
-print_r(
-
-    $justin->createSticker(
-
-        '877893', __DIR__ . '/' . time() . '.pdf', false, 2
-
-    )
-
-);
-
-print_r(
-
-    $justin->createSticker(
-
-        '877893', true
-
-    )
-
-);
-
-print_r(
-
-    $justin->createSticker(
-
-        '877893', true, 'url'
-
-    )
-
-);
 ```
-### Sticker has name or FIO sender and receiver
-![Sticker1](https://github.com/martinjack/justin/blob/master/doc/sticker1.png?raw=true "Example sticker order. Sticker has name or FIO sender and receiver")
-### Sticker has names sender and receiver
-![Sticker2](https://github.com/martinjack/justin/blob/master/doc/sticker2.png?raw=true "Example sticker order. Sticker has names sender and receiver")
-### Sticker has address receiver, if delivery was made at the address
-![Sticker2](https://github.com/martinjack/justin/blob/master/doc/sticker3.png?raw=true "Example sticker order. Sticker has address receiver, if delivery was made at the address")
+### Sticker example
+![Sticker](https://github.com/martinjack/justin/blob/master/doc/sticker.png?raw=true "Sticker example")

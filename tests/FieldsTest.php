@@ -43,22 +43,6 @@ final class FieldsTest extends TestCase
     private $password = 'Exchange';
     /**
      *
-     * NUMBER
-     *
-     * @var STRING
-     *
-     */
-    private $number = '';
-    /**
-     *
-     * PERIOD
-     *
-     * @var STRING
-     *
-     */
-    private $period = '';
-    /**
-     *
      * JUSTIN
      *
      * @var OBJECT
@@ -76,15 +60,9 @@ final class FieldsTest extends TestCase
     {
 
         #
-        $this->key = getenv('key');
-
-        $this->login = getenv('login');
-
+        $this->key      = getenv('key');
+        $this->login    = getenv('login');
         $this->password = getenv('password');
-
-        $this->number = getenv('number');
-
-        $this->period = getenv('period');
         #
 
         $this->justin = new Justin('UA', false);
@@ -110,107 +88,6 @@ final class FieldsTest extends TestCase
     }
     /**
      *
-     * TEST FIELD CODE IN METHOD LIST DEPARTMENTS
-     *
-     * @return VOID
-     *
-     */
-    public function testFieldCodeListDepartments(): void
-    {
-
-        $this->assertNotEmpty(
-
-            $this->justin->limit(1)->listDepartments()->fields()->getCode()
-
-        );
-
-    }
-    /**
-     *
-     * TEST FIELD KNOT IN METHOD LIST DEPARTMENTS
-     *
-     * @return VOID
-     *
-     */
-    public function testFieldKnotListDepartments(): void
-    {
-
-        $data = $this->justin->limit(1)->listDepartments()->fields()->knot();
-
-        $this->assertInstanceOf(
-
-            Data::class,
-
-            $data
-
-        );
-
-        $this->assertNotEmpty(
-
-            $data->getUUID()
-
-        );
-
-        $this->assertNotEmpty(
-
-            $data->type()
-
-        );
-
-    }
-    /**
-     *
-     * TEST FIELD ADDRESS IN METHOD LIST DEPARTMENTS
-     *
-     * @return VOID
-     *
-     */
-    public function testFieldAddressListDepartments(): void
-    {
-
-        $this->assertNotEmpty(
-
-            $this->justin->limit(1)->listDepartments()->fields()->getAddress()
-
-        );
-
-    }
-    /**
-     *
-     * TEST FIELD ORDERNUMBER IN METHOD CURRENT STATUS
-     *
-     * @return VOID
-     *
-     */
-    public function testFieldsOrderNumberCurrentStatus(): void
-    {
-
-        $this->assertNotEmpty(
-
-            $this->justin->currentStatus('201971185')->fields()->orderNumber()
-
-        );
-
-    }
-    /**
-     *
-     * TEST FIELD ORDERDESCRIPTION IN METHOD CURRENT STATUS
-     *
-     * @return VOID
-     *
-     */
-    public function testFieldOrderDescriptionCurrentStatus(): void
-    {
-
-        $this->assertNotEmpty(
-
-            $this->justin->currentStatus('201971185')->fields()->orderDescr()
-
-        );
-
-    }
-    /**
-     *
      * TEST FIELD SHORTNAME IN METHOD BRANCH TYPES
      *
      * @return VOID
@@ -219,15 +96,11 @@ final class FieldsTest extends TestCase
     public function testFieldsShortNameBranchTypes(): void
     {
 
-        $this->justin->setSandbox(false);
-
         $this->assertNotEmpty(
 
             $this->justin->limit(1)->branchTypes()->fields()->shortName()
 
         );
-
-        $this->justin->setSandbox(true);
 
     }
     /**
@@ -239,8 +112,6 @@ final class FieldsTest extends TestCase
      */
     public function testFieldDepartBranchSchedule(): void
     {
-
-        $this->justin->setSandbox(false);
 
         $data = $this->justin->limit(1)->name('Depart')->equal('1a4df005-5d8d-11e8-80be-525400fb7782')->branchSchedule()->fields();
 
@@ -263,8 +134,6 @@ final class FieldsTest extends TestCase
             $data->startWork()
 
         );
-
-        $this->justin->setSandbox(true);
 
     }
     /**

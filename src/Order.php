@@ -67,13 +67,14 @@ class Order extends Filter implements iOrder
     public function orderVersion($sandbox = false, $version = 'v1')
     {
 
-        if (!$sandbox) {
+        if ($sandbox) {
 
-            $this->orderApi[1] = "api_pms/hs/api/${version}";
+            $this->orderApi[0] = 'https://api.justin.ua';
+            $this->orderApi[1] = "justin_pms/hs/api/${version}";
 
         } else {
 
-            $this->orderApi[1] = "api_pms_demo/hs/api/${version}";
+            $this->orderApi[1] = "client_api/hs/api/${version}";
 
         }
 

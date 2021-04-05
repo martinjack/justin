@@ -2714,5 +2714,39 @@ class Data extends Utils implements iData
         );
 
     }
+    /**
+     *
+     * ACCESS TOKEN
+     *
+     * @return STRING
+     *
+     */
+    public function accessToken()
+    {
+
+        return $this->formatData(
+
+            'accessToken'
+
+        );
+
+    }
+    /**
+     *
+     * REFRESH TOKEN
+     *
+     * @return STRING
+     *
+     */
+    public function refreshToken()
+    {
+
+        return $this->formatData(
+
+            'refreshToken'
+
+        );
+
+    }
 
 }

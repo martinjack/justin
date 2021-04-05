@@ -15,7 +15,7 @@ PHP клас для роботи з API [Justin](https://justin.ua)
 
 [API documentation](https://justin.ua/api/api_justin_documentation.pdf "PDF")
 
-[Openapi](http://openapi.justin.ua/ "OPENAPI")
+[Telegram підтримка API](https://t.me/justin_support_api)
 
 # Вимога
 
@@ -49,39 +49,27 @@ composer require jackmartin/justin
     * [listStreetsCity](https://github.com/martinjack/justin/blob/master/README.ua.md#liststreetscity)
 8. Отримати список типів відділень
     * [branchTypes](https://github.com/martinjack/justin/blob/master/README.ua.md#branchtypes)
-9. Отримати інформацію про відділення
-    * [getBranch](https://github.com/martinjack/justin/blob/master/README.ua.md#getBranch)
-10. Отримати список відділень. Старий метод
-    * [listDepartments](https://github.com/martinjack/justin/blob/master/README.ua.md#listdepartments)
-11. Отримати список відділень.
+9. Отримати список відділень.
     * [listDepartmentsLang](https://github.com/martinjack/justin/blob/master/README.ua.md#listdepartmentslang)
-12. Отримати розклад роботи відділень
+10. Отримати розклад роботи відділень. (Старий метод)
     * [branchSchedule](https://github.com/martinjack/justin/blob/master/README.ua.md#branchschedule)
-13. Отримати найближче відділення за адресою
-    * [getNeartDepartment](https://github.com/martinjack/justin/blob/master/README.ua.md#getNeartDepartment)
-14. Створити нове замовлення(Відправлення)
+11. Створити нове замовлення(Відправлення)
     * [createOrder](https://github.com/martinjack/justin/blob/master/README.ua.md#createOrder)
-15. Відміна замовлення
+12. Відміна замовлення
     * [cancelOrder](https://github.com/martinjack/justin#cancelorder)
-16. Отримати список статусів замовлення
+13. Отримати список статусів замовлення
     * [listStatuses](https://github.com/martinjack/justin/blob/master/README.ua.md#liststatuses)
-17. Отримати ключ торговця(senderID)
+14. Отримати ключ торговця(senderID)
     * [keySeller](https://github.com/martinjack/justin/blob/master/README.ua.md#keyseller)
-18. Отримати історію руху відправлення
+15. Отримати історію руху відправлення
     * [trackingHistory](https://github.com/martinjack/justin/blob/master/README.ua.md#trackingHistory)
-19. Отримати населені пункти
-    * [localities](https://github.com/martinjack/justin#localities)
-20. Отримати інформацію про доступні сервіси
-    * [services](https://github.com/martinjack/justin#services) 
-21. Отримати історію статусів замовлення. Старий метод
-    * [getStatusHistory](https://github.com/martinjack/justin/blob/master/README.ua.md#getstatushistory)
-22. Отримати історію статусів замовлення.
+16. Отримати історію статусів замовлення.
     * [getStatusHistoryF](https://github.com/martinjack/justin/blob/master/README.ua.md#getstatushistoryf)
-23. Отримати список замовлень за вказаний період
+17. Отримати список замовлень за вказаний період
     * [listOrders](https://github.com/martinjack/justin/blob/master/README.ua.md#listorders)
-24. Отримати інформацію про замовлення
+18. Отримати інформацію про замовлення
     * [orderInfo](https://github.com/martinjack/justin/blob/master/README.ua.md#orderinfo)
-25. Створити стікер замовлення
+19. Створити стікер замовлення
     * [createSticker](https://github.com/martinjack/justin/blob/master/README.ua.md#createsticker)
 
 # Приклади
@@ -299,27 +287,6 @@ print_r(
 );
 ```
 
-### getNeartDepartment()
-
-```php
-
-use Justin\Justin;
-
-include_once 'vendor/autoload.php';
-
-$justin = new Justin('UA', true);
-
-print_r(
-
-    $justin->getNeartDepartment('Київ,Шевченка,30')->getData()
-    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->getPosition()
-    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->distance()
-    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->format()
-    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->number()
-    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->address()
-);
-```
-
 ### cancelOrder()
 
 ```php
@@ -415,79 +382,6 @@ print_r(
     // $justin->trackingHistory('201810165')->fields()->dateAdded()
     // $justin->trackingHistory('201810165')->fields()->deparNumber()
     // $justin->trackingHistory('201810165')->fields()->deparAddress()
-
-);
-```
-
-### localities()
-
-```php
-
-include_once 'vendor/autoload.php';
-
-use Justin\Justin;
-
-$justin = new Justin('RU', true);
-
-print_r(
-
-    $justin->localities()
-    // $justin->localities('all')
-    // $justin->localities('activity')
-
-);
-```
-
-### services()
-
-```php
-
-include_once 'vendor/autoload.php';
-
-use Justin\Justin;
-
-$justin = new Justin('RU', true);
-
-print_r(
-
-    $justin->services()
-
-);
-```
-
-### getStatusHistory()
-
-```php
-use Justin\Justin;
-
-include_once 'vendor/autoload.php';
-
-$justin = new Justin('UA', true);
-
-$justin->setLogin('Ваш логін')->setPassword('Ваш пароль');
-
-print_r(
-
-    $justin->getStatusHistory(
-
-        [
-
-            [
-
-                'name'       => 'orderNumber',
-
-                'comparison' => 'equal',
-
-                'leftValue'  => '000000004',
-
-            ],
-
-        ]
-
-    )
-
-    // $justin->name('orderNumber')->leftValue('000000004')->equal()->getStatusHistory()
-    // $justin->name('orderNumber')->equal('000000004')->getStatusHistory()
 
 );
 ```
@@ -726,55 +620,18 @@ print_r(
 
     $justin->createSticker(
 
-        '877893', __DIR__ . '/' . time() . '.pdf'
+        null, '400144837', __DIR__ . '/' . time() . '.pdf', null, false
 
     )
 
-);
+    // $justin->createSticker(
 
-print_r(
+    //     [400144837, 400144837], null, __DIR__ . '/t.pdf', null, false
 
-    $justin->createSticker(
-
-        '877893', __DIR__ . '/' . time() . '.pdf', false, 1
-
-    )
+    // )
 
 );
 
-print_r(
-
-    $justin->createSticker(
-
-        '877893', __DIR__ . '/' . time() . '.pdf', false, 2
-
-    )
-
-);
-
-print_r(
-
-    $justin->createSticker(
-
-        '877893', true
-
-    )
-
-);
-
-print_r(
-
-    $justin->createSticker(
-
-        '877893', true, 'url'
-
-    )
-
-);
 ```
-### Стікер має назву або ПІБ відправника та одержувача
-![Sticker1](https://github.com/martinjack/justin/blob/master/doc/sticker1.png?raw=true "Приклад стікера замовлення. Стікер має назву або ПІБ відправника та одержувача")
-### Стікер має імена відправника та одержувача
-![Sticker2](https://github.com/martinjack/justin/blob/master/doc/sticker2.png?raw=true "Приклад стікера замовлення. Стікер має імена відправника та одержувача")
-### Стікер має адрасу отримувача, якщо була оформлена достака за адресою.
-![Sticker2](https://github.com/martinjack/justin/blob/master/doc/sticker3.png?raw=true "Приклад стікера замовлення. Стікер має адрасу отримувача, якщо була оформлена достака за адресою")
+### Стікер приклад
+![Sticker](https://github.com/martinjack/justin/blob/master/doc/sticker.png?raw=true "Стікер приклад")

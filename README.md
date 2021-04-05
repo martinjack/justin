@@ -15,7 +15,7 @@ PHP класс для работы с API [Justin](https://justin.ua)
 
 [API documentation](https://justin.ua/api/api_justin_documentation.pdf "PDF")
 
-[Openapi](http://openapi.justin.ua/ "OPENAPI")
+[Telegram Поддержка API](https://t.me/justin_support_api)
 
 # Требования
 
@@ -49,39 +49,27 @@ composer require jackmartin/justin
     * [listStreetsCity](https://github.com/martinjack/justin#liststreetscity)
 8. Получить список типов отделений 
     * [branchTypes](https://github.com/martinjack/justin#branchtypes)
-9. Получить информацию про отделение
-    * [getBranch](https://github.com/martinjack/justin#getBranch)
-10. Получить список отделений. Старый метод
-    * [listDepartments](https://github.com/martinjack/justin#listdepartments)
-11. Получить список отделений.
+9. Получить список отделений.
     * [listDepartmentsLang](https://github.com/martinjack/justin#listdepartmentslang)
-12. Получить расписание работы отделения
+10. Получить расписание работы отделения. (Старый метод)
     * [branchSchedule](https://github.com/martinjack/justin#branchschedule)
-13. Получить ближайшее отделение по адресу
-    * [getNeartDepartment](https://github.com/martinjack/justin#getNeartDepartment)
-14. Создать новый заказ(Отправление)
+11. Создать новый заказ(Отправление)
     * [createOrder](https://github.com/martinjack/justin#createOrder)
-15. Отмена заказа
+12. Отмена заказа
     * [cancelOrder](https://github.com/martinjack/justin#cancelorder)
-16. Получить список статусов заказа
+13. Получить список статусов заказа
     * [listStatuses](https://github.com/martinjack/justin#liststatuses)
-17. Получить ключ торговца(senderID)
+14. Получить ключ торговца(senderID)
     * [keySeller](https://github.com/martinjack/justin#keyseller)
-18. Получить историю движения отправления
+15. Получить историю движения отправления
     * [trackingHistory](https://github.com/martinjack/justin#trackingHistory)
-19. Получить населенные пункты
-    * [localities](https://github.com/martinjack/justin#localities)
-20. Получить информацию о доступных сервисах
-    * [services](https://github.com/martinjack/justin#services)
-21. Получить историю статусов заказа. Старый метод
-    * [getStatusHistory](https://github.com/martinjack/justin#getstatushistory)
-22. Получить историю статусов заказа.
+16. Получить историю статусов заказа.
     * [getStatusHistoryF](https://github.com/martinjack/justin#getstatushistoryf)
-23. Получить список заказов за указанный период
+17. Получить список заказов за указанный период
     * [listOrders](https://github.com/martinjack/justin#listorders)
-24. Получить информацию о заказе
+18. Получить информацию о заказе
     * [orderInfo](https://github.com/martinjack/justin#orderinfo)
-25. Создать стикер заказа
+19. Создать стикер заказа
     * [createSticker](https://github.com/martinjack/justin#createsticker)
 
 # Примеры
@@ -241,28 +229,6 @@ print_r(
 );
 ```
 
-### getBranch()
-
-```php
-use Justin\Justin;
-
-include_once 'vendor/autoload.php';
-
-$justin = new Justin('RU', true);
-
-print_r(
-
-    $justin->getBranch('220')->getData()
-    // $justin->getBranch('220')->fields()->number()
-    // $justin->getBranch('220')->fields()->getType()
-    // $justin->getBranch('220')->fields()->address()
-    // $justin->getBranch('220')->fields()->getPosition()
-    // $justin->getBranch('220')->fields()->getDescr()
-    // $justin->getBranch('220')->fields()->scheduDescr()
-
-);
-```
-
 ### listDepartments()
 
 ```php
@@ -318,26 +284,6 @@ print_r(
     ->branchSchedule()
     ->getData()
 
-);
-```
-
-### getNeartDepartment()
-
-```php
-use Justin\Justin;
-
-include_once 'vendor/autoload.php';
-
-$justin = new Justin('RU', true);
-
-print_r(
-
-    $justin->getNeartDepartment('Київ,Шевченка,30')->getData()
-    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->getPosition()
-    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->distance()
-    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->format()
-    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->number()
-    // $justin->getNeartDepartment('Київ,Шевченка,30')->fields()->address()
 );
 ```
 
@@ -436,79 +382,6 @@ print_r(
     // $justin->trackingHistory('201810165')->fields()->dateAdded()
     // $justin->trackingHistory('201810165')->fields()->deparNumber()
     // $justin->trackingHistory('201810165')->fields()->deparAddress()
-
-);
-```
-
-### localities()
-
-```php
-
-include_once 'vendor/autoload.php';
-
-use Justin\Justin;
-
-$justin = new Justin('RU', true);
-
-print_r(
-
-    $justin->localities()
-    // $justin->localities('all')
-    // $justin->localities('activity')
-
-);
-```
-
-### services()
-
-```php
-
-include_once 'vendor/autoload.php';
-
-use Justin\Justin;
-
-$justin = new Justin('RU', true);
-
-print_r(
-
-    $justin->services()
-
-);
-```
-
-### getStatusHistory()
-
-```php
-use Justin\Justin;
-
-include_once 'vendor/autoload.php';
-
-$justin = new Justin('RU', true);
-
-$justin->setLogin('Ваш логин')->setPassword('Ваш пароль');
-
-print_r(
-
-    $justin->getStatusHistory(
-
-        [
-
-            [
-
-                'name'       => 'orderNumber',
-
-                'comparison' => 'equal',
-
-                'leftValue'  => '000000004',
-
-            ],
-
-        ]
-
-    )
-
-    // $justin->name('orderNumber')->leftValue('000000004')->equal()->getStatusHistory()
-    // $justin->name('orderNumber')->equal('000000004')->getStatusHistory()
 
 );
 ```
@@ -747,55 +620,18 @@ print_r(
 
     $justin->createSticker(
 
-        '877893', __DIR__ . '/' . time() . '.pdf'
+        null, '400144837', __DIR__ . '/' . time() . '.pdf', null, false
 
     )
 
-);
+    // $justin->createSticker(
 
-print_r(
+    //     [400144837, 400144837], null, __DIR__ . '/t.pdf', null, false
 
-    $justin->createSticker(
-
-        '877893', __DIR__ . '/' . time() . '.pdf', false, 1
-
-    )
+    // )
 
 );
 
-print_r(
-
-    $justin->createSticker(
-
-        '877893', __DIR__ . '/' . time() . '.pdf', false, 2
-
-    )
-
-);
-
-print_r(
-
-    $justin->createSticker(
-
-        '877893', true
-
-    )
-
-);
-
-print_r(
-
-    $justin->createSticker(
-
-        '877893', true, 'url'
-
-    )
-
-);
 ```
-### Стикер имеет название или ФИО отправителя и получателя.
-![Sticker1](https://github.com/martinjack/justin/blob/master/doc/sticker1.png?raw=true "Пример стикера заказа. Стикер имеет название или ФИО отправителя и получателя")
-### Стикер имеет имена отправителя и получателя.
-![Sticker2](https://github.com/martinjack/justin/blob/master/doc/sticker2.png?raw=true "Пример стикера заказа. Стикер имеет имена отправителя и получателя")
-### Стикер имеет адрес получателя, если была оформлена доставка за адресом.
-![Sticker3](https://github.com/martinjack/justin/blob/master/doc/sticker3.png?raw=true "Пример стикера заказа.Стикер имеет адрес получателя, если была оформлена доставка за адресом")
+### Стикер пример
+![Sticker](https://github.com/martinjack/justin/blob/master/doc/sticker.png?raw=true "Стикер пример")

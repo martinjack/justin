@@ -87,7 +87,7 @@ final class MethodsTest extends TestCase
         $this->period = getenv('period');
         #
 
-        $this->justin = new Justin('UA', false);
+        $this->justin = new Justin('UA', true);
 
         $this->justin
             ->setKey($this->key)
@@ -125,15 +125,15 @@ final class MethodsTest extends TestCase
     }
     /**
      *
-     * TEST AVAILABLE OPEN API
+     * TEST AVAILABLE SANDBOX API
      *
      * @return VOID
      *
      */
-    public function testAvailableOpenApi(): void
+    public function testAvailableSandboxApi(): void
     {
 
-        exec('ping -c 2 89.184.93.26', $output, $status);
+        exec('ping -c 2 193.19.85.65', $output, $status);
 
         $this->assertFalse((bool) $status);
 
@@ -293,69 +293,8 @@ final class MethodsTest extends TestCase
     public function testBranchTypes(): void
     {
 
-        $this->justin->setSandbox(false);
-
+        ;
         $data = $this->justin->branchTypes();
-
-        $this->assertInstanceOf(
-
-            Data::class,
-
-            $data
-
-        );
-
-        $this->assertIsArray($data->getRaw());
-
-        $this->assertTrue(
-
-            $data->getRaw()['response']['status']
-
-        );
-
-        $this->justin->setSandbox(true);
-
-    }
-    /**
-     *
-     * TEST METHOD GET BRANCH
-     *
-     * @return VOID
-     *
-     */
-    public function testGetBranch(): void
-    {
-
-        $data = $this->justin->getBranch('220');
-
-        $this->assertInstanceOf(
-
-            Data::class,
-
-            $data
-
-        );
-
-        $this->assertIsArray($data->getRaw());
-
-        $this->assertTrue(
-
-            (bool) $data->getRaw()['status']
-
-        );
-
-    }
-    /**
-     *
-     * TEST METHOD LIST DEPARTMENTS
-     *
-     * @return VOID
-     *
-     */
-    public function testListDepartments(): void
-    {
-
-        $data = $this->justin->listDepartments();
 
         $this->assertInstanceOf(
 
@@ -471,8 +410,6 @@ final class MethodsTest extends TestCase
     public function testBranchSchedule(): void
     {
 
-        $this->justin->setSandbox(false);
-
         $data = $this->justin
             ->name('Depart')
             ->equal('1a4df005-5d8d-11e8-80be-525400fb7782')
@@ -491,37 +428,6 @@ final class MethodsTest extends TestCase
         $this->assertTrue(
 
             $data->getRaw()['response']['status']
-
-        );
-
-        $this->justin->setSandbox(true);
-
-    }
-    /**
-     *
-     * TEST METHOD GET NEARTDEPARTMENT
-     *
-     * @return VOID
-     *
-     */
-    public function testGetNeartDepartment(): void
-    {
-
-        $data = $this->justin->getNeartDepartment('Київ,Шевченка,30');
-
-        $this->assertInstanceOf(
-
-            Data::class,
-
-            $data
-
-        );
-
-        $this->assertIsArray($data->getRaw());
-
-        $this->assertTrue(
-
-            (bool) $data->getRaw()['status']
 
         );
 
@@ -586,151 +492,6 @@ final class MethodsTest extends TestCase
     }
     /**
      *
-     * TEST METHOD CURRENT STATUS
-     *
-     * @return VOID
-     *
-     */
-    public function testCurrentStatus(): void
-    {
-
-        $data = $this->justin->currentStatus('201971185');
-
-        $this->assertInstanceOf(
-
-            Data::class,
-
-            $data
-
-        );
-
-        $this->assertIsArray($data->getRaw());
-
-        $this->assertTrue(
-
-            (bool) $data->getRaw()['status']
-
-        );
-
-    }
-    /**
-     *
-     * TEST METHOD TRACKING HISTORY
-     *
-     * @return VOID
-     *
-     */
-    public function testTrackingHistory(): void
-    {
-
-        $data = $this->justin->trackingHistory('201971185');
-
-        $this->assertInstanceOf(
-
-            Data::class,
-
-            $data
-
-        );
-
-        $this->assertIsArray($data->getRaw());
-
-        $this->assertTrue(
-
-            (bool) $data->getRaw()['status']
-
-        );
-
-    }
-    /**
-     *
-     * TEST LOCALITIES
-     *
-     * @return VOID
-     *
-     */
-    public function testLocalities(): void
-    {
-
-        $data = $this->justin->localities();
-
-        $this->assertInstanceOf(
-
-            Data::class,
-
-            $data
-
-        );
-
-        $this->assertIsArray($data->getRaw());
-
-        $this->assertTrue(
-
-            (bool) $data->getRaw()['status']
-
-        );
-
-    }
-    /**
-     *
-     * TEST SERVICES
-     *
-     * @return VOID
-     *
-     */
-    public function testServices(): void
-    {
-
-        $data = $this->justin->services();
-
-        $this->assertInstanceOf(
-
-            Data::class,
-
-            $data
-
-        );
-
-        $this->assertIsArray($data->getRaw());
-
-        $this->assertTrue(
-
-            (bool) $data->getRaw()['status']
-
-        );
-
-    }
-    /**
-     *
-     * TEST METHOD GET STATUS HISTORY
-     *
-     * @return VOID
-     *
-     */
-    public function testGetStatusHistory(): void
-    {
-
-        $data = $this->justin->name('orderNumber')->equal('000000004')->getStatusHistory();
-
-        $this->assertInstanceOf(
-
-            Data::class,
-
-            $data
-
-        );
-
-        $this->assertIsArray($data->getRaw());
-
-        $this->assertTrue(
-
-            $data->getRaw()['response']['status']
-
-        );
-
-    }
-    /**
-     *
      * TEST METHOS GET STATUS HISTORYF
      *
      * @return VOID
@@ -742,7 +503,7 @@ final class MethodsTest extends TestCase
         $data = $this->justin
             ->name('orderNumber')
             ->equal('000000004')
-            ->getStatusHistory();
+            ->getStatusHistoryF();
 
         $this->assertInstanceOf(
 
@@ -770,8 +531,6 @@ final class MethodsTest extends TestCase
      */
     public function testCreateOrder(): void
     {
-
-        $this->justin->setSandbox(true);
 
         $newOrder = $this->justin
             ->setNumber(rand())
@@ -838,8 +597,6 @@ final class MethodsTest extends TestCase
     public function testListOrders(): void
     {
 
-        $this->justin->setSandbox(false);
-
         $data = $this->justin->listOrders(
 
             $this->period
@@ -866,49 +623,6 @@ final class MethodsTest extends TestCase
 
         );
 
-        $this->justin->setSandbox(true);
-
-    }
-    /**
-     *
-     * TEST METHOD ORDER INFO
-     *
-     * @return VOID
-     *
-     */
-    public function testOrderInfo(): void
-    {
-
-        $this->justin->setSandbox(false);
-
-        $data = $this->justin->orderInfo(
-
-            $this->number
-
-        );
-
-        $this->assertInstanceOf(
-
-            Data::class,
-
-            $data
-
-        );
-
-        $this->assertIsArray($data->getRaw());
-
-        $this->assertTrue(
-
-            (bool) count(
-
-                $data->getRaw()
-
-            )
-
-        );
-
-        $this->justin->setSandbox(true);
-
     }
     /**
      *
@@ -920,21 +634,56 @@ final class MethodsTest extends TestCase
     public function testCreateSticker(): void
     {
 
-        $pdf = 'file.pdf';
+        $this->justin->setSandbox(false);
 
-        $this->justin->setKey('e315ffa3-94bd-11e8-80c1-525400fb7782');
+        $pdf = __DIR__ . '/' . time() . '.pdf';
+
+        $this->justin->setKey('f2290c07-c028-11e9-80d2-525400fb7782');
 
         $this->assertTrue(
 
             $this->justin->createSticker(
 
-                '877893', false, $pdf
+                null, '400144837', $pdf, null, false
 
             )
 
         );
 
         unlink($pdf);
+
+        $this->justin->setSandbox(true);
+
+    }
+    /**
+     *
+     * TEST METHOD CREATE STICKER PACKAGE
+     *
+     * @return VOID
+     *
+     */
+    public function testCreateStickerPackage(): void
+    {
+
+        $this->justin->setSandbox(false);
+
+        $pdf = __DIR__ . '/' . time() . '.pdf';
+
+        $this->justin->setKey('f2290c07-c028-11e9-80d2-525400fb7782');
+
+        $this->assertTrue(
+
+            $this->justin->createSticker(
+
+                [400144837, 400144837], null, $pdf, null, false
+
+            )
+
+        );
+
+        unlink($pdf);
+
+        $this->justin->setSandbox(true);
 
     }
 

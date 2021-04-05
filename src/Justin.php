@@ -5,7 +5,6 @@ namespace Justin;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\RequestOptions;
 use Justin\Contracts\iJustin;
 use Justin\Data;
 use Justin\Exceptions\JustinApiException;
@@ -51,12 +50,12 @@ class Justin extends Order implements iJustin
     private $address_api = 'https://api.justin.ua';
     /**
      *
-     * OPEN API URL
+     * ADDRESS API SANDBOX
      *
      * @var STRING
      *
      */
-    private $open_api = 'http://openapi.justin.ua/';
+    private $address_api_sandbox = 'https://api.sandbox.justin.ua';
     /**
      *
      * AUTH_LOGIN
@@ -91,6 +90,12 @@ class Justin extends Order implements iJustin
     protected $login = '';
     /**
      *
+     * RAW PASSWORD
+     *
+     */
+    private $rawPassword = null;
+    /**
+     *
      * PASSWORD
      *
      * @var STRING
@@ -115,6 +120,18 @@ class Justin extends Order implements iJustin
     private $api = [
 
         0 => '',
+
+    ];
+    /**
+     *
+     * HEADERS
+     *
+     * @var ARRAY
+     *
+     */
+    private $headers = [
+
+        'Content-Type' => 'application/json',
 
     ];
     /**
@@ -181,7 +198,8 @@ class Justin extends Order implements iJustin
 
         if ($sandbox) {
 
-            $this->api[1] = "${type}_test/hs";
+            $this->api[0] = $this->address_api_sandbox;
+            $this->api[1] = 'client_api/hs';
 
         } else {
 
@@ -308,7 +326,8 @@ class Justin extends Order implements iJustin
     public function setPassword($password)
     {
 
-        $this->password = sha1(
+        $this->rawPassword = $password;
+        $this->password    = sha1(
 
             "{$password}:" . date('Y-m-d')
 
@@ -336,17 +355,17 @@ class Justin extends Order implements iJustin
     }
     /**
      *
-     * SET OPEN API URL
+     * SET BEARER
      *
-     * @param STRING $url
+     * @param STRING $token
      *
      * @return OBJECT
      *
      */
-    public function setOpenAPI($url)
+    public function setBearer($token)
     {
 
-        $this->open_api = $url;
+        $this->headers['Authorization'] = 'Bearer ' . $token;
 
         return $this;
 
@@ -356,9 +375,8 @@ class Justin extends Order implements iJustin
      * REQUEST
      *
      * @param STRING $request
-     *
      * @param STRING $type
-     *
+     * @param STRING $method
      * @param ARRAY $data
      *
      * @throws JustinAuthException
@@ -369,79 +387,69 @@ class Justin extends Order implements iJustin
      * @return ARRAY
      *
      */
-    private function request($request, $type, $method, $data, $query = 'post')
+    private function request($request, $type, $method, $data)
     {
 
         $response = [];
+
         #
         try {
 
-            if ($query == 'post') {
+            $result = $this->client->request(
 
-                ##
-                # SET FIELDS
-                #
-                $body = json_encode(
+                'POST',
 
-                    array_merge(
+                implode(
 
-                        [
+                    '/',
 
-                            'keyAccount' => $this->login,
+                    $this->api
 
-                            'sign'       => $this->password,
+                ),
 
-                            'request'    => $request,
+                [
 
-                            'type'       => $type,
+                    'headers' => $this->headers,
 
-                            'name'       => $method,
+                    'auth'    => [
 
-                        ],
+                        $this->auth_login,
 
-                        $data
+                        $this->auth_password,
 
-                    )
+                    ],
 
-                );
-                #
-                $result = $this->client->post(
+                    'body'    => json_encode(
 
-                    implode(
+                        array_merge(
 
-                        '/',
+                            [
 
-                        $this->api
+                                'keyAccount' => $this->login,
+
+                                'sign'       => $this->password,
+
+                                'request'    => $request,
+
+                                'type'       => $type,
+
+                                'name'       => $method,
+
+                            ],
+
+                            $data
+
+                        )
 
                     ),
 
-                    [
+                ]
 
-                        'auth' => [
+            );
 
-                            $this->auth_login,
-
-                            $this->auth_password,
-
-                        ],
-
-                        'body' => $body,
-
-                    ]
-
-                );
-
-            } else {
-
-                $result = $this->client->get(
-
-                    $this->open_api . "{$method}/{$data}"
-
-                );
-
-            }
             ##
             # DECODE RESPONSE
+            #
             $result = json_decode(
 
                 $result->getBody()->getContents(),
@@ -449,7 +457,6 @@ class Justin extends Order implements iJustin
                 true
 
             );
-
             #
             if (
 
@@ -459,7 +466,7 @@ class Justin extends Order implements iJustin
 
                 if (
 
-                    isset($result['data']) || isset($result['result']) || isset($result[0]['date']) || isset($result['date'])
+                    isset($result['data']) || isset($result['result']) || isset($result[0]['date']) || isset($result['date']) || isset($result['accessToken']) || isset($result['refreshToken'])
 
                 ) {
 
@@ -480,25 +487,6 @@ class Justin extends Order implements iJustin
 
                     );
 
-                } else {
-
-                    $error = 'Error API. Empty response data';
-
-                    ##
-                    # OPENAPI ERROR
-                    #
-                    if (isset($result['msg']) && $result['msg']) {
-
-                        $error = $result['msg'];
-
-                    }
-
-                    throw new JustinApiException(
-
-                        $error
-
-                    );
-
                 }
 
             } else {
@@ -513,17 +501,30 @@ class Justin extends Order implements iJustin
 
         } catch (RequestException $exception) {
 
-            $error = $exception->getCode();
+            $error    = $exception->getCode();
+            $response = json_decode($exception->getResponse()->getBody()->getContents(), true);
 
-            switch ($exception->getCode()) {
+            switch ($error) {
 
                 case 401:
 
-                    throw new JustinAuthException(
+                    if (!isset($response['message'])) {
 
-                        'Unauthorized. Please check correct login or password(401)'
+                        throw new JustinAuthException(
 
-                    );
+                            'Unauthorized. Please check correct login or password(401)'
+
+                        );
+
+                    } else {
+
+                        throw new JustinAuthException(
+
+                            json_encode($response)
+
+                        );
+
+                    }
 
                     break;
                 case 502:
@@ -766,71 +767,11 @@ class Justin extends Order implements iJustin
     }
     /**
      *
-     * GET BRANCH
-     * ПОЛУЧИТЬ ИНФОРМАЦИЮ ПРО ОТДЕЛЕНИЕ
-     * ОТРИМАТИ ІНФОРМАЦІЮ ПРО ВІДДІЛЕННЯ
-     *
-     * @param STRING $id
-     *
-     * @return OBJECT
-     *
-     */
-    public function getBranch($id)
-    {
-
-        return new Data(
-
-            $this->request(
-
-                '', '', 'branches', $id, 'get'
-
-            )
-
-        );
-
-    }
-    /**
-     * OLD METHOD
-     *
      * LIST DEPARTMENTS
      * СПИСОК ОТДЕЛЕНИЙ
      * СПИСОК ВІДДІЛЕНЬ
      *
      * @param ARRAY $filter
-     *
-     * @param INTEGER $limit
-     *
-     * @return OBJECT
-     *
-     */
-    public function listDepartments($filter = [], $limit = 0)
-    {
-
-        return new Data(
-
-            $this->request(
-
-                'getData', 'request', 'req_Departments',
-
-                $this->getFilter(
-
-                    $filter, $limit = 0
-
-                )
-
-            )
-
-        );
-
-    }
-    /**
-     *
-     * LIST DEPARTMENTS
-     * СПИСОК ОТДЕЛЕНИЙ
-     * СПИСОК ВІДДІЛЕНЬ
-     *
-     * @param ARRAY $filter
-     *
      * @param INTEGER $limit
      *
      * @return OBJECT
@@ -863,7 +804,6 @@ class Justin extends Order implements iJustin
      * ОТРИМАТИ РОЗКЛАД РОБОТИ ВІДДІЛЕННЯ
      *
      * @param ARRAY $filter
-     *
      * @param INTEGER $limit
      *
      * @return OBJECT
@@ -883,31 +823,6 @@ class Justin extends Order implements iJustin
                     $filter, $limit
 
                 )
-
-            )
-
-        );
-
-    }
-    /**
-     *
-     * GET NEAREST DEPARTMENT
-     * ПОЛУЧИТЬ БЛИЖАЙШЕЕ ОТДЛЕНИЕ ПО АДРЕСУ
-     * ОТРИМАТИ НАЙБЛИЖЧЕ ВІДДІЛЕННЯ ЗА АДРЕСОЮ
-     *
-     * @param STRING $address
-     *
-     * @return OBJECT
-     *
-     */
-    public function getNeartDepartment($address)
-    {
-
-        return new Data(
-
-            $this->request(
-
-                '', '', 'branches_locator', $address, 'get'
 
             )
 
@@ -1094,17 +1009,6 @@ class Justin extends Order implements iJustin
     public function cancelOrder($number, $version = 'v1')
     {
 
-        ##
-        # SET URL API
-        #
-        $this->setSandbox(
-
-            $this->sandbox,
-
-            'api_pms'
-
-        );
-
         $this->setVersion(
 
             "api/${version}",
@@ -1195,132 +1099,42 @@ class Justin extends Order implements iJustin
     }
     /**
      *
-     * GET CURRENT STATUS
-     * ПОЛУЧИТЬ ТЕКУЩИЙ СТАТУС ЗАКАЗА
-     * ОТРИМАТИ ПОТОЧНИЙ СТАТУС ЗАМОВЛЕННЯ
+     * ORDER INFO
+     *
+     * GET ORDER INFO
+     * ПОЛУЧИТЬ ИНФОРМАЦИЮ О ЗАКАЗЕ
+     * ОТРИМАТИ ІНФОРМАЦІЮ ПРО ЗАМОВЛЕННЯ
      *
      * @param STRING $number
+     * @param STRING $version
      *
      * @return OBJECT
      *
      */
-    public function currentStatus($number)
+    public function orderInfo($number, $version = 'v1')
     {
 
-        return new Data(
+        $this->setVersion(
 
-            $this->request(
+            "api/${version}",
 
-                '', '', 'tracking', $number, 'get'
-
-            )
+            'documents/getOrderInfo'
 
         );
 
-    }
-    /**
-     *
-     * GET TRACKING HISTORY
-     * ПОЛУЧИТЬ ИСТОРИЮ ДВИЖЕНИЯ ОТПРАВЛЕНИЯ
-     * ОТРИМАТИ ІСТОРІЮ РУХУ ВІДПРАВЛЕННЯ
-     *
-     * @param STRING $number
-     *
-     * @return OBJECT
-     *
-     */
-    public function trackingHistory($number)
-    {
-
         return new Data(
 
             $this->request(
 
-                '', '', 'tracking_history', $number, 'get'
+                '', '', '',
 
-            )
+                [
 
-        );
+                    'api_key'      => $this->key,
 
-    }
-    /**
-     *
-     * LOCALITIES
-     *
-     * ПОЛУЧИТЬ НАСЕЛЕННЫЕ ПУНКТЫ
-     * ОТРИМАТИ НАСЕЛЕНІ ПУНКТИ
-     *
-     * @param STRING $action all | activity
-     *
-     * @return OBJECT
-     *
-     */
-    public function localities($action = '')
-    {
+                    'order_number' => $number,
 
-        return new Data(
-
-            $this->request(
-
-                '', '', 'localities', $action, 'get'
-
-            )
-
-        );
-
-    }
-    /**
-     *
-     * SERVICES
-     *
-     * ПОЛУЧИТЬ ИНФОРМАЦИЮ О ДОСТУПНЫХ СЕРВИСАХ
-     * ОТРИМАТИ ІНФОРМАЦІЮ ПРО ДОСТУПНІ СЕРВІСИ
-     *
-     * @return OBJECT
-     *
-     */
-    public function services()
-    {
-
-        return new Data(
-
-            $this->request(
-
-                '', '', 'services', '', 'get'
-
-            )
-
-        );
-
-    }
-    /**
-     * OLD METHOD
-     *
-     * GET HISTORY STATUSES ORDERS
-     * ПОЛУЧИТЬ ИСТОРИЮ СТАТУСОВ ЗАКАЗОВ
-     * ОТРИМАТИ ІСТОРІЮ СТАТУСІВ ЗАМОВЛЕНЬ
-     *
-     * @param ARRAY $filter
-     *
-     * @param INTEGER $limit
-     *
-     * @return OBJECT
-     *
-     */
-    public function getStatusHistory($filter = [], $limit = 0)
-    {
-
-        return new Data(
-
-            $this->request(
-
-                'getData', 'request', 'getOrderStatusesHistory',
-
-                $this->getFilter(
-
-                    $filter, $limit, false
-
-                )
+                ]
 
             )
 
@@ -1403,7 +1217,6 @@ class Justin extends Order implements iJustin
      * ОТРИМАТИ СПИСОК ЗАМОВЛЕНЬ ЗА ВКАЗАНИЙ ПЕРІОД
      *
      * @param STRING $date
-     *
      * @param STRING $version
      *
      * @return OBJECT
@@ -1411,17 +1224,6 @@ class Justin extends Order implements iJustin
      */
     public function listOrders($date, $version = 'v1')
     {
-
-        ##
-        # SET URL API
-        #
-        $this->setSandbox(
-
-            $this->sandbox,
-
-            'api_pms'
-
-        );
 
         $this->setVersion(
 
@@ -1436,6 +1238,7 @@ class Justin extends Order implements iJustin
             $this->request(
 
                 '', '', '',
+
                 [
 
                     'api_key' => $this->key,
@@ -1451,118 +1254,96 @@ class Justin extends Order implements iJustin
     }
     /**
      *
-     * GET ORDER INFO
-     * ПОЛУЧИТЬ ИНФОРМАЦИЮ О ЗАКАЗЕ
-     * ОТРИМАТИ ІНФОРМАЦІЮ ПРО ЗАМОВЛЕННЯ
+     * CREATE STICKER
      *
-     * @param STRING $number
+     * СТВОРЕННЯ СТІКЕРІВ
+     * СОЗДАНИЕ СТИКЕРОВ
      *
-     * @param STRING $version
-     *
-     * @return OBJECT
-     *
-     */
-    public function orderInfo($number, $version = 'v1')
-    {
-
-        ##
-        # SET URL API
-        #
-        $this->setSandbox(
-
-            $this->sandbox,
-
-            'api_pms'
-
-        );
-
-        $this->setVersion(
-
-            "api/${version}",
-
-            'documents/getOrderInfo'
-
-        );
-
-        return new Data(
-
-            $this->request(
-
-                '', '', '',
-                [
-
-                    'api_key'      => $this->key,
-
-                    'order_number' => $number,
-
-                ]
-
-            )
-
-        );
-
-    }
-    /**
-     *
-     * STICKER PDF
-     * СОЗДАТЬ СТИКЕР ЗАКАЗА В ФОРМАТЕ PDF
-     * СТВОРИТИ СТІКЕР ЗАМОВЛЕННЯ В ФОРМАТІ PDF
-     *
-     * @param INTEGER $orderNumber
-     *
-     * @param BOOLEAN $show
-     *
+     * @param ARRAY $orders
+     * @param STRING $order
      * @param STRING $path
-     *
-     * @param BOOLEAN $type
-     *
+     * @param STRING $cargoPlace
+     * @param BOOLEAN $show
      * @param STRING $version
      *
-     * @throws JustinFileException
-     *
-     * @return BOOLEAN
+     * @return BOOLEAN | OBJECT | NULL
      *
      */
-    public function createSticker($orderNumber, $show = false, $path = null, $type = 0, $version = 'v1')
+    public function createSticker($orders = null, $order = null, $path = null, $cargoPlace = null, $show = false, $version = 'v1')
     {
-        ##
-        # GET TYPE
-        #
-        switch ($type) {
 
-            case 0:
+        $url = [
 
-                $type = 'printSticker';
+            $this->api[0],
 
-                break;
-            case 1:
+            $this->sandbox ? 'client_api' : 'justin_pms',
 
-                $type = 'printStickerWithContactPerson';
-                break;
-            case 2:
+            'hs/api',
 
-                $type = 'printStickerAddress';
+            $version,
 
-                break;
+            'printSticker',
 
-        }
-        #
+            'order',
+
+        ];
+
         try {
 
-            ##
-            # CHECK SANDBOX
-            #
-            if ($this->sandbox) {
+            $data = [
 
-                $space = 'api_pms_demo';
+                'headers' => [
+
+                    'Content-Type' => 'application/json',
+
+                ],
+
+                'auth'    => [
+
+                    $this->auth_login,
+
+                    $this->auth_password,
+
+                ],
+
+            ];
+
+            if (is_array($orders)) {
+
+                $type         = 'POST';
+                $url[4]       = 'printPackageStickers';
+                $url[5]       = 'print';
+                $data['body'] = json_encode(
+
+                    [
+
+                        'api_key'           => $this->key,
+                        'order_number_list' => $orders,
+
+                    ]
+
+                );
 
             } else {
 
-                $space = 'pms';
+                $type  = 'GET';
+                $url[] = sprintf(
+
+                    '?api_key=%s&order_number=%s&cargo_place=%s',
+
+                    $this->key,
+
+                    $order,
+
+                    $cargoPlace
+
+                );
 
             }
 
-            $url = "{$this->address_api}/${space}/hs/api/${version}/${type}/order?order_number=${orderNumber}&api_key=" . $this->key;
+            $url = implode('/', $url);
+
+            print_r($url);
 
             if (!$show) {
 
@@ -1576,30 +1357,21 @@ class Justin extends Order implements iJustin
 
                 }
 
-                $sticker = fopen($path, 'w+');
+                $stickers     = fopen($path, 'w+');
+                $data['sink'] = $stickers;
 
-                ##
-                # SAVE PDF
-                #
-                $this->client->get(
+                $this->client->request(
+
+                    $type,
 
                     $url,
 
-                    [
-
-                        'auth'               => [
-
-                            $this->auth_login,
-
-                            $this->auth_password,
-
-                        ],
-
-                        RequestOptions::SINK => $sticker,
-
-                    ]
+                    $data
 
                 );
+
+                ##
+                # VALID PDF
                 #
                 if (file_exists($path) && filesize($path) != 0) {
 
@@ -1614,48 +1386,32 @@ class Justin extends Order implements iJustin
                     );
 
                 }
+                #
+
+            } elseif ($path != 'url') {
+
+                $pdf = $this->client->request(
+
+                    $type,
+
+                    $url,
+
+                    $data
+
+                );
+
+                echo $pdf->getBody()->getContents();
 
             } else {
 
-                if ($path != 'url') {
-
-                    $request = $this->client->get(
-
-                        $url,
-
-                        [
-
-                            'auth' => [
-
-                                $this->auth_login,
-
-                                $this->auth_password,
-
-                            ],
-
-                        ]
-
-                    );
-
-                    header('Content-type: application/pdf');
-                    header('Content-Disposition: inline;');
-
-                    echo $request->getBody()->getContents();
-
-                } else {
-
-                    return $url;
-
-                }
+                return $url;
 
             }
 
         } catch (RequestException $exception) {
 
             if ($path) {
-
                 unlink($path);
-
             }
 
             if ($exception->getCode() == 401) {
@@ -1686,11 +1442,266 @@ class Justin extends Order implements iJustin
 
         } finally {
 
-            @fclose($sticker);
+            @fclose($stickers);
 
         }
 
         return false;
+
+    }
+    /**
+     *
+     * CREATE REGISTRY
+     *
+     * СОЗДАНИЕ РЕЕСТРА ОТПРАВЛЕНИЙ
+     * СТВОРЕННЯ РЕЄСТРУ ВІДПРАВЛЕНЬ
+     * CREATION REGISTRY ORDERS
+     *
+     * @param ARRAY $data
+     * @param STRING $version
+     *
+     * @return OBJECT
+     *
+     */
+    public function createRegistry($data, $version = 'v1')
+    {
+
+        $this->setVersion(
+
+            "api/${version}",
+
+            'documents/pickup/add'
+
+        );
+
+        return new Data(
+
+            $this->request(
+
+                '', '', '',
+
+                [
+
+                    'api_key' => $this->key,
+                    'data'    => $data,
+
+                ]
+
+            )
+
+        );
+
+    }
+    /**
+     *
+     * GET REGISTRY
+     *
+     * ПОЛУЧИТЬ ИНФОРМАЦИЮ ПРО РЕЕСТР ОТПРАВЛЕНИЙ
+     * ОТРИМАТИ ІНФОРМАЦІЯ ПРО РЕЄСТР ВІДПРАВЛЕНЬ
+     * GET INFO REGISTRY ORDERS
+     *
+     * @param ARRAY $data
+     * @param STRING $version
+     *
+     * @return OBJECT
+     *
+     */
+    public function getRegistry($data, $version = 'v1')
+    {
+
+        $this->setVersion(
+
+            "api/${version}",
+
+            'documents/pickup/get'
+
+        );
+
+        return new Data(
+
+            $this->request(
+
+                '', '', '',
+
+                [
+
+                    'api_key' => $this->key,
+                    'data'    => $data,
+
+                ]
+
+            )
+
+        );
+
+    }
+    /**
+     *
+     * REMOVE REGISTRY
+     *
+     * УДАЛЕНИЕ РЕЕСТРА ОТПРАВЛЕНИЙ
+     * ВИДАЛЕННЯ РЕЄСТРУ ВІДПРАВЛЕНЬ
+     * REMOVE REGISTRY ORDERS
+     *
+     * @param ARRAY $data
+     * @param STRING $version
+     *
+     * @return OBJECT
+     *
+     */
+    public function removeRegistry($data, $version = 'v1')
+    {
+
+        $this->setVersion(
+
+            "api/${version}",
+
+            'documents/pickup/del'
+
+        );
+
+        return new Data(
+
+            $this->request(
+
+                '', '', '',
+
+                [
+
+                    'api_key' => $this->key,
+                    'data'    => $data,
+
+                ]
+
+            )
+
+        );
+
+    }
+    /**
+     *
+     * CREATE SESSION
+     *
+     * ОТКРЫТЬ СЕССИЮ
+     * ВІДКРИТИ СЕСІЮ
+     * OPEN SESSION
+     *
+     * @param STRING $version
+     *
+     * @return OBJECT
+     *
+     */
+    public function createSession($version = 'v3')
+    {
+
+        $this->api[1] = 'client_api';
+
+        $this->setVersion(
+
+            "${version}",
+
+            'auth/login'
+
+        );
+
+        return new Data(
+
+            $this->request(
+
+                '', '', '',
+
+                [
+
+                    'login'    => $this->login,
+                    'password' => $this->rawPassword,
+
+                ]
+
+            )
+
+        );
+
+    }
+    /**
+     *
+     * REFRESH SESSION
+     *
+     * ОБНОВИТЬ КЛЮЧ СЕССИИ
+     * ОНОВИТИ КЛЮЧ СЕСІЇ
+     * REFRESH KEY SESSION
+     *
+     * @param STRING $token
+     * @param STRING $version
+     *
+     * @return OBJECT
+     *
+     */
+    public function refreshSession($token, $version = 'v3')
+    {
+
+        $this->api[1] = 'client_api';
+
+        $this->setVersion(
+
+            "${version}",
+
+            'auth/refresh'
+
+        );
+
+        return new Data(
+
+            $this->request(
+
+                '', '', '',
+
+                [
+
+                    'refreshToken' => $token,
+
+                ]
+
+            )
+
+        );
+
+    }
+    /**
+     *
+     * CLOSE SESSION
+     *
+     * ЗАКРЫТЬ СЕССИЮ
+     * ЗАКРИТИ СЕСІЮ
+     * CLOSE SESSION
+     *
+     * @param BOOLEAN $all
+     * @param STRING $version
+     *
+     * @return OBJECT
+     *
+     */
+    public function closeSession($all = false, $version = 'v3')
+    {
+
+        $this->api[1] = 'client_api';
+
+        $this->setVersion(
+
+            "${version}",
+
+            $all ? 'auth/close' : 'auth/logout'
+
+        );
+
+        return new Data(
+
+            $this->request(
+
+                '', '', '', []
+
+            )
+
+        );
 
     }
 

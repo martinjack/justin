@@ -1220,5 +1220,21 @@ interface iData
      *
      */
     public function titleEN();
+    /**
+     *
+     * ACCESS TOKEN
+     *
+     * @return STRING
+     *
+     */
+    public function accessToken();
+    /**
+     *
+     * REFRESH TOKEN
+     *
+     * @return STRING
+     *
+     */
+    public function refreshToken();
 
 }
