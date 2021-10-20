@@ -60,6 +60,23 @@ class Filter implements iFilter
     }
     /**
      *
+     * SET FILTER PARAMS
+     *
+     * @param ARRAY $data
+     *
+     * @return OBJECT
+     *
+     */
+    public function setParams($data)
+    {
+        $params = isset($this->filter['params']) ? $this->filter['params'] : [];
+
+        $this->filter['params'] = array_merge($params, $data);
+
+        return $this;
+    }
+    /**
+     *
      * GET FILTER
      *
      * @param ARRAY $filter
@@ -78,11 +95,11 @@ class Filter implements iFilter
 
             $this->filter['language'] = $this->language;
 
-            $this->filter['params'] = [
+            $this->setParams([
 
                 'language' => $this->language,
 
-            ];
+            ]);
 
         }
 
