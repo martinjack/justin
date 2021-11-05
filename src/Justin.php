@@ -1704,5 +1704,47 @@ class Justin extends Order implements iJustin
         );
 
     }
+    /**
+     *
+     * CALCULATE PRICE SERVICE
+     *
+     * КАЛЬКУЛЯТОР СТОИМОСТИ УСЛУГ
+     * КАЛЬКУЛЯТОР ВАРТОСТІ ПОСЛУГ
+     *
+     * @param ARRAY $data
+     * @param STRING $version
+     *
+     * @return OBJECT
+     *
+     */
+    public function calculatePriceService($data, $version = 'v1'): object
+    {
+
+        $this->setVersion(
+
+            "api/${version}",
+
+            'documents/CALCULATEPRICE'
+
+        );
+
+        return new Data(
+
+            $this->request(
+
+                '', '', '',
+
+                [
+
+                    'api_key' => $this->key,
+                    'data'    => $data,
+
+                ]
+
+            )
+
+        );
+
+    }
 
 }

@@ -71,6 +71,8 @@ composer require jackmartin/justin
     * [orderInfo](https://github.com/martinjack/justin/blob/master/README.en.md#orderinfo)
 19. Create sticker order
     * [createSticker](https://github.com/martinjack/justin/blob/master/README.en.md#createsticker)
+20. Calculate Price Service
+    * [calculatePriceService](https://github.com/martinjack/justin#calculatepriceservice)
 
 # Examples
 
@@ -617,3 +619,55 @@ print_r(
 ```
 ### Sticker example
 ![Sticker](https://github.com/martinjack/justin/blob/master/doc/sticker.png?raw=true "Sticker example")
+
+### calculatePriceService()
+```php
+use Justin\Justin;
+
+include_once 'vendor/autoload.php';
+
+$justin = new Justin('RU', true);
+
+$justin->setLogin('Ваш логин')->setPassword('Ваш пароль')->setKey('Ваш ключ');
+
+print_r(
+
+    $justin->calculatePriceService([
+
+        'point_a_locality_uuid' => 'e7ebcef9-dbfb-11e7-80c6-00155dfbfb00',
+        'point_b_locality_uuid' => 'e7ebcef9-dbfb-11e7-80c6-00155dfbfb00',
+        'weight'                => 35.0,
+        'cargo_details'         => [
+            [
+                'cargo_description' => 'fdd20d8b-1375-11eb-a2e5-0050569bda1b',
+                'amount'            => 0,
+            ],
+     
+            [
+                'cargo_description' => 'bed96769-1386-11eb-a2e5-0050569bda1b',
+                'amount'            => 1,
+            ],
+     
+        ],
+        'cargo_places_array'    => [
+      
+            [
+                'weight' => 10,
+                'width'  => 2,
+                'height' => 1,
+                'depth'  => 1,
+            ],
+      
+            [
+                'weight' => 5,
+                'width'  => 1,
+                'height' => 1,
+                'depth'  => 1,
+            ],
+      
+      ],
+
+    ])->getData()
+
+);
+```

@@ -16,8 +16,24 @@ try {
 
     );
 
-} catch (JustinHttpException | JustinResponseException | JustinDataException | Exception $exception) {
+} catch (JustinHttpException $exception) {
 
+    echo "JustinHttpException\n";
+    echo $exception->getResponse() . "\n";
+
+} catch (JustinResponseException) {
+
+    echo "JustinResponseException\n";
+    echo $exception->getResponse() . "\n";
+
+} catch (JustinDataException $exception) {
+
+    echo "JustinDataException\n";
+    echo $exception->getResponse() . "\n";
+
+} catch (Exception $exception) {
+
+    echo "Exception\n";
     echo $exception->getResponse() . "\n";
 
 }
